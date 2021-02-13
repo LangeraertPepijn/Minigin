@@ -72,7 +72,7 @@ void dae::Minigin::LoadGame() const
 
 	go = std::make_shared<GameObject>();
 	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	go->AddComponent(new TextComponent(go, " ", font));
+	go->AddComponent(new TextComponent(go, " ", font, { 255,255,0 }));
 	go->AddComponent(new TransformComponent(go, glm::vec3(5.f, 5.f, 0.f)));
 	go->AddComponent(new FpsComponent(go));
 	go->AddComponent(new RenderComponent(go));
