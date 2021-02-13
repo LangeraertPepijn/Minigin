@@ -5,12 +5,12 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 
-dae::RenderComponent::RenderComponent(std::shared_ptr<GameObject> parent, std::shared_ptr<Texture2D> texture )
+dae::RenderComponent::RenderComponent(std::shared_ptr<GameObject> parent )
 	: BaseComponent(parent)
 
 {
 
-	m_Texture = texture;
+
 }
 
 //void dae::RenderComponent::Update(float deltaTime)
@@ -20,12 +20,15 @@ dae::RenderComponent::RenderComponent(std::shared_ptr<GameObject> parent, std::s
 
 void dae::RenderComponent::Render()const
 {
-	m_pParent->
+	for (BaseComponent* component : m_pParent->GetComponents())
+	{
+		if (component->m_NeedsRender)
+		{
+			component->Render();
+		}
+	}
 }
 
-void dae::RenderComponent::SetTexture(const std::string& filename)
-{
-	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
-}
+
 
 

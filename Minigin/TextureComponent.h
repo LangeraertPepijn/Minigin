@@ -13,7 +13,7 @@ namespace dae
 
 		void SetTexture(const std::string& texture);
 		std::shared_ptr<Texture2D> GetTexture();
-		void Render()const;
+		virtual void Render()const override;
 
 		TextureComponent(std::shared_ptr<GameObject> parent, const std::string& texture);
 		virtual ~TextureComponent() = default;

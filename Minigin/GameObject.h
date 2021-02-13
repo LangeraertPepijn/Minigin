@@ -19,7 +19,7 @@ namespace dae
 		template <typename T>
 		T* GetComponent()const;
 
-		const std::vector<BaseComponent*> GetComponents();
+		const std::vector<BaseComponent*>& GetComponents();
 
 		BaseComponent* AddComponent(BaseComponent* newComponent);
 

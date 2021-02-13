@@ -5,6 +5,11 @@
 
 #include "RenderComponent.h"
 
+const std::vector<dae::BaseComponent*>& dae::GameObject::GetComponents()
+{
+	return m_Components;
+}
+
 dae::BaseComponent* dae::GameObject::AddComponent(BaseComponent* newComponent)
 {
 	m_Components.push_back(newComponent);
@@ -32,8 +37,13 @@ void dae::GameObject::SetPosition(float x, float y)
 }
 void dae::GameObject::Update(float deltaTime)
 {
-	float i = deltaTime;
-	i++;
+	for (auto components : m_Components)
+	{
+		if(components->m_NeedsUpdate)
+		{
+			components->Update(deltaTime);
+		}
+	}
 }
 void dae::GameObject::Render()
 {

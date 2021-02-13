@@ -14,6 +14,7 @@
 #include "TextComponent.h"
 #include "RenderComponent.h"
 #include "TextureComponent.h"
+#include "FpsComponent.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -48,35 +49,38 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	go->SetTexture("background.jpg");
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(216, 180);
-	scene.Add(go);
-
-
-
-	//logo
-	go = std::make_shared<GameObject>();
+	//backGround
+	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
 	go->AddComponent(new TextureComponent(go, "background.jpg"));
-	go->AddComponent(new RenderComponent(go, ResourceManager::GetInstance().LoadTexture("background.jpg")));
+	go->AddComponent(new RenderComponent(go));
+	scene.Add(go);
+
+	// logo
+	go = std::make_shared<GameObject>();
+	go->AddComponent(new TextureComponent(go, "logo.png"));
+	go->AddComponent(new TransformComponent(go, glm::vec3(216.f, 180.f, 0.f)));
+	go->AddComponent(new RenderComponent(go));
 	scene.Add(go);
 
 	//text
 	go = std::make_shared<GameObject>();
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto temp = go->AddComponent(new TextComponent(go, "Programming 4 Assignment", font));
-	auto texComp = dynamic_cast<TextComponent*>(temp);
+	go->AddComponent(new TextComponent(go, "Programming 4 Assignment", font));
 	go->AddComponent(new TransformComponent(go, glm::vec3(80.f, 20.f, 0.f)));
-	go->AddComponent(new RenderComponent(go, texComp->GetTexture()));
+	go->AddComponent(new RenderComponent(go));
 	scene.Add(go);
 
-	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
-	to->SetPosition(80, 20);
-	scene.Add(to);
+	go = std::make_shared<GameObject>();
+	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	go->AddComponent(new TextComponent(go, " ", font));
+	go->AddComponent(new TransformComponent(go, glm::vec3(5.f, 5.f, 0.f)));
+	go->AddComponent(new FpsComponent(go));
+	go->AddComponent(new RenderComponent(go));
+	scene.Add(go);
+
+	
+
+
 }
 
 void dae::Minigin::Cleanup()
@@ -101,7 +105,7 @@ void dae::Minigin::Run()
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
 		auto lastTime = high_resolution_clock::now();
-		float lag = 0.f;
+		//float lag = 0.f;
 		bool doContinue = true;
 
 		while (doContinue)
@@ -110,17 +114,17 @@ void dae::Minigin::Run()
 			float deltaTime = duration<float>(currentTime - lastTime).count();
 
 			lastTime = currentTime;
-			lag += deltaTime;
+			//lag += deltaTime;
 			doContinue = input.ProcessInput();
-			while (lag >= MsPerUpdate)
-			{
-				sceneManager.Update(deltaTime);
-				lag -= MsPerUpdate;
-			}
+			//while (lag >= MsPerUpdate)
+			//{
+			sceneManager.Update(deltaTime);
+			//	lag -= MsPerUpdate;
+			//}
 			renderer.Render();
 			
-			//auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
-			//this_thread::sleep_for(sleepTime);
+			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
+			this_thread::sleep_for(sleepTime);
 		}
 	}
 

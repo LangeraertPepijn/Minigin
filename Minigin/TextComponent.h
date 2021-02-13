@@ -8,12 +8,12 @@ namespace dae
 	class TextComponent final : public BaseComponent
 	{
 	public:
-		virtual void Update(float deltaTime);
+		virtual void Update(float deltaTime) override;
 		//virtual void Render()  override;
 
 		void SetText(const std::string& text);
 		std::shared_ptr<Texture2D> GetTexture();
-		void Render()const;
+		virtual void Render()const override;
 
 		TextComponent(std::shared_ptr<GameObject> parent,const std::string& text, const std::shared_ptr<Font>& font);
 		virtual ~TextComponent() = default;

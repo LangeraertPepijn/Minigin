@@ -12,7 +12,7 @@ namespace dae
 	{
 	public:
 
-		RenderComponent(std::shared_ptr<GameObject> parent, std::shared_ptr<Texture2D> texture);				// Constructor
+		RenderComponent(std::shared_ptr<GameObject> parent);				// Constructor
 		virtual ~RenderComponent() = default;				// Destructor
 
 		// -------------------------
@@ -29,7 +29,7 @@ namespace dae
 
 		//virtual void Update(float deltaTime) override;
 		void Render() const;
-		void SetTexture(const std::string& filename);
+	
 
 	private:
 		//-------------------------------------------------
@@ -39,8 +39,7 @@ namespace dae
 
 		//-------------------------------------------------
 		// Datamembers								
-		//-------------------------------------------------
-		std::shared_ptr<dae::Texture2D> m_Texture{};
+		//-------------------------------------------------;
 	};
 }
 

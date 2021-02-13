@@ -23,14 +23,15 @@ class GameObject;
 		//-------------------------------------------------
 		// Member functions						
 		//-------------------------------------------------
-
-		//virtual void Update(float deltaTime) = 0;
+		bool m_NeedsUpdate;
+		bool m_NeedsRender;
+		virtual void Update(float deltaTime);
+		virtual void Render()const ;
 	protected:
 		std::shared_ptr<GameObject> m_pParent;
 		void SetParent(std::shared_ptr<GameObject> parent);
 
-		bool m_NeedsUpdate;
-		bool m_NeedsRender;
+
 	private:
 		//-------------------------------------------------
 		// Private member functions								
