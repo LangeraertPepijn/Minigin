@@ -50,10 +50,10 @@ std::shared_ptr<dae::Texture2D> dae::TextComponent::GetTexture()
 
 void dae::TextComponent::Render() const
 {
-	auto temp = m_pParent->GetComponent<TransformComponent>();
+	auto temp = m_pParent.lock()->GetComponent<TransformComponent>();
 	if (temp != nullptr)
 	{
-		const auto pos = m_pParent->GetComponent<TransformComponent>()->GetTransform();
+		const auto pos = m_pParent.lock()->GetComponent<TransformComponent>()->GetTransform();
 		dae::Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 		return;
 	}

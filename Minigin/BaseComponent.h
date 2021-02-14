@@ -8,8 +8,7 @@ class GameObject;
 
 
 	public:
-		BaseComponent();				// Constructor
-		BaseComponent(std::shared_ptr<GameObject> Parent);				// Constructor
+		BaseComponent(std::weak_ptr<GameObject> Parent);				// Constructor
 		virtual ~BaseComponent() = default;				// Destructor
 
 		// -------------------------
@@ -28,9 +27,8 @@ class GameObject;
 		virtual void Update(float deltaTime);
 		virtual void Render()const ;
 	protected:
-		std::shared_ptr<GameObject> m_pParent;
-		void SetParent(std::shared_ptr<GameObject> parent);
-
+		std::weak_ptr<GameObject> m_pParent;
+		void SetParent(std::weak_ptr<GameObject> parent);
 
 	private:
 		//-------------------------------------------------

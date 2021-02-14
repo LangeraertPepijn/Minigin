@@ -11,7 +11,7 @@ namespace dae
 		//virtual void Render()  override;
 		int GetFps();
 
-		FpsComponent(std::shared_ptr<GameObject> parent);
+		FpsComponent(std::weak_ptr<GameObject> parent);
 		virtual ~FpsComponent() = default;
 		FpsComponent(const FpsComponent& other) = delete;
 		FpsComponent(FpsComponent&& other) = delete;

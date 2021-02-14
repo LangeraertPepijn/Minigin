@@ -18,17 +18,17 @@ std::shared_ptr<dae::Texture2D> dae::TextureComponent::GetTexture()
 
 void dae::TextureComponent::Render() const
 {
-    auto temp = m_pParent->GetComponent<TransformComponent>();
+    auto temp = m_pParent.lock()->GetComponent<TransformComponent>();
     if (temp != nullptr)
     {
-        const auto pos = m_pParent->GetComponent<TransformComponent>()->GetTransform();
+        const auto pos = m_pParent.lock()->GetComponent<TransformComponent>()->GetTransform();
         dae::Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
         return;
     }
     dae::Renderer::GetInstance().RenderTexture(*m_Texture, 0, 0);
 }
 
-dae::TextureComponent::TextureComponent(std::shared_ptr<GameObject> parent, const std::string& texture)
+dae::TextureComponent::TextureComponent(std::weak_ptr<GameObject> parent, const std::string& texture)
     : BaseComponent(parent)
     , m_Texture{}
     

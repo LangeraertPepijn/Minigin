@@ -15,7 +15,7 @@ namespace dae
 		std::shared_ptr<Texture2D> GetTexture();
 		virtual void Render()const override;
 
-		TextureComponent(std::shared_ptr<GameObject> parent, const std::string& texture);
+		TextureComponent(std::weak_ptr<GameObject> parent, const std::string& texture);
 		virtual ~TextureComponent() = default;
 		TextureComponent(const TextureComponent& other) = delete;
 		TextureComponent(TextureComponent&& other) = delete;

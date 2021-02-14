@@ -12,7 +12,7 @@ namespace dae
 	{
 	public:
 
-		RenderComponent(std::shared_ptr<GameObject> parent);				// Constructor
+		RenderComponent(std::weak_ptr<GameObject> parent);				// Constructor
 		virtual ~RenderComponent() = default;				// Destructor
 
 		// -------------------------

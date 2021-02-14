@@ -10,18 +10,17 @@ namespace dae
 	{
 	public:
 		
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
+
 
 		virtual void Update(float deltaTime)override;
 		virtual void Render()  override ;
 	
 		template <typename T>
-		T* GetComponent()const;
+		std::shared_ptr <T> GetComponent()const;
 
-		const std::vector<BaseComponent*>& GetComponents();
+		const std::vector<std::shared_ptr<BaseComponent>>& GetComponents();
 
-		BaseComponent* AddComponent(BaseComponent* newComponent);
+		std::shared_ptr<BaseComponent> AddComponent(std::shared_ptr<BaseComponent> newComponent);
 
 
 		GameObject() = default;
@@ -34,19 +33,17 @@ namespace dae
 		
 
 	private:
-		std::vector<BaseComponent*> m_Components{};
-	
-		Transform m_Transform;
-		std::shared_ptr<Texture2D> m_Texture{};
+		std::vector<std::shared_ptr<BaseComponent>> m_Components{};
 	};
 
 
 	template<typename T>
-	inline T* GameObject::GetComponent() const
+	inline std::shared_ptr <T> GameObject::GetComponent() const
 	{
-		for (BaseComponent* component : m_Components)
+		for (std::shared_ptr<BaseComponent> component : m_Components)
 		{
-			auto temp = dynamic_cast<T*>(component) ;
+			//auto temp = dynamic_cast<T*>(component.get()) ;
+			auto temp = std::dynamic_pointer_cast<T>(component) ;
 			if (temp!=nullptr)
 			{
 				return temp;
