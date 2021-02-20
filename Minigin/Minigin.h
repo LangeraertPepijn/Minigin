@@ -11,7 +11,7 @@ namespace dae
 		void Run();
 	private:
 		static const int MsPerFrame = 16; //16 for 60 fps, 33 for 30 fps
-		float MsPerUpdate = 0.01f ;
+
 		SDL_Window* m_Window{};
 	};
 }

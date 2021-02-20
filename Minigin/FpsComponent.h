@@ -1,12 +1,14 @@
 #pragma once
 #include "BaseComponent.h"
 #include <chrono>
+#include"TextComponent.h"
 namespace dae
 {
 
     class FpsComponent :public BaseComponent
     {
 	public:
+
 		virtual void Update(float deltaTime)override;
 		//virtual void Render()  override;
 		int GetFps();
@@ -21,8 +23,9 @@ namespace dae
 
 		int m_FPS;
 		int m_Frames;
+		float m_SecInterval{1.f};
 		float m_AccumulatedTime;
-
+		std::shared_ptr<TextComponent> m_pTextComponent;
 
     };
 

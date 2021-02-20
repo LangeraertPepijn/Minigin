@@ -103,7 +103,7 @@ void dae::Minigin::Run()
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
 		auto lastTime = high_resolution_clock::now();
-		float lag = 0.f;
+
 		bool doContinue = true;
 
 		while (doContinue)
@@ -112,17 +112,11 @@ void dae::Minigin::Run()
 			float deltaTime = duration<float>(currentTime - lastTime).count();
 
 			lastTime = currentTime;
-			lag += deltaTime;
 			doContinue = input.ProcessInput();
-			while (lag >= MsPerUpdate)
-			{
 			sceneManager.Update(deltaTime);
-				lag -= MsPerUpdate;
-			}
 			renderer.Render();
-			
-			//auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
-			//this_thread::sleep_for(sleepTime);
+			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
+			this_thread::sleep_for(sleepTime);
 		}
 	}
 
