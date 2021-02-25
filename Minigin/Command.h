@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+
 class Command
 {
 public:
@@ -15,7 +16,7 @@ class JumpCommand: public Command
 public:
 	JumpCommand();
 	virtual ~JumpCommand();
-	virtual void Execute()override { std::cout << "Jump..." << std::endl; }
+	virtual void Execute()override {  }
 
 private:
 
@@ -53,12 +54,12 @@ private:
 class QuitCommand : public Command
 {
 public:
-	QuitCommand();
+	QuitCommand(bool* quit);
 	virtual ~QuitCommand();
-	virtual void Execute()override { std::cout << "Quit..." << std::endl; }
+	virtual void Execute()override { *m_Quit=true; }
 
 private:
-
+	bool* m_Quit;
 };
 
 

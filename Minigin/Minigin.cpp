@@ -79,6 +79,8 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent(std::make_shared <RenderComponent>(go));
 	scene.Add(go);
 	
+
+	//temp
 }
 
 void dae::Minigin::Cleanup()
@@ -95,6 +97,8 @@ void dae::Minigin::Run()
 
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
+	bool* quit{ new bool{} };
+	InputManager::GetInstance().AddCommand(SDL_SCANCODE_0, ExecuteType::Released, std::make_shared<QuitCommand>(quit));
 
 	LoadGame();
 
@@ -106,7 +110,7 @@ void dae::Minigin::Run()
 
 		bool doContinue = true;
 
-		while (doContinue)
+		while (doContinue&&!*quit)
 		{
 			const auto currentTime = high_resolution_clock::now();
 			float deltaTime = duration<float>(currentTime - lastTime).count();
@@ -115,10 +119,12 @@ void dae::Minigin::Run()
 			doContinue = input.ProcessInput();
 			sceneManager.Update(deltaTime);
 			renderer.Render();
+			
 			//auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
 			//this_thread::sleep_for(sleepTime);
 		}
 	}
+	delete quit;
 
 	Cleanup();
 }

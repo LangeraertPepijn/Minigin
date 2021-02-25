@@ -3,6 +3,7 @@
 #include "Singleton.h"
 #include <map>
 #include "Command.h"
+#include <SDL.h>
 namespace dae
 {
 	enum class ControllerButton
@@ -39,11 +40,14 @@ namespace dae
 		bool IsHeld(ControllerButton button) ;
 		bool IsReleased(ControllerButton button) ;
 		void AddCommand(ControllerButton button, ExecuteType type, std::shared_ptr<Command> command);
+		void AddCommand(SDL_Scancode button, ExecuteType type, std::shared_ptr<Command> command);
+
 	private:
 		friend class Singleton<InputManager>;
 		XINPUT_STATE m_CurrentState{};
 		std::map<ControllerButton, bool>m_IsPresseds;
-		std::map<ExecuteType, std::map<ControllerButton, std::shared_ptr<Command>>> m_Comands{};
+		std::map<ControllerButton, std::map<ExecuteType, std::shared_ptr<Command>>> m_CommandsController{};
+		std::map<SDL_Scancode, std::map<ExecuteType, std::shared_ptr<Command>>> m_CommandsKeyBoard{};
 	};
 
 }

@@ -34,9 +34,12 @@ FireCommand::~FireCommand()
 {
 }
 
-QuitCommand::QuitCommand()
+
+
+QuitCommand::QuitCommand(bool* quit)
+	:m_Quit{quit}
 {
-	isQuit = true;
+
 }
 
 QuitCommand::~QuitCommand()

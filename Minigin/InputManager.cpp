@@ -1,65 +1,94 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
-#include <SDL.h>
-
 
 bool dae::InputManager::ProcessInput()
 {
 	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 	auto dwResult =XInputGetState(0, &m_CurrentState);
-
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN) {
-			
+		if (e.type == SDL_KEYDOWN)
+        {
+            for (auto commands : m_CommandsKeyBoard)
+            {
+                
+               for (auto type : commands.second)
+                {
+                   if (ExecuteType::Pressed == type.first)
+                   {
+
+                       if (e.key.keysym.scancode == commands.first)
+                       {
+                           type.second->Execute();
+                       }
+                   }
+                }
+              
+            }
 		}
+        if (e.type == SDL_KEYUP) {
+            for (auto commands : m_CommandsKeyBoard)
+            {
+
+                for (auto type : commands.second)
+                {
+                    if (ExecuteType::Released == type.first)
+                    {
+
+                        if (e.key.keysym.scancode == commands.first)
+                        {
+                            type.second->Execute();
+                        }
+                    }
+                }
+
+            }
+        }
+
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			
 		}
+
+       
 	}
     if (dwResult == ERROR_SUCCESS)
     {
         // Controller is connected
        // std::cout << "ok" << std::endl;
-        for (const auto& command : m_Comands)
+        for (const auto& command : m_CommandsController)
         {
-            if (command.first == ExecuteType::Pressed)
+           for (const auto& type : command.second)
             {
-                for (const auto& temp : command.second)
+                 if (type.first == ExecuteType::Pressed)
                 {
-                    if (IsPressed(temp.first))
+                    if (IsPressed(command.first))
                     {
-                        temp.second->Execute();
+                        type.second->Execute();
                     }
 
                 }
-            }
-            else if (command.first == ExecuteType::Held)
-            {
-                for (const auto& temp : command.second)
-                {
-                    if (IsHeld(temp.first))
-                    {
-                        temp.second->Execute();
-                    }
+                 else if (type.first == ExecuteType::Held)
+                 {
 
-                }
-            }
-            else if (command.first == ExecuteType::Released)
-            {
-                for (const auto& temp : command.second)
-                {
+                     if (IsHeld(command.first))
+                     {
+                         type.second->Execute();
+                     }
 
-                    if (IsReleased(temp.first))
-                    {
-                        temp.second->Execute();
-                    }
 
-                }
+                 }
+                 else if (type.first == ExecuteType::Released)
+                 {
+                     if (IsReleased(command.first))
+                     {
+                         type.second->Execute();
+                     }
+                 }
             }
+
 
         }
 
@@ -105,11 +134,19 @@ bool dae::InputManager::IsReleased(ControllerButton button)
 
 void dae::InputManager::AddCommand(ControllerButton button, ExecuteType type, std::shared_ptr<Command> command)
 {
-        auto temp = m_Comands[type];
-    temp[button]=command;
-    m_Comands[type]=temp;
+    auto temp = m_CommandsController[button];
+    temp[type]=command;
+    m_CommandsController[button]=temp;
     m_IsPresseds[button] = false;
 }
+
+void dae::InputManager::AddCommand(SDL_Scancode button, ExecuteType type, std::shared_ptr<Command> command)
+{
+    auto temp = m_CommandsKeyBoard[button];
+    temp[type] = command;
+    m_CommandsKeyBoard[button] = temp;
+}
+
 
 bool dae::InputManager::IsHeld(ControllerButton button)
 {
