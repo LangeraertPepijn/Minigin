@@ -115,8 +115,8 @@ void dae::Minigin::Run()
 			doContinue = input.ProcessInput();
 			sceneManager.Update(deltaTime);
 			renderer.Render();
-			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
-			this_thread::sleep_for(sleepTime);
+			//auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
+			//this_thread::sleep_for(sleepTime);
 		}
 	}
 
