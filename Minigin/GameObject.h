@@ -3,8 +3,11 @@
 #include "SceneObject.h"
 #include "BaseComponent.h"
 
+
 namespace dae
 {
+	class Subject;
+	class Observer;
 	class Texture2D;
 	class GameObject final: public SceneObject
 	{
@@ -17,13 +20,17 @@ namespace dae
 	
 		template <typename T>
 		std::shared_ptr <T> GetComponent()const;
-
-		const std::vector<std::shared_ptr<BaseComponent>>& GetComponents();
+		
+		void AddObserver(std::shared_ptr<Observer> observer);
+		void RemoveObserver(std::shared_ptr<Observer> observer);
+		const std::shared_ptr<Subject> GetSubject();
+		void SetSubject(std::shared_ptr<Subject>subject);
+		const std::vector<std::shared_ptr<BaseComponent>>& GetComponents() const;
 
 		std::shared_ptr<BaseComponent> AddComponent(std::shared_ptr<BaseComponent> newComponent);
 
 
-		GameObject() = default;
+		GameObject();
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -34,6 +41,7 @@ namespace dae
 
 	private:
 		std::vector<std::shared_ptr<BaseComponent>> m_Components{};
+		std::shared_ptr<Subject> m_ActorChanged;
 	};
 
 

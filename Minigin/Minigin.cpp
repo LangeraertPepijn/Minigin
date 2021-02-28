@@ -10,11 +10,9 @@
 #include "TextObject.h"
 #include "GameObject.h"
 #include "Scene.h"
-#include "TransformComponent.h"
-#include "TextComponent.h"
-#include "RenderComponent.h"
-#include "TextureComponent.h"
-#include "FpsComponent.h"
+#include "Components.h"
+#include "PlayerObserver.h"
+#include "Subject.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -80,7 +78,40 @@ void dae::Minigin::LoadGame() const
 	scene.Add(go);
 	
 
-	//temp
+	//Player1
+
+	go = std::make_shared<GameObject>();
+	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	auto txt =std::make_shared <TextComponent>(go, " hello", font, glm::tvec3<uint8_t> { 255, 255, 0 });
+	go->AddComponent(txt);
+	go->AddComponent(std::make_shared <TransformComponent>(go, glm::vec3(100.f, 5.f, 0.f)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	go->AddComponent(std::make_shared <HealthComponent>(go,1.f));
+	InputManager::GetInstance().AddCommand(SDL_SCANCODE_1, ExecuteType::Pressed, std::make_shared<DamageCommand>(go,0.1f));
+	std::shared_ptr<Subject> subject = std::make_shared<Subject>();
+	go->SetSubject(subject);
+	std::shared_ptr<PlayerObserver> player1 = std::make_shared<PlayerObserver>(go, txt);
+	go->AddObserver(player1);
+	scene.Add(go);
+
+	//Player2
+
+	go = std::make_shared<GameObject>();
+	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	txt = std::make_shared <TextComponent>(go, " hello", font, glm::tvec3<uint8_t> { 255, 255, 0 });
+	go->AddComponent(txt);
+	go->AddComponent(std::make_shared <TransformComponent>(go, glm::vec3(100.f, 25.f, 0.f)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	go->AddComponent(std::make_shared <HealthComponent>(go, 1.f));
+	InputManager::GetInstance().AddCommand(SDL_SCANCODE_2, ExecuteType::Pressed, std::make_shared<DamageCommand>(go, 0.1f));
+	std::shared_ptr<PlayerObserver> player2 = std::make_shared<PlayerObserver>(go, txt);
+	go->SetSubject(subject);
+	go->AddObserver(player2);
+	scene.Add(go);
+
+	
+	
+	
 }
 
 void dae::Minigin::Cleanup()
@@ -98,7 +129,7 @@ void dae::Minigin::Run()
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 	bool* quit{ new bool{} };
-	InputManager::GetInstance().AddCommand(SDL_SCANCODE_0, ExecuteType::Released, std::make_shared<QuitCommand>(quit));
+	//InputManager::GetInstance().AddCommand(SDL_SCANCODE_0, ExecuteType::Released, std::make_shared<QuitCommand>(quit));
 
 	LoadGame();
 

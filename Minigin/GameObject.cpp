@@ -1,11 +1,32 @@
+#pragma once
 #include "MiniginPCH.h"
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
-
+#include "Subject.h"
 #include "RenderComponent.h"
 
-const std::vector<std::shared_ptr<dae::BaseComponent>>& dae::GameObject::GetComponents()
+void dae::GameObject::AddObserver(std::shared_ptr<Observer> observer)
+{
+	m_ActorChanged->AddObserver( observer);
+}
+
+void dae::GameObject::RemoveObserver(std::shared_ptr<Observer> observer)
+{
+	m_ActorChanged->RemoveObserver( observer);
+}
+
+const std::shared_ptr<dae::Subject> dae::GameObject::GetSubject()
+{
+	return  m_ActorChanged;
+}
+
+void dae::GameObject::SetSubject(std::shared_ptr<Subject> subject)
+{
+	m_ActorChanged = subject;
+}
+
+const std::vector<std::shared_ptr<dae::BaseComponent>>& dae::GameObject::GetComponents()const
 {
 	return m_Components;
 }
@@ -14,6 +35,10 @@ std::shared_ptr<dae::BaseComponent> dae::GameObject::AddComponent(std::shared_pt
 {
 	m_Components.push_back(newComponent);
 	return newComponent;
+}
+
+dae::GameObject::GameObject()
+{
 }
 
 dae::GameObject::~GameObject()
