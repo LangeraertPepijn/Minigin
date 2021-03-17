@@ -8,11 +8,11 @@ namespace dae
 	class TextureComponent final : public BaseComponent
 	{
 	public:
-		//virtual void Update(float deltaTime);
+		virtual void Update(float );
 		//virtual void Render()  override;
 
 		void SetTexture(const std::string& texture);
-		std::shared_ptr<Texture2D> GetTexture();
+		std::shared_ptr<Texture2D> GetTexture()const;
 		virtual void Render()const override;
 
 		TextureComponent(std::weak_ptr<GameObject> parent, const std::string& texture);

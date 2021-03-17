@@ -5,18 +5,11 @@
 #include "Renderer.h"
 #include "Subject.h"
 #include "RenderComponent.h"
+#include "TransformComponent.h"
 
-void dae::GameObject::AddObserver(std::shared_ptr<Observer> observer)
-{
-	m_ActorChanged->AddObserver( observer);
-}
 
-void dae::GameObject::RemoveObserver(std::shared_ptr<Observer> observer)
-{
-	m_ActorChanged->RemoveObserver( observer);
-}
 
-const std::shared_ptr<dae::Subject> dae::GameObject::GetSubject()
+ std::shared_ptr<dae::Subject> dae::GameObject::GetSubject()const
 {
 	return  m_ActorChanged;
 }
@@ -39,6 +32,12 @@ std::shared_ptr<dae::BaseComponent> dae::GameObject::AddComponent(std::shared_pt
 
 dae::GameObject::GameObject()
 {
+	AddComponent(std::make_shared<TransformComponent>(weak_from_this(), glm::vec3{0,0,0}));
+}
+
+dae::GameObject::GameObject(const glm::vec3& pos)
+{
+	AddComponent(std::make_shared<TransformComponent>(weak_from_this(), pos));
 }
 
 dae::GameObject::~GameObject()
@@ -46,7 +45,11 @@ dae::GameObject::~GameObject()
 	m_Components.clear();
 }
 
-
+dae::GameObject::GameObject(const GameObject& other)
+{
+	m_Components = other.m_Components;
+	m_ActorChanged = other.m_ActorChanged;
+}
 
 
 //void dae::GameObject::Render() const

@@ -27,8 +27,8 @@ namespace dae
 		// Member functions						
 		//-------------------------------------------------
 
-		//virtual void Update(float deltaTime) override;
-		void Render() const;
+		virtual void Update(float ) override;
+		void Render() const override ;
 	
 
 	private:

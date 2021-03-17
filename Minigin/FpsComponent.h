@@ -5,7 +5,7 @@
 namespace dae
 {
 
-    class FpsComponent :public BaseComponent
+    class FpsComponent final :public BaseComponent
     {
 	public:
 

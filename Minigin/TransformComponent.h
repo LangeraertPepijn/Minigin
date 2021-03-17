@@ -9,7 +9,7 @@ namespace dae
 	class TransformComponent final :public BaseComponent
 	{
 	public:
-		TransformComponent(std::shared_ptr<GameObject> parent, const glm::vec3& pos);				// Constructor
+		TransformComponent(std::weak_ptr<GameObject> parent, const glm::vec3& pos);				// Constructor
 		virtual ~TransformComponent() = default;				// Destructor
 
 		// -------------------------
@@ -29,7 +29,7 @@ namespace dae
 		void AddTransform(const glm::vec3& vecToAdd);
 		void MulTransform(const glm::vec3& vecToMul);
 		void MulTransformScalar(const float scalar);
-		//virtual void Update(float deltaTime) override;
+		virtual void Update(float ) override;
 
 	private:
 		//-------------------------------------------------

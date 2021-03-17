@@ -5,6 +5,7 @@
 namespace dae
 {
 	class TextComponent;
+	class ScoreComponent;
 	
 }
 
@@ -19,47 +20,16 @@ public:
 private:
 protected:
 };
-class JumpCommand: public Command
+class ScoreCommand : public Command
 {
 public:
-	JumpCommand();
-	virtual ~JumpCommand();
-	virtual void Execute()override {  }
-
-private:
-
-};
-class FireCommand : public Command
-{
-public:
-	FireCommand();
-	virtual ~FireCommand();
-	virtual void Execute()override { std::cout << "Fire..." << std::endl; }
-
-private:
-
-};
-class DieCommand : public Command
-{
-public:
-	DieCommand(std::shared_ptr<dae::GameObject> object);
-	virtual ~DieCommand();
+	ScoreCommand( std::shared_ptr<dae::ScoreComponent> scoreComponent,int increaseValue);
+	virtual ~ScoreCommand();
 	virtual void Execute()override;
 
-
 private:
-	std::shared_ptr<dae::GameObject> m_ObjectThatDies;
-
-};
-class FartCommand : public Command
-{
-public:
-	FartCommand();
-	virtual ~FartCommand();
-	virtual void Execute()override { std::cout << "Fart..." << std::endl; }
-
-private:
-
+	std::shared_ptr<dae::ScoreComponent> m_ScoreComponent;
+	int m_IncreaseValue;
 };
 class QuitCommand : public Command
 {
@@ -74,14 +44,14 @@ private:
 class DamageCommand : public Command
 {
 public:
-	DamageCommand(std::shared_ptr<dae::GameObject> object,float damage);
+	DamageCommand(std::shared_ptr<dae::GameObject> object, int damage);
 	virtual ~DamageCommand();
 	virtual void Execute()override;
 
 
 private:
 	std::shared_ptr<dae::GameObject> m_ObjectThatsDamaged;
-	float m_Damage;
+	int m_Damage;
 
 };
 

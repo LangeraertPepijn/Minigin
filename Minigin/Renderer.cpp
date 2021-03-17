@@ -22,7 +22,6 @@ int GetOpenGLDriverIndex()
 
 void dae::Renderer::Init(SDL_Window * window)
 {
-	m_pShowDemo = new bool{ true };
 	m_pWindow = window;
 	m_Renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_Renderer == nullptr) 
@@ -36,7 +35,7 @@ void dae::Renderer::Init(SDL_Window * window)
 	
 }
 
-void dae::Renderer::Render() const
+void dae::Renderer::Render() 
 {
 	SDL_RenderClear(m_Renderer);
 
@@ -45,8 +44,13 @@ void dae::Renderer::Render() const
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_pWindow);
 	ImGui::NewFrame();
-	if (m_pShowDemo)
-		ImGui::ShowDemoWindow(m_pShowDemo);
+	ImGui::Text("player1: press 1 to damage press 2  to score\n");
+	ImGui::Text("player2: press 3 to damage press 4  to score\n");
+	ImGui::Button("SinglePlayer");
+	ImGui::Button("Co-Op");
+	ImGui::Button("Versus");
+	if (m_ShowDemo)
+		ImGui::ShowDemoWindow(&m_ShowDemo);
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	
@@ -55,7 +59,6 @@ void dae::Renderer::Render() const
 
 void dae::Renderer::Destroy()
 {
-	delete m_pShowDemo;
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();

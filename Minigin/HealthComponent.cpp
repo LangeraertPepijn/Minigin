@@ -5,19 +5,19 @@
 #include "Observer.h"
 #include "Subject.h"
 
-void dae::HealthComponent::Update(float deltaTime)
+void dae::HealthComponent::Update(float )
 {
-	UNREFERENCED_PARAMETER(deltaTime);
+	
 }
 
-dae::HealthComponent::HealthComponent(std::weak_ptr<GameObject> parent, float maxHealth)
+dae::HealthComponent::HealthComponent(std::weak_ptr<GameObject> parent, int maxHealth)
 	:BaseComponent(parent)
 	,m_MaxHealt(maxHealth)
 	,m_Health(maxHealth)
 {
 }
 
-void dae::HealthComponent::Damage(const float damageAmount)
+void dae::HealthComponent::Damage(const int damageAmount)
 {
 	if (damageAmount < 0)
 	{
@@ -37,12 +37,12 @@ void dae::HealthComponent::Damage(const float damageAmount)
 	}
 }
 
-float dae::HealthComponent::GetHealth() const
+int dae::HealthComponent::GetHealth() const
 {
 	return m_Health;
 }
 
-void dae::HealthComponent::Heal(const float healAmount)
+void dae::HealthComponent::Heal(const int healAmount)
 {
 	if(healAmount <0)
 	{

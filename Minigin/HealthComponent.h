@@ -8,13 +8,13 @@ namespace dae
 	{
 	public:
 
-		virtual void Update(float deltaTime)override;
+		virtual void Update(float )override;
 
 
-		HealthComponent(std::weak_ptr<GameObject> parent,float maxHealth);
-		void Damage(const float damageAmount);
-		float GetHealth()const;
-		void Heal(const float healAmount);
+		HealthComponent(std::weak_ptr<GameObject> parent, int maxHealth);
+		void Damage(const int damageAmount);
+		int GetHealth()const;
+		void Heal(const int healAmount);
 		virtual ~HealthComponent() = default;
 		HealthComponent(const HealthComponent& other) = delete;
 		HealthComponent(HealthComponent&& other) = delete;
@@ -22,7 +22,7 @@ namespace dae
 		HealthComponent& operator=(HealthComponent&& other) = delete;
 	private:
 
-		float m_Health;
-		float m_MaxHealt;
+		int m_Health;
+		int m_MaxHealt;
 	};
 }

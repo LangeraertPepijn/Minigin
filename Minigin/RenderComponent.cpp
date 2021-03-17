@@ -18,9 +18,13 @@ dae::RenderComponent::RenderComponent(std::weak_ptr<GameObject> parent )
 //	deltaTime;
 //}
 
+void dae::RenderComponent::Update(float)
+{
+}
+
 void dae::RenderComponent::Render()const
 {
-	for (std::shared_ptr<BaseComponent> component : m_pParent.lock()->GetComponents())
+	for (const std::shared_ptr<BaseComponent> component : m_pParent.lock()->GetComponents())
 	{
 		if (component->m_NeedsRender)
 		{

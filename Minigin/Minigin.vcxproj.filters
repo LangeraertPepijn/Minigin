@@ -114,9 +114,6 @@
     <ClInclude Include="Command.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Observer</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Observer</Filter>
     </ClInclude>
@@ -128,6 +125,18 @@
     </ClInclude>
     <ClInclude Include="Components.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="ObserverComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SubjectComponent.h">
+      <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +221,6 @@
     <ClCompile Include="Command.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="Observer.cpp">
-      <Filter>Observer</Filter>
-    </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -222,7 +228,19 @@
       <Filter>Observer</Filter>
     </ClCompile>
     <ClCompile Include="PlayerObserver.cpp">
-      <Filter>Game Files</Filter>
+      <Filter>Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="ObserverComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SubjectComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ class GameObject;
 		//-------------------------------------------------
 		bool m_NeedsUpdate;
 		bool m_NeedsRender;
-		virtual void Update(float deltaTime);
+		virtual void Update(float deltaTime)=0;
 		virtual void Render()const ;
 	protected:
 		std::weak_ptr<GameObject> m_pParent;

@@ -6,12 +6,16 @@
 #include"GameObject.h"
 #include"TransformComponent.h"
 
+void dae::TextureComponent::Update(float)
+{
+}
+
 void dae::TextureComponent::SetTexture(const std::string& texture)
 {
     m_Texture = ResourceManager::GetInstance().LoadTexture(texture);
 }
 
-std::shared_ptr<dae::Texture2D> dae::TextureComponent::GetTexture()
+std::shared_ptr<dae::Texture2D> dae::TextureComponent::GetTexture()const
 {
     return m_Texture;
 }

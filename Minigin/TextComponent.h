@@ -17,11 +17,11 @@ namespace dae
 
 		void SetText(const std::string& text);
 		void SetColor(const glm::tvec3<uint8_t> color);
-		std::shared_ptr<Texture2D> GetTexture();
+		std::shared_ptr<Texture2D> GetTexture()const;
 		virtual void Render()const override;
 
-		TextComponent(std::shared_ptr<GameObject> parent,const std::string& text, const std::shared_ptr<Font>& font,const glm::tvec3<uint8_t>& color);
-		TextComponent(std::shared_ptr<GameObject> parent,const std::string& text, const std::shared_ptr<Font>& font);
+		TextComponent(std::weak_ptr<GameObject> parent,const std::string& text, const std::shared_ptr<Font>& font,const glm::tvec3<uint8_t>& color);
+		TextComponent(std::weak_ptr<GameObject> parent,const std::string& text, const std::shared_ptr<Font>& font);
 		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;

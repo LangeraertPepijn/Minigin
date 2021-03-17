@@ -14,7 +14,7 @@ namespace dae
 	{
 	public:
 		void Init(SDL_Window* window);
-		void Render() const;
+		void Render() ;
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
@@ -24,7 +24,7 @@ namespace dae
 	private:
 		SDL_Window* m_pWindow{};
 		SDL_Renderer* m_Renderer{};
-		bool* m_pShowDemo{  };
+		bool m_ShowDemo{false  };
 	};
 }
 

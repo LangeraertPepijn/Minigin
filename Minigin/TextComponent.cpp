@@ -43,7 +43,7 @@ void dae::TextComponent::SetColor(const glm::tvec3<uint8_t> color)
 	m_NeedsUpdate = true;
 }
 
-std::shared_ptr<dae::Texture2D> dae::TextComponent::GetTexture()
+std::shared_ptr<dae::Texture2D> dae::TextComponent::GetTexture()const
 {
 	return m_Texture;
 }
@@ -62,7 +62,7 @@ void dae::TextComponent::Render() const
 
 
 
-dae::TextComponent::TextComponent(std::shared_ptr<GameObject> parent, const std::string& text, const std::shared_ptr<Font>& font)
+dae::TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::string& text, const std::shared_ptr<Font>& font)
 	: BaseComponent(parent)
 	, m_Font {font}
 	, m_Text{text}
@@ -86,7 +86,7 @@ dae::TextComponent::TextComponent(std::shared_ptr<GameObject> parent, const std:
 		
 }
 
-dae::TextComponent::TextComponent(std::shared_ptr<GameObject> parent, const std::string& text, const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color)
+dae::TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::string& text, const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color)
 	: BaseComponent(parent)
 	, m_Font{ font }
 	, m_Text{ text }

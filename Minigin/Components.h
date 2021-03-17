@@ -6,3 +6,4 @@
 #include "FpsComponent.h"
 #include "BaseComponent.h"
 #include "HealthComponent.h"
+#include "ScoreComponent.h"

@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "TransformComponent.h"
 
-dae::TransformComponent::TransformComponent(std::shared_ptr<GameObject> parent, const glm::vec3& pos)
+dae::TransformComponent::TransformComponent(std::weak_ptr<GameObject> parent, const glm::vec3& pos)
 	: BaseComponent(parent)
 	, m_Pos{pos}
 {
@@ -32,6 +32,10 @@ void dae::TransformComponent::MulTransform(const glm::vec3& vecToMul)
 void dae::TransformComponent::MulTransformScalar(const float scalar)
 {
 	m_Pos *= scalar;
+}
+
+void dae::TransformComponent::Update(float)
+{
 }
 
 
