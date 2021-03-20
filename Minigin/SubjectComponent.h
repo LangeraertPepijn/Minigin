@@ -7,7 +7,7 @@ namespace dae
 	class SubjectComponent :public BaseComponent
 	{
 	public:
-		SubjectComponent(std::weak_ptr<GameObject> parent, std::weak_ptr<GameObject> observedObj);
+		SubjectComponent(std::weak_ptr<GameObject> parent);
 		virtual ~SubjectComponent()= default;
 		SubjectComponent(const SubjectComponent& other) = delete;
 		SubjectComponent(SubjectComponent&& other) = delete;

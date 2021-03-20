@@ -3,8 +3,8 @@
 
 namespace dae
 {
-	class TextComponent;
-
+	class HudTextComponent;
+	class SubjectComponent;
 	class ScoreComponent :public BaseComponent
 	{
 	public:
@@ -25,6 +25,8 @@ namespace dae
 	private:
 
 		int m_Score{ 0 };
+		std::weak_ptr<SubjectComponent> m_Subject;
+
 	};
 
 

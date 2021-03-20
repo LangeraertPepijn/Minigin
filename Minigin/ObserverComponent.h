@@ -1,20 +1,16 @@
 ﻿#pragma once
 #include "BaseComponent.h"
-
+#include "Observer.h"
+#include "Event.h"
 namespace  dae
 {
-	enum class Event : int
-	{
-		Scored,
-		Damaged,
-		Died
-	};
+
 	class ObserverComponent :public BaseComponent
 	{
 	public:
 
 		virtual void Update(float)override;
-		ObserverComponent(std::weak_ptr<GameObject> parent);
+		ObserverComponent(std::weak_ptr<GameObject> parent, std::shared_ptr<Observer>);
 		virtual ~ObserverComponent() = default;
 		ObserverComponent(const ObserverComponent& other) = delete;
 		ObserverComponent(ObserverComponent&& other) = delete;
@@ -22,5 +18,6 @@ namespace  dae
 		ObserverComponent& operator=(ObserverComponent&& other) = delete;
 		virtual void Notify(const std::shared_ptr<GameObject> actor, Event event) ;
 	private:
+		std::shared_ptr<Observer> m_Observer;
 	};
 }

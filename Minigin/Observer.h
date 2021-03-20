@@ -1,14 +1,8 @@
 #pragma once
 #include "GameObject.h"
-
+#include "Event.h"
 namespace  dae
 {
-	enum class Event: int
-	{
-		Scored,
-		Damaged,
-		Died
-	};
 
 	class Observer
 	{
@@ -19,7 +13,7 @@ namespace  dae
 		Observer& operator=(const Observer& other) = delete;
 		Observer& operator=(Observer&& other) = delete;
 		virtual ~Observer() = default;
-		virtual void Notify(const std::shared_ptr<GameObject> actor, Event event) = 0;
+		virtual void Notify(const std::shared_ptr<GameObject> actor, Event event,const std::weak_ptr<GameObject> parent) = 0;
 	};
 
 }

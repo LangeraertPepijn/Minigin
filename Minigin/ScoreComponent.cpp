@@ -2,9 +2,9 @@
 #include "ScoreComponent.h"
 
 #include "GameObject.h"
-#include "Observer.h"
-#include "Subject.h"
-#include "TextComponent.h"
+//#include "Observer.h"
+#include "SubjectComponent.h"
+#include "HudTextComponent.h"
 
 void dae::ScoreComponent::Update(float )
 {
@@ -27,7 +27,17 @@ void dae::ScoreComponent::IncreaseScore(int diff)
 	if (diff > 0)
 	{
 		m_Score += diff;
-		m_pParent.lock()->GetSubject()->Notify(m_pParent.lock(), Event::Scored);
+		if (m_Subject.lock() != nullptr)
+		{
+			m_Subject.lock()->Notify(Event::Scored);
+		}
+		else
+		{
+			m_Subject = m_pParent.lock()->GetComponent<SubjectComponent>();
+			m_Subject.lock()->Notify(Event::Scored);
+
+		}
+		
 	}
 }
 
@@ -40,7 +50,7 @@ void dae::ScoreComponent::DecreaseScore(int diff)
 }
 
 dae::ScoreComponent::ScoreComponent(std::weak_ptr<GameObject> parent)
-	:BaseComponent(parent)
+	: BaseComponent(parent)
 {
 
 }

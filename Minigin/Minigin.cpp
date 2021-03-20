@@ -12,7 +12,8 @@
 #include "Scene.h"
 #include "Components.h"
 #include "PlayerObserver.h"
-#include "Subject.h"
+#include "HudObject.h"
+#include "HudManager.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -79,67 +80,79 @@ void dae::Minigin::LoadGame() const
 
 	go = std::make_shared<GameObject>(glm::vec3(100.f, 5.f, 0.f));
 	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	auto txt =std::make_shared <TextComponent>(go, " lives p1", font, glm::tvec3<uint8_t> { 255, 255, 0 });
+	auto txt =std::make_shared <TextComponent>(go, " lives p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 5.f, 0.f));
 	go->AddComponent(txt);
-	go->AddComponent(std::make_shared <RenderComponent>(go));
+	//go->AddComponent(std::make_shared <RenderComponent>(go));
 	go->AddComponent(std::make_shared <HealthComponent>(go,10));
+	auto subj1 = std::make_shared <SubjectComponent>(go);
+	go->AddComponent(subj1);
 	auto scoreComponent = std::make_shared <ScoreComponent>(go);
 	go->AddComponent(scoreComponent);
 	InputManager::GetInstance().AddCommand(SDL_SCANCODE_1, ExecuteType::Pressed, std::make_shared<DamageCommand>(go,1));
-	std::shared_ptr<Subject> subject = std::make_shared<Subject>();
+	
 
-
+	auto hud = HudManager::GetInstance().CreateHud();
 	
 	auto go2 = std::make_shared<GameObject>(glm::vec3(100.f, 25.f, 0.f));
 	auto font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	auto txt2 = std::make_shared <TextComponent>(go2, " score p2", font, glm::tvec3<uint8_t> { 255, 255, 0 });
-	go2->AddComponent(txt2);
-	go2->AddComponent(std::make_shared <RenderComponent>(go2));
+	auto scorep1 = std::make_shared <TextComponent>(go2, " score p1", font, glm::tvec3<uint8_t> { 255, 255, 0 },glm::vec3(100.f, 25.f, 0.f));
+	go2->AddComponent(scorep1);
+	auto healthp1 = std::make_shared <TextComponent>(go2, " health p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f));
+	go2->AddComponent(healthp1);
+	auto observer1 = std::make_shared <ObserverComponent>(go2,std::make_shared<PlayerObserver>());
+	subj1->AddObserver(observer1);
+	go2->AddComponent(observer1);
+	
 	InputManager::GetInstance().AddCommand(SDL_SCANCODE_2, ExecuteType::Pressed, std::make_shared<ScoreCommand>(scoreComponent, 1));
-	go2->SetSubject(subject);
 
 
+	hud->AddComponent(std::make_shared<HudRenderComponent>(hud));
+	auto scoreHud1 = hud->AddComponent(std::make_shared<HudTextComponent>(hud," score p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f), "player1 Score:"));
+	auto healthHud1 =hud->AddComponent(std::make_shared<HudTextComponent>(hud," Health p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 5.f, 0.f), "player1 Health:"));
 
-	std::shared_ptr<PlayerObserver> player1 = std::make_shared<PlayerObserver>(go, go2);
-	go->SetSubject(subject);
-
-	subject->AddObserver(player1);
-	go->SetSubject(subject);
+	scorep1->SetHudElement(static_pointer_cast<HudTextComponent>(scoreHud1));
+	healthp1->SetHudElement(static_pointer_cast<HudTextComponent>(healthHud1));
 	scene.Add(go2);
 	scene.Add(go);
+	
 	//Player2
 
-	go = std::make_shared<GameObject>(glm::vec3(100.f, 45.f, 0.f));
-	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	txt = std::make_shared <TextComponent>(go, " lives p2", font, glm::tvec3<uint8_t> { 255, 255, 0 });
+
+	go = std::make_shared<GameObject>(glm::vec3(100.f, 5.f, 0.f));
+
+
 	go->AddComponent(txt);
-	go->AddComponent(std::make_shared <RenderComponent>(go));
 	go->AddComponent(std::make_shared <HealthComponent>(go, 10));
+	subj1 = std::make_shared <SubjectComponent>(go);
+	go->AddComponent(subj1);
 	scoreComponent = std::make_shared <ScoreComponent>(go);
 	go->AddComponent(scoreComponent);
 	InputManager::GetInstance().AddCommand(SDL_SCANCODE_3, ExecuteType::Pressed, std::make_shared<DamageCommand>(go, 1));
-	
 
 
-	go2 = std::make_shared<GameObject>(glm::vec3(100.f, 65.f, 0.f));
+	hud = HudManager::GetInstance().CreateHud();
+
+	go2 = std::make_shared<GameObject>(glm::vec3(100.f, 25.f, 0.f));
 	font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	txt2 = std::make_shared <TextComponent>(go2, " score p2", font, glm::tvec3<uint8_t> { 255, 255, 0 });
-	go2->AddComponent(txt2);
-	go2->AddComponent(std::make_shared <RenderComponent>(go2));
+	scorep1 = std::make_shared <TextComponent>(go2, " score p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f));
+	go2->AddComponent(scorep1);
+	healthp1 = std::make_shared <TextComponent>(go2, " health p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f));
+	go2->AddComponent(healthp1);
+	observer1 = std::make_shared <ObserverComponent>(go2, std::make_shared<PlayerObserver>());
+	subj1->AddObserver(observer1);
+	go2->AddComponent(observer1);
+
 	InputManager::GetInstance().AddCommand(SDL_SCANCODE_4, ExecuteType::Pressed, std::make_shared<ScoreCommand>(scoreComponent, 1));
 
 
+	hud->AddComponent(std::make_shared<HudRenderComponent>(hud));
+	scoreHud1 = hud->AddComponent(std::make_shared<HudTextComponent>(hud, " score p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(300, 25.f, 0.f), "player2 Score:"));
+	healthHud1 = hud->AddComponent(std::make_shared<HudTextComponent>(hud, " Health p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(300, 5.f, 0.f), "player2 Health:"));
 
-	std::shared_ptr<PlayerObserver> player2 = std::make_shared<PlayerObserver>(go, go2);
-	subject->AddObserver(player2);
-	go->SetSubject(subject);
-	go2->SetSubject(subject);
-
-	scene.Add(go);
-
+	scorep1->SetHudElement(static_pointer_cast<HudTextComponent>(scoreHud1));
+	healthp1->SetHudElement(static_pointer_cast<HudTextComponent>(healthHud1));
 	scene.Add(go2);
-
-	
+	scene.Add(go);
 	
 	
 }
@@ -166,6 +179,7 @@ void dae::Minigin::Run()
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
+		auto& hudManager = HudManager::GetInstance();
 		auto& input = InputManager::GetInstance();
 		auto lastTime = high_resolution_clock::now();
 
@@ -179,6 +193,7 @@ void dae::Minigin::Run()
 			lastTime = currentTime;
 			doContinue = input.ProcessInput();
 			sceneManager.Update(deltaTime);
+			hudManager.Update(deltaTime);
 			renderer.Render();
 			
 			//auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());

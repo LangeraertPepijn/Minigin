@@ -1,36 +1,34 @@
 #pragma once
 #include "Transform.h"
-#include "SceneObject.h"
+
 #include "BaseComponent.h"
 
 
 namespace dae
 {
 	class Subject;
-	class Observer;
+	//class Observer;
 	class Texture2D;
-	class GameObject final: public  std::enable_shared_from_this<GameObject>
+	class GameObject final : public  std::enable_shared_from_this<GameObject>
 	{
 	public:
 		
-
-
-		virtual void Update(float deltaTime);
-		virtual void Render()   ;
+		void Update(float deltaTime);
+		void Render()   ;
 	
 		template <typename T>
 		std::shared_ptr <T> GetComponent()const;
-		
-		std::shared_ptr<Subject> GetSubject()const;
-		void SetSubject(std::shared_ptr<Subject>subject);
+
 		const std::vector<std::shared_ptr<BaseComponent>>& GetComponents() const;
+		template <typename T>
+		std::vector<std::shared_ptr<T>> GetComponentsType() const;
 
 		std::shared_ptr<BaseComponent> AddComponent(std::shared_ptr<BaseComponent> newComponent);
 
 
 		GameObject();
 		GameObject(const glm::vec3& pos);
-		virtual ~GameObject();
+		~GameObject();
 		GameObject(const GameObject& other) ;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -58,5 +56,19 @@ namespace dae
 		return nullptr;
 	}
 
+	template <typename T>
+	std::vector<std::shared_ptr<T>> GameObject::GetComponentsType() const
+	{
+		std::vector<std::shared_ptr<T>> retValues;
+		for (std::shared_ptr<BaseComponent> component : m_Components)
+		{
+			auto temp = std::dynamic_pointer_cast<T>(component);
+			if (temp != nullptr)
+			{
+				retValues.push_back(temp);
+			}
+		}
+		return retValues;
+	}
 }
 

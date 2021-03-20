@@ -6,6 +6,7 @@
 #include "imgui.h"
 #include "backends/imgui_impl_sdl.h"
 #include "backends/imgui_impl_opengl2.h"
+#include "HudManager.h"
 int GetOpenGLDriverIndex()
 {
 	auto openglIndex = -1;
@@ -40,6 +41,7 @@ void dae::Renderer::Render()
 	SDL_RenderClear(m_Renderer);
 
 	SceneManager::GetInstance().Render();
+	HudManager::GetInstance().Render();
 
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_pWindow);
@@ -53,7 +55,6 @@ void dae::Renderer::Render()
 		ImGui::ShowDemoWindow(&m_ShowDemo);
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-	
 	SDL_RenderPresent(m_Renderer);
 }
 

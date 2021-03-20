@@ -1,34 +1,33 @@
 #pragma once
 namespace dae
 {
-class GameObject;
+	class HudObject;
 
-	class BaseComponent
+	class HudBaseComponent
 	{
 
-
 	public:
-		BaseComponent(std::weak_ptr<GameObject> Parent);				// Constructor
-		virtual ~BaseComponent() = default;				// Destructor
+		HudBaseComponent(std::weak_ptr<HudObject> Parent);				// Constructor
+		virtual ~HudBaseComponent() = default;				// Destructor
 
 		// -------------------------
 		// Copy/move constructors and assignment operators
 		// -------------------------    
-		BaseComponent(const BaseComponent& other) = delete;
-		BaseComponent(BaseComponent&& other) = delete;
-		BaseComponent& operator=(const BaseComponent& other) = delete;
-		BaseComponent& operator=(BaseComponent&& other) = delete;
+		HudBaseComponent(const HudBaseComponent& other) = delete;
+		HudBaseComponent(HudBaseComponent&& other) = delete;
+		HudBaseComponent& operator=(const HudBaseComponent& other) = delete;
+		HudBaseComponent& operator=(HudBaseComponent&& other) = delete;
 
 		//-------------------------------------------------
 		// Member functions						
 		//-------------------------------------------------
 		bool m_NeedsUpdate;
 		bool m_NeedsRender;
-		virtual void Update(float)=0;
-		virtual void Render()const ;
+		virtual void Update(float) = 0;
+		virtual void Render()const;
 	protected:
-		std::weak_ptr<GameObject> m_pParent;
-		void SetParent(std::weak_ptr<GameObject> parent);
+		std::weak_ptr<HudObject> m_pParent;
+		void SetParent(std::weak_ptr<HudObject> parent);
 
 	private:
 		//-------------------------------------------------
@@ -41,5 +40,5 @@ class GameObject;
 
 
 	};
-}
 
+}

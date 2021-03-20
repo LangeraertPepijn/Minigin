@@ -3,7 +3,7 @@
 namespace dae
 {
 	class TextComponent;
-
+	class SubjectComponent;
 	class HealthComponent :public BaseComponent
 	{
 	public:
@@ -24,5 +24,6 @@ namespace dae
 
 		int m_Health;
 		int m_MaxHealt;
+		std::weak_ptr<SubjectComponent> m_Subject;
 	};
 }

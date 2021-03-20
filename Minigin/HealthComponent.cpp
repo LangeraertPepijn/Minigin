@@ -1,9 +1,7 @@
 #include "MiniginPCH.h"
 #include "HealthComponent.h"
-
 #include "GameObject.h"
-#include "Observer.h"
-#include "Subject.h"
+#include "SubjectComponent.h"
 
 void dae::HealthComponent::Update(float )
 {
@@ -27,13 +25,30 @@ void dae::HealthComponent::Damage(const int damageAmount)
 	m_Health -= damageAmount;
 	if (m_Health > 0)
 	{
-
-		m_pParent.lock()->GetSubject()->Notify(m_pParent.lock(), Event::Damaged);
+		if (m_Subject.lock()!=nullptr)
+		{
+			m_Subject.lock()->Notify(Event::Damaged);
+		}
+		else
+		{
+			m_Subject = m_pParent.lock()->GetComponent<SubjectComponent>();
+			m_Subject.lock()->Notify(Event::Damaged);
+			
+		}
 	}
 	else
 	{
-		m_pParent.lock()->GetSubject()->Notify(m_pParent.lock(), Event::Died);
-		
+		if (m_Subject.lock() != nullptr)
+		{
+			m_Subject.lock()->Notify(Event::Died);
+		}
+		else
+		{
+			m_Subject = m_pParent.lock()->GetComponent<SubjectComponent>();
+			m_Subject.lock()->Notify(Event::Died);
+
+		}
+
 	}
 }
 

@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "HudObject.h"
 
 using namespace dae;
 
@@ -15,6 +16,8 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
 	m_Objects.push_back(object);
 }
 
+
+
 void Scene::Update(float deltaTime)
 {
 	for(auto& object : m_Objects)
@@ -22,6 +25,7 @@ void Scene::Update(float deltaTime)
 		
 		object->Update(deltaTime);
 	}
+
 }
 
 void Scene::Render() const
@@ -30,5 +34,6 @@ void Scene::Render() const
 	{
 		object->Render();
 	}
+
 }
 

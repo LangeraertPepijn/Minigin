@@ -1,5 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
+#include "TransformComponent.h"
+
 namespace dae
 {
 
@@ -15,6 +17,7 @@ namespace dae
 		std::shared_ptr<Texture2D> GetTexture()const;
 		virtual void Render()const override;
 
+		TextureComponent(std::weak_ptr<GameObject> parent, const std::string& texture,const glm::vec3 position);
 		TextureComponent(std::weak_ptr<GameObject> parent, const std::string& texture);
 		virtual ~TextureComponent() = default;
 		TextureComponent(const TextureComponent& other) = delete;
@@ -23,6 +26,7 @@ namespace dae
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 	private:
 		std::shared_ptr<Texture2D> m_Texture;
+		std::shared_ptr<TransformComponent> m_TransformComponent;
 	};
 
 }

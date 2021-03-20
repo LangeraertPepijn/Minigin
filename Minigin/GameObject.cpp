@@ -1,23 +1,15 @@
 #pragma once
 #include "MiniginPCH.h"
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
-#include "Subject.h"
+
 #include "RenderComponent.h"
 #include "TransformComponent.h"
 
 
 
- std::shared_ptr<dae::Subject> dae::GameObject::GetSubject()const
-{
-	return  m_ActorChanged;
-}
 
-void dae::GameObject::SetSubject(std::shared_ptr<Subject> subject)
-{
-	m_ActorChanged = subject;
-}
+
+
 
 const std::vector<std::shared_ptr<dae::BaseComponent>>& dae::GameObject::GetComponents()const
 {
@@ -52,11 +44,7 @@ dae::GameObject::GameObject(const GameObject& other)
 }
 
 
-//void dae::GameObject::Render() const
-//{
-//	const auto pos = m_Transform.GetPosition();
-//	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
-//}
+
 
 void dae::GameObject::Update(float deltaTime)
 {
@@ -76,6 +64,7 @@ void dae::GameObject::Render()
 		if (temp != nullptr)
 		{
 			temp->Render();
+			break;
 		}
 	}
 }

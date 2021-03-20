@@ -11,9 +11,9 @@ dae::BaseComponent::BaseComponent(std::weak_ptr<GameObject> parent)
 
 }
 
-void dae::BaseComponent::Update(float deltaTime)
+void dae::BaseComponent::Update(float )
 {
-	deltaTime;
+
 }
 
 void dae::BaseComponent::Render() const

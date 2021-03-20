@@ -9,8 +9,9 @@ void dae::ObserverComponent::Update(float)
 {
 }
 
-dae::ObserverComponent::ObserverComponent(std::weak_ptr<GameObject> parent)
+dae::ObserverComponent::ObserverComponent(std::weak_ptr<GameObject> parent, std::shared_ptr<Observer> observer)
 	: BaseComponent(parent)
+	, m_Observer(observer)
 
 {
 }
@@ -18,31 +19,7 @@ dae::ObserverComponent::ObserverComponent(std::weak_ptr<GameObject> parent)
 void dae::ObserverComponent::Notify(const std::shared_ptr<GameObject> actor, Event event)
 {
 
-	switch (event)
-	{
-	case Event::Scored:
-	{
-		const auto temp = actor->GetComponent<ScoreComponent>();
-		if (temp)
-		{
-			m_pParent.lock()->GetComponent<TextComponent>()->SetText(std::to_string(temp->GetScore()) + " Score");
-		}
-		break;
-	}
-	case Event::Died:
-	{
-		m_pParent.lock()->GetComponent<TextComponent>()->SetText("You Died");
-		break;
-	}
-	case Event::Damaged:
-	{
-		const auto temp = actor->GetComponent<HealthComponent>();
-		if (temp)
-		{
-			m_pParent.lock()->GetComponent<TextComponent>()->SetText(std::to_string(temp->GetHealth()) + " Hp");
-		}
-		break;
-	}
-	}
+	//m_Observer->Notify(actor, event);
+	m_Observer->Notify(actor, event,m_pParent);
 
 }
