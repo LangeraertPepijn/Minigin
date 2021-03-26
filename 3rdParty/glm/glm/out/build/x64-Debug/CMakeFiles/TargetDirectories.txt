@@ -1,0 +1,3 @@
+D:/school/programming/Prog4/Week2/Minigin/3rdParty/glm/glm/out/build/x64-Debug/CMakeFiles/glm_dummy.dir
+D:/school/programming/Prog4/Week2/Minigin/3rdParty/glm/glm/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+D:/school/programming/Prog4/Week2/Minigin/3rdParty/glm/glm/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir

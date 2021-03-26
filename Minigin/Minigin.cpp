@@ -14,6 +14,8 @@
 #include "PlayerObserver.h"
 #include "HudObject.h"
 #include "HudManager.h"
+#include "SDLMixerSoundSystem.h"
+#include "ServiceLocator.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -153,6 +155,13 @@ void dae::Minigin::LoadGame() const
 	healthp1->SetHudElement(static_pointer_cast<HudTextComponent>(healthHud1));
 	scene.Add(go2);
 	scene.Add(go);
+
+
+
+	ServiceLocator::RegisterSoundSystem(new SDLMixerSoundSystem{ false });
+	SDLMixerSoundSystem* temp = static_cast<SDLMixerSoundSystem*>(ServiceLocator::GetSoundSystem());
+	temp->AddSound(0, "../Data/Pokemon_DAEStyle.wav");
+	temp->Play(0, 100);
 	
 	
 }
@@ -160,9 +169,11 @@ void dae::Minigin::LoadGame() const
 void dae::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
+
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();
+	ServiceLocator::DeleteSoundSystem();
 }
 
 void dae::Minigin::Run()
