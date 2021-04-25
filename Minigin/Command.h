@@ -1,12 +1,11 @@
 #pragma once
 #include <iostream>
 #include "GameObject.h"
-
+#include "ServiceLocator.h"
 namespace dae
 {
 	class TextComponent;
 	class ScoreComponent;
-	
 }
 
 
@@ -55,5 +54,18 @@ private:
 
 };
 
+class PlayCommand : public Command
+{
+public:
+	PlayCommand(dae::SoundID  id,float volume);
+	virtual ~PlayCommand();
+	virtual void Execute()override;
+
+
+private:
+	dae::SoundID  m_Id;
+	float m_Volume;
+
+};
 
 

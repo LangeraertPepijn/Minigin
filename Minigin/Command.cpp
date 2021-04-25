@@ -1,9 +1,10 @@
 #pragma once
 #include "MiniginPCH.h"
 #include "Command.h"
-#include "TextComponent.h"
+
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
+#include "ServiceLocator.h"
 
 
 ScoreCommand::ScoreCommand( std::shared_ptr<dae::ScoreComponent> objectThatScored,int increaseValue)
@@ -46,4 +47,23 @@ void DamageCommand::Execute()
 {
 	auto health = m_ObjectThatsDamaged->GetComponent<dae::HealthComponent>();
 	health->Damage(m_Damage);
+}
+
+PlayCommand::PlayCommand(dae::SoundID id, float volume)
+	: m_Id(id)
+	, m_Volume(volume)
+{
+}
+
+PlayCommand::~PlayCommand()
+{
+}
+
+void PlayCommand::Execute()
+{
+	const auto soundSystem =dae::ServiceLocator::GetSoundSystem();
+	if(soundSystem)
+	{
+		soundSystem->Play(m_Id, m_Volume);
+	}
 }
