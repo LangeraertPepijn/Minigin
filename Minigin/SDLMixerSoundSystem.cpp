@@ -29,17 +29,22 @@ dae::SDLMixerSoundSystem::~SDLMixerSoundSystem()
 	Mix_CloseAudio();
 }
 
-void dae::SDLMixerSoundSystem::AddSound(SoundID id, const std::string& sound)
+void dae::SDLMixerSoundSystem::AddSound(const std::string& sound)
 {
-	m_Sounds[id]=sound;
 	std::lock_guard<std::mutex> guard{ m_SoundMutex };
-	m_SoundChunks[id] = Mix_LoadWAV(m_Sounds[id].c_str());
+	m_Sounds[m_NextFreeId]=sound;
+	m_NextFreeId++;
 
 }
 
 void dae::SDLMixerSoundSystem::Play(const SoundID id, const float volume)
 {
 	AddToQueue(id, volume);
+}
+
+dae::SoundID dae::SDLMixerSoundSystem::GetNextFreeId() const
+{
+	return m_NextFreeId;
 }
 
 void dae::SDLMixerSoundSystem::ActivateThread()
@@ -55,6 +60,12 @@ void dae::SDLMixerSoundSystem::ActivateThread()
 					while (0 != m_PlayQueue.size())
 					{
 						auto settings = m_PlayQueue.back();
+						
+						if(m_SoundChunks.find(settings.first)!=m_SoundChunks.end())
+						{
+							m_SoundChunks[settings.first] = Mix_LoadWAV(m_Sounds[settings.first].c_str());
+						}
+
 						float temp = settings.second;
 						m_SoundChunks[settings.first]->volume = static_cast<UINT8>(temp);
 						Mix_PlayChannel(-1, m_SoundChunks[settings.first], 0);

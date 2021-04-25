@@ -161,7 +161,7 @@ void dae::Minigin::LoadGame() const
 	ServiceLocator::RegisterSoundSystem(new SDLMixerSoundSystem{ false });
 	SDLMixerSoundSystem* temp = static_cast<SDLMixerSoundSystem*>(ServiceLocator::GetSoundSystem());
 	
-	temp->AddSound(0, "../Data/Pokemon_DAEStyle.wav");
+	temp->AddSound("../Data/Pokemon_DAEStyle.wav");
 	
 	InputManager::GetInstance().AddCommand(SDL_SCANCODE_P, ExecuteType::Pressed, std::make_shared<PlayCommand>(SoundID(0), 100.f));
 	//temp->Play(0, 100);

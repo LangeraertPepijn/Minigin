@@ -19,9 +19,11 @@ namespace dae
 		SDLMixerSoundSystem& operator=(const SDLMixerSoundSystem& other) = delete;
 		SDLMixerSoundSystem& operator=(SDLMixerSoundSystem&& other) = delete;
 
-		void AddSound(SoundID id,const std::string& sound);
+		void AddSound(const std::string& sound);
 		void Play(const SoundID id, const float volume) override;
 
+		dae::SoundID GetNextFreeId() const;
+	
 	private:
 		bool m_IsMuted{};
 		
@@ -33,5 +35,6 @@ namespace dae
 		bool m_SoundIsRunning = true;
 		void AddToQueue(dae::SoundID id,  const float volume);
 		void ActivateThread();
+		dae::SoundID m_NextFreeId;
 	};
 }
