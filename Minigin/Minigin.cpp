@@ -91,6 +91,7 @@ void dae::Minigin::LoadGame() const
 	auto scoreComponent = std::make_shared <ScoreComponent>(go);
 	go->AddComponent(scoreComponent);
 	InputManager::GetInstance().AddCommand(SDL_SCANCODE_1, ExecuteType::Pressed, std::make_shared<DamageCommand>(go,1));
+	InputManager::GetInstance().AddCommand(ControllerButton::ButtonA, ExecuteType::Pressed, std::make_shared<DamageCommand>(go,1));
 	
 
 	auto hud = HudManager::GetInstance().CreateHud();
@@ -184,7 +185,7 @@ void dae::Minigin::Run()
 	Initialize();
 
 	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
+	ResourceManager::GetInstance().Init("Data/");
 	bool* quit{ new bool{} };
 	//InputManager::GetInstance().AddCommand(SDL_SCANCODE_0, ExecuteType::Released, std::make_shared<QuitCommand>(quit));
 

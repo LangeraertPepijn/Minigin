@@ -61,7 +61,7 @@ void dae::SDLMixerSoundSystem::ActivateThread()
 					{
 						auto settings = m_PlayQueue.back();
 						
-						if(m_SoundChunks.find(settings.first)!=m_SoundChunks.end())
+						if(m_SoundChunks.find(settings.first)==m_SoundChunks.end())
 						{
 							m_SoundChunks[settings.first] = Mix_LoadWAV(m_Sounds[settings.first].c_str());
 						}
