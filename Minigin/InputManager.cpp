@@ -12,42 +12,37 @@ bool dae::InputManager::ProcessInput()
 		}
 		if (e.type == SDL_KEYDOWN)
         {
-            for (auto commands : m_CommandsKeyBoard)
+            for (auto keyCommand : m_CommandsKeyBoard)
             {
-                
-               for (auto type : commands.second)
+                if (e.key.keysym.scancode == keyCommand.first)
                 {
-                   if (ExecuteType::Pressed == type.first)
-                   {
-
-                       if (e.key.keysym.scancode == commands.first)
-                       {
-                           type.second->Execute();
-                       }
-                   }
+                    if (keyCommand.second->commandPressed)
+                        keyCommand.second->commandPressed->Execute();
                 }
-              
+
             }
 		}
         if (e.type == SDL_KEYUP) {
-            for (auto commands : m_CommandsKeyBoard)
+            for (auto keyCommand : m_CommandsKeyBoard)
             {
 
-                for (auto type : commands.second)
+                if (e.key.keysym.scancode == keyCommand.first)
                 {
-                    if (ExecuteType::Released == type.first)
-                    {
-
-                        if (e.key.keysym.scancode == commands.first)
-                        {
-                            type.second->Execute();
-                        }
-                    }
+                    if (keyCommand.second->commandReleased)
+                        keyCommand.second->commandReleased->Execute();
                 }
 
             }
         }
-
+        const Uint8* state = SDL_GetKeyboardState(nullptr);
+		for (auto keyCommand:m_CommandsKeyBoard)
+		{
+			if(state[keyCommand.first])
+			{
+                if (keyCommand.second->commandReleased)
+                    keyCommand.second->commandReleased->Execute();
+			}
+		}
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			
 		}
@@ -57,41 +52,27 @@ bool dae::InputManager::ProcessInput()
     if (dwResult == ERROR_SUCCESS)
     {
         // Controller is connected
-       // std::cout << "ok" << std::endl;
+
         for (const auto& command : m_CommandsController)
         {
-           for (const auto& type : command.second)
+
+            if (IsPressed(command.first))
             {
-                 if (type.first == ExecuteType::Pressed)
-                {
-                    if (IsPressed(command.first))
-                    {
-                        type.second->Execute();
-                    }
-
-                }
-                 else if (type.first == ExecuteType::Held)
-                 {
-
-                     if (IsHeld(command.first))
-                     {
-                         type.second->Execute();
-                     }
-
-
-                 }
-                 else if (type.first == ExecuteType::Released)
-                 {
-                     if (IsReleased(command.first))
-                     {
-                         type.second->Execute();
-                     }
-                 }
+                if (command.second->commandPressed)
+                    command.second->commandPressed->Execute();
+            }
+            if (IsHeld(command.first))
+            {
+                if (command.second->commandHeld)
+                    command.second->commandHeld->Execute();
             }
 
-
+            if (IsReleased(command.first))
+            {
+                if (command.second->commandReleased)
+                    command.second->commandReleased->Execute();
+            }
         }
-
 
     }
 
@@ -135,7 +116,15 @@ bool dae::InputManager::IsReleased(ControllerButton button)
 void dae::InputManager::AddCommand(ControllerButton button, ExecuteType type, std::shared_ptr<Command> command)
 {
     auto temp = m_CommandsController[button];
-    temp[type]=command;
+    if (temp.get() == nullptr)
+        temp = std::make_shared<ExecuteCommand>();
+
+	if(type==ExecuteType::Held)
+		temp->commandHeld=command;
+    else if (type == ExecuteType::Pressed)
+        temp->commandPressed = command;
+    else if (type == ExecuteType::Released)
+        temp->commandReleased = command;
     m_CommandsController[button]=temp;
     m_IsPresseds[button] = false;
 }
@@ -143,7 +132,15 @@ void dae::InputManager::AddCommand(ControllerButton button, ExecuteType type, st
 void dae::InputManager::AddCommand(SDL_Scancode button, ExecuteType type, std::shared_ptr<Command> command)
 {
     auto temp = m_CommandsKeyBoard[button];
-    temp[type] = command;
+    if (temp.get() == nullptr)
+        temp = std::make_shared<ExecuteCommand>();
+
+    if (type == ExecuteType::Held)
+        temp->commandHeld = command;
+    else if (type == ExecuteType::Pressed)
+        temp->commandPressed = command;
+    else if (type == ExecuteType::Released)
+        temp->commandReleased = command;
     m_CommandsKeyBoard[button] = temp;
 }
 

@@ -31,6 +31,12 @@ namespace dae
 		Held,
 		Released,
 	};
+	struct ExecuteCommand
+	{
+		std::shared_ptr<Command> commandPressed ;
+		std::shared_ptr<Command> commandHeld;
+		std::shared_ptr<Command> commandReleased;
+	};
 
 	class InputManager final : public Singleton<InputManager>
 	{
@@ -46,8 +52,10 @@ namespace dae
 		friend class Singleton<InputManager>;
 		XINPUT_STATE m_CurrentState{};
 		std::map<ControllerButton, bool>m_IsPresseds;
-		std::map<ControllerButton, std::map<ExecuteType, std::shared_ptr<Command>>> m_CommandsController{};
-		std::map<SDL_Scancode, std::map<ExecuteType, std::shared_ptr<Command>>> m_CommandsKeyBoard{};
+		//std::map<ControllerButton, std::map<ExecuteType, std::shared_ptr<Command>>> m_CommandsController{};
+		std::map<ControllerButton, std::shared_ptr<ExecuteCommand>> m_CommandsController{};
+		//std::map<SDL_Scancode, std::map<ExecuteType, std::shared_ptr<Command>>> m_CommandsKeyBoard{};
+		std::map<SDL_Scancode, std::shared_ptr<ExecuteCommand>> m_CommandsKeyBoard{};
 	};
 
 }
