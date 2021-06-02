@@ -51,10 +51,177 @@ void dae::Minigin::LoadGame() const
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	//backGround
-	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
+/*	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
 	go->AddComponent(std::make_shared <TextureComponent>(go, "background.jpg"));
 	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);*/
+
+
+	//Background
+	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "LevelBase1.png"));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
 	scene.Add(go);
+
+	//TestTile
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f, 40, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+
+
+	//test tile down
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 42, 96, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 42, 96, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+
+
+
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84, 152, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f, 152, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 84, 152, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+
+	//test tile Side
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 84, 152 + 112.f, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 84, 152 + 224.f, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 168, 152 + 224.f, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 252, 152 + 224.f, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84, 152 + 224, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 168, 152 + 224, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84, 152 + 224, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 252, 152 + 224, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f, 152 + 224, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 84, 152 + 112, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 168, 152 + 112, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 252, 152 + 112, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84, 152 + 112, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 168, 152 + 112, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84, 152 + 112, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 252, 152 + 112, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f, 152 + 112, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 42 + 84, 152 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 42, 152 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 42, 152 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 42 - 84, 152 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+
+
+
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 84 - 42, 152 + 112 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 168 - 42, 152 + 112 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84 - 42, 152 + 112 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 168 - 42, 152 + 112 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84 - 42, 152 + 112 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 252 - 42, 152 + 112 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+	go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 42, 152 + 112 + 56, 0)));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+
+
+	
+
+	
 
 	// logo
 	go = std::make_shared<GameObject>(glm::vec3(216.f, 180.f, 0.f));
@@ -162,7 +329,7 @@ void dae::Minigin::LoadGame() const
 	ServiceLocator::RegisterSoundSystem(new SDLMixerSoundSystem{ false });
 	SDLMixerSoundSystem* temp = static_cast<SDLMixerSoundSystem*>(ServiceLocator::GetSoundSystem());
 	
-	temp->AddSound("../Data/Pokemon_DAEStyle.wav");
+	temp->AddSound("../Resources/Pokemon_DAEStyle.wav");
 	
 	InputManager::GetInstance().AddCommand(SDL_SCANCODE_P, ExecuteType::Pressed, std::make_shared<PlayCommand>(SoundID(0), 100.f));
 	//temp->Play(0, 100);
@@ -185,7 +352,7 @@ void dae::Minigin::Run()
 	Initialize();
 
 	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("Data/");
+	ResourceManager::GetInstance().Init("Resources/");
 	bool* quit{ new bool{} };
 	//InputManager::GetInstance().AddCommand(SDL_SCANCODE_0, ExecuteType::Released, std::make_shared<QuitCommand>(quit));
 
