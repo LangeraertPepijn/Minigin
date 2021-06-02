@@ -2,30 +2,30 @@
 #include "HudObject.h"
 #include "HudRenderComponent.h"
 
-dae::HudObject::HudObject( )
+HudObject::HudObject( )
 
 
 {
  
 }
 
-dae::HudObject::~HudObject()
+HudObject::~HudObject()
 {
 }
 
 
-const std::vector<std::shared_ptr<dae::HudBaseComponent>>& dae::HudObject::GetComponents() const
+const std::vector<std::shared_ptr<HudBaseComponent>>& HudObject::GetComponents() const
 {
 	return m_Components;
 }
 
-std::shared_ptr<dae::HudBaseComponent> dae::HudObject::AddComponent(std::shared_ptr<HudBaseComponent> newComponent)
+std::shared_ptr<HudBaseComponent> HudObject::AddComponent(std::shared_ptr<HudBaseComponent> newComponent)
 {
 	m_Components.push_back(newComponent);
 	return newComponent;
 }
 
-void dae::HudObject::Update(float deltaTime)
+void HudObject::Update(float deltaTime)
 {
 	for (auto component : m_Components)
     {
@@ -35,7 +35,7 @@ void dae::HudObject::Update(float deltaTime)
         }
     }
 }
-void dae::HudObject::Render()
+void HudObject::Render()
 {
 	for (auto component : m_Components)
 	{

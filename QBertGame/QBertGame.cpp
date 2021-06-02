@@ -1,9 +1,10 @@
+#include "QBertPCH.h"
 #include <iostream>
-#include <Minigin.h>
+#include "QBertGameApplication.h"
 
 int main()
 {
-	dae::Minigin engine;
+	QBertGameApplication engine;
 	
 	engine.Run();
 	return 0;

@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
 
-bool dae::InputManager::ProcessInput()
+bool InputManager::ProcessInput()
 {
 	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 	auto dwResult =XInputGetState(0, &m_CurrentState);
@@ -79,7 +79,7 @@ bool dae::InputManager::ProcessInput()
 	return true;
 }
 
-bool dae::InputManager::IsPressed(ControllerButton button)
+bool InputManager::IsPressed(ControllerButton button)
 {
 
     if (m_CurrentState.Gamepad.wButtons & int(button) && !m_IsPresseds.at(button))
@@ -95,7 +95,7 @@ bool dae::InputManager::IsPressed(ControllerButton button)
     return false;
 }
 
-bool dae::InputManager::IsReleased(ControllerButton button)
+bool InputManager::IsReleased(ControllerButton button)
 {
 
     if (m_CurrentState.Gamepad.wButtons & int(button) && !m_IsPresseds.at(button))
@@ -113,7 +113,7 @@ bool dae::InputManager::IsReleased(ControllerButton button)
     return false;
 }
 
-void dae::InputManager::AddCommand(ControllerButton button, ExecuteType type, std::shared_ptr<Command> command)
+void InputManager::AddCommand(ControllerButton button, ExecuteType type, std::shared_ptr<Command> command)
 {
     auto temp = m_CommandsController[button];
     if (temp.get() == nullptr)
@@ -129,7 +129,7 @@ void dae::InputManager::AddCommand(ControllerButton button, ExecuteType type, st
     m_IsPresseds[button] = false;
 }
 
-void dae::InputManager::AddCommand(SDL_Scancode button, ExecuteType type, std::shared_ptr<Command> command)
+void InputManager::AddCommand(SDL_Scancode button, ExecuteType type, std::shared_ptr<Command> command)
 {
     auto temp = m_CommandsKeyBoard[button];
     if (temp.get() == nullptr)
@@ -145,7 +145,7 @@ void dae::InputManager::AddCommand(SDL_Scancode button, ExecuteType type, std::s
 }
 
 
-bool dae::InputManager::IsHeld(ControllerButton button)
+bool InputManager::IsHeld(ControllerButton button)
 {
     if (m_CurrentState.Gamepad.wButtons & int(button) && m_IsPresseds.at(button))
     {

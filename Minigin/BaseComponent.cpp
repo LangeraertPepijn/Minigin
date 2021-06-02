@@ -3,7 +3,7 @@
 
 
 
-dae::BaseComponent::BaseComponent(std::weak_ptr<GameObject> parent)
+BaseComponent::BaseComponent(std::weak_ptr<GameObject> parent)
 	: m_pParent{parent}
 	, m_NeedsRender{}
 	, m_NeedsUpdate{}
@@ -11,16 +11,16 @@ dae::BaseComponent::BaseComponent(std::weak_ptr<GameObject> parent)
 
 }
 
-void dae::BaseComponent::Update(float )
+void BaseComponent::Update(float )
 {
 
 }
 
-void dae::BaseComponent::Render() const
+void BaseComponent::Render() const
 {
 }
 
-void dae::BaseComponent::SetParent(std::weak_ptr<GameObject> parent)
+void BaseComponent::SetParent(std::weak_ptr<GameObject> parent)
 {
 	m_pParent = parent;
 }

@@ -5,16 +5,16 @@
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
 #include "HudObject.h"
-dae::PlayerObserver::PlayerObserver()
+PlayerObserver::PlayerObserver()
 
 {
 }
 
-dae::PlayerObserver::~PlayerObserver()
+PlayerObserver::~PlayerObserver()
 {
 }
 
-void dae::PlayerObserver::Notify(const std::shared_ptr<GameObject> actor, Event event,const std::weak_ptr<GameObject> parent)
+void PlayerObserver::Notify(const std::shared_ptr<GameObject> actor, Event event,const std::weak_ptr<GameObject> parent)
 {
 
 	switch (event)

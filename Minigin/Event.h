@@ -1,10 +1,8 @@
 ﻿#pragma once
-namespace  dae
+
+enum class Event : int
 {
-	enum class Event : int
-	{
-		Scored,
-		Damaged,
-		Died
-	};
-}
+	Scored,
+	Damaged,
+	Died
+};

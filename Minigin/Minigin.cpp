@@ -17,10 +17,11 @@
 #include "SDLMixerSoundSystem.h"
 #include "ServiceLocator.h"
 
+
 using namespace std;
 using namespace std::chrono;
 
-void dae::Minigin::Initialize()
+void Minigin::Initialize()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
@@ -46,299 +47,155 @@ void dae::Minigin::Initialize()
 /**
  * Code constructing the scene world starts here
  */
-void dae::Minigin::LoadGame() const
+void Minigin::LoadGame() const
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+
+	UserLoadGame();
 
 	//backGround
-/*	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "background.jpg"));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);*/
+	//std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
+	//go->AddComponent(std::make_shared <TextureComponent>(go, "background.jpg"));
+	//go->AddComponent(std::make_shared <RenderComponent>(go));
+	//scene.Add(go);
+	/*for (int i = 0; i < 7; ++i)
+	{
+		for (int j =0;j<i;j++)
+		{
+			if (i % 2 == 1)
+			{
 
-
-	//Background
-	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "LevelBase1.png"));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-
-	//TestTile
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f, 40, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-
-
-	//test tile down
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 42, 96, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 42, 96, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-
-
-
-
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84, 152, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f, 152, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 84, 152, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-
-	//test tile Side
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 84, 152 + 112.f, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 84, 152 + 224.f, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 168, 152 + 224.f, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 252, 152 + 224.f, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84, 152 + 224, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 168, 152 + 224, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84, 152 + 224, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 252, 152 + 224, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f, 152 + 224, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 84, 152 + 112, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 168, 152 + 112, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 252, 152 + 112, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84, 152 + 112, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 168, 152 + 112, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84, 152 + 112, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 252, 152 + 112, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f, 152 + 112, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-
-
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 42 + 84, 152 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 42, 152 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 42, 152 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 42 - 84, 152 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-
-
-
-
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 84 - 42, 152 + 112 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 168 - 42, 152 + 112 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84 - 42, 152 + 112 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 168 - 42, 152 + 112 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 84 - 42, 152 + 112 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f + 252 - 42, 152 + 112 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(std::make_shared <TextureComponent>(go, "TileColored.png", glm::vec3(256.f - 42, 152 + 112 + 56, 0)));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
-
-
-	
-
-	
+				go = std::make_shared<GameObject>();
+				go->AddComponent(std::make_shared <TextureComponent>(go, "Cube1.png", glm::vec3(288 + (j-i/2)* 64, 40 + i * 45, 0)));
+				go->AddComponent(std::make_shared <RenderComponent>(go));
+				scene.Add(go);
+			}
+			else
+			{
+				go = std::make_shared<GameObject>();
+				go->AddComponent(std::make_shared <TextureComponent>(go, "Cube1.png", glm::vec3(288 + (j - i / 2) * 64 +32, 40 + i * 45, 0)));
+				go->AddComponent(std::make_shared <RenderComponent>(go));
+				scene.Add(go);
+			}
+		}
+	}*/
 
 	// logo
-	go = std::make_shared<GameObject>(glm::vec3(216.f, 180.f, 0.f));
-	go->AddComponent(std::make_shared <TextureComponent>(go, "logo.png"));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
+	//go = std::make_shared<GameObject>(glm::vec3(216.f, 180.f, 0.f));
+	//go->AddComponent(std::make_shared <TextureComponent>(go, "logo.png"));
+	//go->AddComponent(std::make_shared <RenderComponent>(go));
+	//scene.Add(go);
 
 	//text
-	go = std::make_shared<GameObject>(glm::vec3(80.f, 20.f, 0.f));
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	go->AddComponent(std::make_shared <TextComponent>(go, "Programming 4 Assignment", font));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
+	//go = std::make_shared<GameObject>(glm::vec3(80.f, 20.f, 0.f));
+	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	//go->AddComponent(std::make_shared <TextComponent>(go, "Programming 4 Assignment", font));
+	//go->AddComponent(std::make_shared <RenderComponent>(go));
+	//scene.Add(go);
 
 
-	go = std::make_shared<GameObject>(glm::vec3(5.f, 5.f, 0.f));
-	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	go->AddComponent(std::make_shared <TextComponent>(go, " ", font,glm::tvec3<uint8_t> { 255,255,0 }));
-	go->AddComponent(std::make_shared <FpsComponent>(go));
-	go->AddComponent(std::make_shared <RenderComponent>(go));
-	scene.Add(go);
+	//go = std::make_shared<GameObject>(glm::vec3(5.f, 5.f, 0.f));
+	//font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	//go->AddComponent(std::make_shared <TextComponent>(go, " ", font,glm::tvec3<uint8_t> { 255,255,0 }));
+	//go->AddComponent(std::make_shared <FpsComponent>(go));
+	//go->AddComponent(std::make_shared <RenderComponent>(go));
+	//scene.Add(go);
 	
 
 	//Player1
 
-	go = std::make_shared<GameObject>(glm::vec3(100.f, 5.f, 0.f));
-	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	auto txt =std::make_shared <TextComponent>(go, " lives p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 5.f, 0.f));
-	go->AddComponent(txt);
-	//go->AddComponent(std::make_shared <RenderComponent>(go));
-	go->AddComponent(std::make_shared <HealthComponent>(go,10));
-	auto subj1 = std::make_shared <SubjectComponent>(go);
-	go->AddComponent(subj1);
-	auto scoreComponent = std::make_shared <ScoreComponent>(go);
-	go->AddComponent(scoreComponent);
-	InputManager::GetInstance().AddCommand(SDL_SCANCODE_1, ExecuteType::Pressed, std::make_shared<DamageCommand>(go,1));
-	InputManager::GetInstance().AddCommand(ControllerButton::ButtonA, ExecuteType::Pressed, std::make_shared<DamageCommand>(go,1));
-	
+	//go = std::make_shared<GameObject>(glm::vec3(100.f, 5.f, 0.f));
+	//font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	//auto txt =std::make_shared <TextComponent>(go, " lives p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 5.f, 0.f));
+	//go->AddComponent(txt);
+	////go->AddComponent(std::make_shared <RenderComponent>(go));
+	//go->AddComponent(std::make_shared <HealthComponent>(go,10));
+	//auto subj1 = std::make_shared <SubjectComponent>(go);
+	//go->AddComponent(subj1);
+	//auto scoreComponent = std::make_shared <ScoreComponent>(go);
+	//go->AddComponent(scoreComponent);
+	//InputManager::GetInstance().AddCommand(SDL_SCANCODE_1, ExecuteType::Pressed, std::make_shared<DamageCommand>(go,1));
+	//InputManager::GetInstance().AddCommand(ControllerButton::ButtonA, ExecuteType::Pressed, std::make_shared<DamageCommand>(go,1));
+	//
 
-	auto hud = HudManager::GetInstance().CreateHud();
-	
-	auto go2 = std::make_shared<GameObject>(glm::vec3(100.f, 25.f, 0.f));
-	auto font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	auto scorep1 = std::make_shared <TextComponent>(go2, " score p1", font, glm::tvec3<uint8_t> { 255, 255, 0 },glm::vec3(100.f, 25.f, 0.f));
-	go2->AddComponent(scorep1);
-	auto healthp1 = std::make_shared <TextComponent>(go2, " health p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f));
-	go2->AddComponent(healthp1);
-	auto observer1 = std::make_shared <ObserverComponent>(go2,std::make_shared<PlayerObserver>());
-	subj1->AddObserver(observer1);
-	go2->AddComponent(observer1);
-	
-	InputManager::GetInstance().AddCommand(SDL_SCANCODE_2, ExecuteType::Pressed, std::make_shared<ScoreCommand>(scoreComponent, 1));
-
-
-	hud->AddComponent(std::make_shared<HudRenderComponent>(hud));
-	auto scoreHud1 = hud->AddComponent(std::make_shared<HudTextComponent>(hud," score p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f), "player1 Score:"));
-	auto healthHud1 =hud->AddComponent(std::make_shared<HudTextComponent>(hud," Health p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 5.f, 0.f), "player1 Health:"));
-
-	scorep1->SetHudElement(static_pointer_cast<HudTextComponent>(scoreHud1));
-	healthp1->SetHudElement(static_pointer_cast<HudTextComponent>(healthHud1));
-	scene.Add(go2);
-	scene.Add(go);
-	
-	//Player2
+	//auto hud = HudManager::GetInstance().CreateHud();
+	//
+	//auto go2 = std::make_shared<GameObject>(glm::vec3(100.f, 25.f, 0.f));
+	//auto font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	//auto scorep1 = std::make_shared <TextComponent>(go2, " score p1", font, glm::tvec3<uint8_t> { 255, 255, 0 },glm::vec3(100.f, 25.f, 0.f));
+	//go2->AddComponent(scorep1);
+	//auto healthp1 = std::make_shared <TextComponent>(go2, " health p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f));
+	//go2->AddComponent(healthp1);
+	//auto observer1 = std::make_shared <ObserverComponent>(go2,std::make_shared<PlayerObserver>());
+	//subj1->AddObserver(observer1);
+	//go2->AddComponent(observer1);
+	//
+	//InputManager::GetInstance().AddCommand(SDL_SCANCODE_2, ExecuteType::Pressed, std::make_shared<ScoreCommand>(scoreComponent, 1));
 
 
-	go = std::make_shared<GameObject>(glm::vec3(100.f, 5.f, 0.f));
+	//hud->AddComponent(std::make_shared<HudRenderComponent>(hud));
+	//auto scoreHud1 = hud->AddComponent(std::make_shared<HudTextComponent>(hud," score p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f), "player1 Score:"));
+	//auto healthHud1 =hud->AddComponent(std::make_shared<HudTextComponent>(hud," Health p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 5.f, 0.f), "player1 Health:"));
+
+	//scorep1->SetHudElement(static_pointer_cast<HudTextComponent>(scoreHud1));
+	//healthp1->SetHudElement(static_pointer_cast<HudTextComponent>(healthHud1));
+	//scene.Add(go2);
+	//scene.Add(go);
+	//
+	////Player2
 
 
-	go->AddComponent(txt);
-	go->AddComponent(std::make_shared <HealthComponent>(go, 10));
-	subj1 = std::make_shared <SubjectComponent>(go);
-	go->AddComponent(subj1);
-	scoreComponent = std::make_shared <ScoreComponent>(go);
-	go->AddComponent(scoreComponent);
-	InputManager::GetInstance().AddCommand(SDL_SCANCODE_3, ExecuteType::Pressed, std::make_shared<DamageCommand>(go, 1));
+	//go = std::make_shared<GameObject>(glm::vec3(100.f, 5.f, 0.f));
 
 
-	hud = HudManager::GetInstance().CreateHud();
-
-	go2 = std::make_shared<GameObject>(glm::vec3(100.f, 25.f, 0.f));
-	font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	scorep1 = std::make_shared <TextComponent>(go2, " score p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f));
-	go2->AddComponent(scorep1);
-	healthp1 = std::make_shared <TextComponent>(go2, " health p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f));
-	go2->AddComponent(healthp1);
-	observer1 = std::make_shared <ObserverComponent>(go2, std::make_shared<PlayerObserver>());
-	subj1->AddObserver(observer1);
-	go2->AddComponent(observer1);
-
-	InputManager::GetInstance().AddCommand(SDL_SCANCODE_4, ExecuteType::Pressed, std::make_shared<ScoreCommand>(scoreComponent, 1));
+	//go->AddComponent(txt);
+	//go->AddComponent(std::make_shared <HealthComponent>(go, 10));
+	//subj1 = std::make_shared <SubjectComponent>(go);
+	//go->AddComponent(subj1);
+	//scoreComponent = std::make_shared <ScoreComponent>(go);
+	//go->AddComponent(scoreComponent);
+	//InputManager::GetInstance().AddCommand(SDL_SCANCODE_3, ExecuteType::Pressed, std::make_shared<DamageCommand>(go, 1));
 
 
-	hud->AddComponent(std::make_shared<HudRenderComponent>(hud));
-	scoreHud1 = hud->AddComponent(std::make_shared<HudTextComponent>(hud, " score p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(300, 25.f, 0.f), "player2 Score:"));
-	healthHud1 = hud->AddComponent(std::make_shared<HudTextComponent>(hud, " Health p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(300, 5.f, 0.f), "player2 Health:"));
+	//hud = HudManager::GetInstance().CreateHud();
 
-	scorep1->SetHudElement(static_pointer_cast<HudTextComponent>(scoreHud1));
-	healthp1->SetHudElement(static_pointer_cast<HudTextComponent>(healthHud1));
-	scene.Add(go2);
-	scene.Add(go);
+	//go2 = std::make_shared<GameObject>(glm::vec3(100.f, 25.f, 0.f));
+	//font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	//scorep1 = std::make_shared <TextComponent>(go2, " score p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f));
+	//go2->AddComponent(scorep1);
+	//healthp1 = std::make_shared <TextComponent>(go2, " health p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f));
+	//go2->AddComponent(healthp1);
+	//observer1 = std::make_shared <ObserverComponent>(go2, std::make_shared<PlayerObserver>());
+	//subj1->AddObserver(observer1);
+	//go2->AddComponent(observer1);
+
+	//InputManager::GetInstance().AddCommand(SDL_SCANCODE_4, ExecuteType::Pressed, std::make_shared<ScoreCommand>(scoreComponent, 1));
+
+
+	//hud->AddComponent(std::make_shared<HudRenderComponent>(hud));
+	//scoreHud1 = hud->AddComponent(std::make_shared<HudTextComponent>(hud, " score p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(300, 25.f, 0.f), "player2 Score:"));
+	//healthHud1 = hud->AddComponent(std::make_shared<HudTextComponent>(hud, " Health p2", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(300, 5.f, 0.f), "player2 Health:"));
+
+	//scorep1->SetHudElement(static_pointer_cast<HudTextComponent>(scoreHud1));
+	//healthp1->SetHudElement(static_pointer_cast<HudTextComponent>(healthHud1));
+	//scene.Add(go2);
+	//scene.Add(go);
 
 
 
-	ServiceLocator::RegisterSoundSystem(new SDLMixerSoundSystem{ false });
-	SDLMixerSoundSystem* temp = static_cast<SDLMixerSoundSystem*>(ServiceLocator::GetSoundSystem());
-	
-	temp->AddSound("../Resources/Pokemon_DAEStyle.wav");
-	
-	InputManager::GetInstance().AddCommand(SDL_SCANCODE_P, ExecuteType::Pressed, std::make_shared<PlayCommand>(SoundID(0), 100.f));
+	//ServiceLocator::RegisterSoundSystem(new SDLMixerSoundSystem{ false });
+	//SDLMixerSoundSystem* temp = static_cast<SDLMixerSoundSystem*>(ServiceLocator::GetSoundSystem());
+	//
+	//temp->AddSound("../Resources/Pokemon_DAEStyle.wav");
+	//
+	//InputManager::GetInstance().AddCommand(SDL_SCANCODE_P, ExecuteType::Pressed, std::make_shared<PlayCommand>(SoundID(0), 100.f));
 	//temp->Play(0, 100);
 	
 	
 }
 
-void dae::Minigin::Cleanup()
+void Minigin::Cleanup()
 {
+	UserCleanUp();
 	Renderer::GetInstance().Destroy();
 
 	SDL_DestroyWindow(m_Window);
@@ -347,7 +204,7 @@ void dae::Minigin::Cleanup()
 	ServiceLocator::DeleteSoundSystem();
 }
 
-void dae::Minigin::Run()
+void Minigin::Run()
 {
 	Initialize();
 
@@ -386,3 +243,12 @@ void dae::Minigin::Run()
 
 	Cleanup();
 }
+
+void Minigin::UserLoadGame() const
+{
+}
+
+void Minigin::UserCleanUp()
+{
+}
+

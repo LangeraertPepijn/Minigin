@@ -3,19 +3,19 @@
 #include "GameObject.h"
 #include "SubjectComponent.h"
 
-void dae::HealthComponent::Update(float )
+void HealthComponent::Update(float )
 {
 	
 }
 
-dae::HealthComponent::HealthComponent(std::weak_ptr<GameObject> parent, int maxHealth)
+HealthComponent::HealthComponent(std::weak_ptr<GameObject> parent, int maxHealth)
 	:BaseComponent(parent)
 	,m_MaxHealt(maxHealth)
 	,m_Health(maxHealth)
 {
 }
 
-void dae::HealthComponent::Damage(const int damageAmount)
+void HealthComponent::Damage(const int damageAmount)
 {
 	if (damageAmount < 0)
 	{
@@ -52,12 +52,12 @@ void dae::HealthComponent::Damage(const int damageAmount)
 	}
 }
 
-int dae::HealthComponent::GetHealth() const
+int HealthComponent::GetHealth() const
 {
 	return m_Health;
 }
 
-void dae::HealthComponent::Heal(const int healAmount)
+void HealthComponent::Heal(const int healAmount)
 {
 	if(healAmount <0)
 	{

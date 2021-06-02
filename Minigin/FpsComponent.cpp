@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 
-void dae::FpsComponent::Update(float deltaTime)
+void FpsComponent::Update(float deltaTime)
 {
 
 	m_AccumulatedTime += deltaTime;
@@ -16,7 +16,7 @@ void dae::FpsComponent::Update(float deltaTime)
 
 }
 
-dae::FpsComponent::FpsComponent(std::weak_ptr<GameObject> parent)
+FpsComponent::FpsComponent(std::weak_ptr<GameObject> parent)
 	: BaseComponent(parent)
 	, m_AccumulatedTime{}
 	, m_SecInterval{1.f}

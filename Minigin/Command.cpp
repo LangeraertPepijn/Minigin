@@ -7,7 +7,7 @@
 #include "ServiceLocator.h"
 
 
-ScoreCommand::ScoreCommand( std::shared_ptr<dae::ScoreComponent> objectThatScored,int increaseValue)
+ScoreCommand::ScoreCommand( std::shared_ptr<ScoreComponent> objectThatScored,int increaseValue)
 	:m_ScoreComponent(objectThatScored)
 	,m_IncreaseValue(increaseValue)
 {
@@ -33,7 +33,7 @@ QuitCommand::~QuitCommand()
 {
 }
 
-DamageCommand::DamageCommand(std::shared_ptr<dae::GameObject> object, int damage)
+DamageCommand::DamageCommand(std::shared_ptr<GameObject> object, int damage)
 	:m_ObjectThatsDamaged(object)
 	,m_Damage(damage)
 {
@@ -45,11 +45,11 @@ DamageCommand::~DamageCommand()
 
 void DamageCommand::Execute()
 {
-	auto health = m_ObjectThatsDamaged->GetComponent<dae::HealthComponent>();
+	auto health = m_ObjectThatsDamaged->GetComponent<HealthComponent>();
 	health->Damage(m_Damage);
 }
 
-PlayCommand::PlayCommand(dae::SoundID id, float volume)
+PlayCommand::PlayCommand(SoundID id, float volume)
 	: m_Id(id)
 	, m_Volume(volume)
 {
@@ -61,7 +61,7 @@ PlayCommand::~PlayCommand()
 
 void PlayCommand::Execute()
 {
-	const auto soundSystem =dae::ServiceLocator::GetSoundSystem();
+	const auto soundSystem =ServiceLocator::GetSoundSystem();
 	if(soundSystem)
 	{
 		soundSystem->Play(m_Id, m_Volume);

@@ -2,11 +2,11 @@
 #include <iostream>
 #include "GameObject.h"
 #include "ServiceLocator.h"
-namespace dae
-{
-	class TextComponent;
-	class ScoreComponent;
-}
+
+
+class TextComponent;
+class ScoreComponent;
+
 
 
 class Command
@@ -22,12 +22,12 @@ protected:
 class ScoreCommand : public Command
 {
 public:
-	ScoreCommand( std::shared_ptr<dae::ScoreComponent> scoreComponent,int increaseValue);
+	ScoreCommand( std::shared_ptr<ScoreComponent> scoreComponent,int increaseValue);
 	virtual ~ScoreCommand();
 	virtual void Execute()override;
 
 private:
-	std::shared_ptr<dae::ScoreComponent> m_ScoreComponent;
+	std::shared_ptr<ScoreComponent> m_ScoreComponent;
 	int m_IncreaseValue;
 };
 class QuitCommand : public Command
@@ -43,13 +43,13 @@ private:
 class DamageCommand : public Command
 {
 public:
-	DamageCommand(std::shared_ptr<dae::GameObject> object, int damage);
+	DamageCommand(std::shared_ptr<GameObject> object, int damage);
 	virtual ~DamageCommand();
 	virtual void Execute()override;
 
 
 private:
-	std::shared_ptr<dae::GameObject> m_ObjectThatsDamaged;
+	std::shared_ptr<GameObject> m_ObjectThatsDamaged;
 	int m_Damage;
 
 };
@@ -57,13 +57,13 @@ private:
 class PlayCommand : public Command
 {
 public:
-	PlayCommand(dae::SoundID  id,float volume);
+	PlayCommand(SoundID  id,float volume);
 	virtual ~PlayCommand();
 	virtual void Execute()override;
 
 
 private:
-	dae::SoundID  m_Id;
+	SoundID  m_Id;
 	float m_Volume;
 
 };

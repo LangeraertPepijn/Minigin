@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "HudObject.h"
 
-using namespace dae;
+
 
 unsigned int Scene::m_IdCounter = 0;
 

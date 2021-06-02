@@ -1,14 +1,14 @@
 #include "MiniginPCH.h"
 #include "HudManager.h"
 
-std::shared_ptr<dae::HudObject> dae::HudManager::CreateHud()
+std::shared_ptr<HudObject> HudManager::CreateHud()
 {
 	const auto hud = std::shared_ptr<HudObject>(std::make_shared< HudObject>());
 	m_Huds.push_back(hud);
 	return hud;
 }
 
-void dae::HudManager::Update(float deltaTime)
+void HudManager::Update(float deltaTime)
 {
 	for (const auto & hud: m_Huds)
 	{
@@ -16,7 +16,7 @@ void dae::HudManager::Update(float deltaTime)
 	}
 }
 
-void dae::HudManager::Render()
+void HudManager::Render()
 {
 	for (const auto& hud : m_Huds)
 	{

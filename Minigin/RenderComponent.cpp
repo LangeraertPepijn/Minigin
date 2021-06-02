@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 
-dae::RenderComponent::RenderComponent(std::weak_ptr<GameObject> parent )
+RenderComponent::RenderComponent(std::weak_ptr<GameObject> parent )
 	: BaseComponent(parent)
 
 {
@@ -13,16 +13,16 @@ dae::RenderComponent::RenderComponent(std::weak_ptr<GameObject> parent )
 
 }
 
-//void dae::RenderComponent::Update(float deltaTime)
+//void RenderComponent::Update(float deltaTime)
 //{
 //	deltaTime;
 //}
 
-void dae::RenderComponent::Update(float)
+void RenderComponent::Update(float)
 {
 }
 
-void dae::RenderComponent::Render()const
+void RenderComponent::Render()const
 {
 	for (const std::shared_ptr<BaseComponent> component : m_pParent.lock()->GetComponents())
 	{

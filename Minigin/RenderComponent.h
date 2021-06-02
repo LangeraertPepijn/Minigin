@@ -6,11 +6,9 @@
 #pragma warning (disable:4201)
 #include <glm/glm.hpp>
 #pragma warning(pop)
-namespace dae
+class RenderComponent final :public BaseComponent
 {
-	class RenderComponent final :public BaseComponent
-	{
-	public:
+public:
 
 		RenderComponent(std::weak_ptr<GameObject> parent);				// Constructor
 		virtual ~RenderComponent() = default;				// Destructor
@@ -40,6 +38,6 @@ namespace dae
 		//-------------------------------------------------
 		// Datamembers								
 		//-------------------------------------------------;
-	};
-}
+};
+
 

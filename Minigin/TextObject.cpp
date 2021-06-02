@@ -7,11 +7,11 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-dae::TextObject::TextObject(const std::string& text, const std::shared_ptr<Font>& font) 
+TextObject::TextObject(const std::string& text, const std::shared_ptr<Font>& font) 
 	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_Texture(nullptr)
 { }
 
-//void dae::TextObject::Update(float deltaTime)
+//void TextObject::Update(float deltaTime)
 //{
 //	if (m_NeedsUpdate)
 //	{
@@ -32,7 +32,7 @@ dae::TextObject::TextObject(const std::string& text, const std::shared_ptr<Font>
 //	}
 //}
 
-//void dae::TextObject::Render() const
+//void TextObject::Render() const
 //{
 //	if (m_Texture != nullptr)
 //	{
@@ -41,25 +41,25 @@ dae::TextObject::TextObject(const std::string& text, const std::shared_ptr<Font>
 //	}
 //}
 
-void dae::TextObject::Update(float deltaTime)
+void TextObject::Update(float deltaTime)
 {
 	
 	float i = deltaTime;
 	i++;
 }
 
-void dae::TextObject::Render()
+void TextObject::Render()
 {
 }
 
 // This implementation uses the "dirty flag" pattern
-void dae::TextObject::SetText(const std::string& text)
+void TextObject::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
 }
 
-void dae::TextObject::SetPosition(const float x, const float y)
+void TextObject::SetPosition(const float x, const float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
 }

@@ -1,5 +1,5 @@
-#pragma once
 #include "MiniginPCH.h"
+#pragma once
 #include "GameObject.h"
 
 #include "RenderComponent.h"
@@ -11,33 +11,33 @@
 
 
 
-const std::vector<std::shared_ptr<dae::BaseComponent>>& dae::GameObject::GetComponents()const
+const std::vector<std::shared_ptr<BaseComponent>>& GameObject::GetComponents()const
 {
 	return m_Components;
 }
 
-std::shared_ptr<dae::BaseComponent> dae::GameObject::AddComponent(std::shared_ptr<BaseComponent> newComponent)
+std::shared_ptr<BaseComponent> GameObject::AddComponent(std::shared_ptr<BaseComponent> newComponent)
 {
 	m_Components.push_back(newComponent);
 	return newComponent;
 }
 
-dae::GameObject::GameObject()
+GameObject::GameObject()
 {
 	AddComponent(std::make_shared<TransformComponent>(weak_from_this(), glm::vec3{0,0,0}));
 }
 
-dae::GameObject::GameObject(const glm::vec3& pos)
+GameObject::GameObject(const glm::vec3& pos)
 {
 	AddComponent(std::make_shared<TransformComponent>(weak_from_this(), pos));
 }
 
-dae::GameObject::~GameObject()
+GameObject::~GameObject()
 {
 	m_Components.clear();
 }
 
-dae::GameObject::GameObject(const GameObject& other)
+GameObject::GameObject(const GameObject& other)
 {
 	m_Components = other.m_Components;
 	m_ActorChanged = other.m_ActorChanged;
@@ -46,7 +46,7 @@ dae::GameObject::GameObject(const GameObject& other)
 
 
 
-void dae::GameObject::Update(float deltaTime)
+void GameObject::Update(float deltaTime)
 {
 	for (auto components : m_Components)
 	{
@@ -56,7 +56,7 @@ void dae::GameObject::Update(float deltaTime)
 		}
 	}
 }
-void dae::GameObject::Render()
+void GameObject::Render()
 {
 	for (auto component : m_Components)
 	{

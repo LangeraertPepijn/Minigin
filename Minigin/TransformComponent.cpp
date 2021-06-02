@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "TransformComponent.h"
 
-dae::TransformComponent::TransformComponent(std::weak_ptr<GameObject> parent, const glm::vec3& pos)
+TransformComponent::TransformComponent(std::weak_ptr<GameObject> parent, const glm::vec3& pos)
 	: BaseComponent(parent)
 	, m_Pos{pos}
 {
@@ -9,32 +9,32 @@ dae::TransformComponent::TransformComponent(std::weak_ptr<GameObject> parent, co
 
 
 
-void dae::TransformComponent::SetTransform(const glm::vec3& newPos)
+void TransformComponent::SetTransform(const glm::vec3& newPos)
 {
 	m_Pos = newPos;
 }
 
-const glm::vec3& dae::TransformComponent::GetTransform()const
+const glm::vec3& TransformComponent::GetTransform()const
 {
 	return m_Pos;
 }
 
-void dae::TransformComponent::AddTransform(const glm::vec3& vecToAdd)
+void TransformComponent::AddTransform(const glm::vec3& vecToAdd)
 {
 	m_Pos += vecToAdd;
 }
 
-void dae::TransformComponent::MulTransform(const glm::vec3& vecToMul)
+void TransformComponent::MulTransform(const glm::vec3& vecToMul)
 {
 	m_Pos *= vecToMul;
 }
 
-void dae::TransformComponent::MulTransformScalar(const float scalar)
+void TransformComponent::MulTransformScalar(const float scalar)
 {
 	m_Pos *= scalar;
 }
 
-void dae::TransformComponent::Update(float)
+void TransformComponent::Update(float)
 {
 }
 

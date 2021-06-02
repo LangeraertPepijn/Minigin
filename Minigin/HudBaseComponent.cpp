@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "HudBaseComponent.h"
 #include "HudObject.h"
-dae::HudBaseComponent::HudBaseComponent(std::weak_ptr<HudObject> parent)
+HudBaseComponent::HudBaseComponent(std::weak_ptr<HudObject> parent)
 	: m_pParent{ parent }
 	, m_NeedsRender{}
 	, m_NeedsUpdate{}
@@ -9,16 +9,16 @@ dae::HudBaseComponent::HudBaseComponent(std::weak_ptr<HudObject> parent)
 
 }
 
-void dae::HudBaseComponent::Update(float)
+void HudBaseComponent::Update(float)
 {
 
 }
 
-void dae::HudBaseComponent::Render() const
+void HudBaseComponent::Render() const
 {
 }
 
-void dae::HudBaseComponent::SetParent(std::weak_ptr<HudObject> parent)
+void HudBaseComponent::SetParent(std::weak_ptr<HudObject> parent)
 {
 	m_pParent = parent;
 }

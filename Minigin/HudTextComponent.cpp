@@ -9,7 +9,7 @@
 #include "HudObject.h"
 #include "TransformComponent.h"
 
-void dae::HudTextComponent::Update(float deltaTime)
+void HudTextComponent::Update(float deltaTime)
 {
 	deltaTime;
 	if (m_NeedsUpdate)
@@ -31,40 +31,40 @@ void dae::HudTextComponent::Update(float deltaTime)
 	}
 }
 
-void dae::HudTextComponent::SetText(const std::string& text)
+void HudTextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
 }
 
-void dae::HudTextComponent::SetColor(const glm::tvec3<uint8_t> color)
+void HudTextComponent::SetColor(const glm::tvec3<uint8_t> color)
 {
 	m_Color = color;
 	m_NeedsUpdate = true;
 }
 
-std::shared_ptr<dae::Texture2D> dae::HudTextComponent::GetTexture()const
+std::shared_ptr<Texture2D> HudTextComponent::GetTexture()const
 {
 	return m_Texture;
 }
 
-void dae::HudTextComponent::SetTexture(const std::shared_ptr<Texture2D>& texture)
+void HudTextComponent::SetTexture(const std::shared_ptr<Texture2D>& texture)
 {
 	m_Texture = texture;
 }
 
-void dae::HudTextComponent::Render() const
+void HudTextComponent::Render() const
 {
 	//auto temp = m_pParent.lock()->GetComponent<TransformComponent>();
 	if (m_TransformComponent != nullptr)
 	{
-		dae::Renderer::GetInstance().RenderTexture(*m_Texture, m_TransformComponent->GetTransform().x, m_TransformComponent->GetTransform().y);
+		Renderer::GetInstance().RenderTexture(*m_Texture, m_TransformComponent->GetTransform().x, m_TransformComponent->GetTransform().y);
 		return;
 	}
-	dae::Renderer::GetInstance().RenderTexture(*m_Texture, 0, 0);
+	Renderer::GetInstance().RenderTexture(*m_Texture, 0, 0);
 }
 
-dae::HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const std::string& text,
+HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const std::string& text,
 	const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color, const glm::vec3 position,
 	const std::string& prefix)
 	: HudBaseComponent(parent)
@@ -91,7 +91,7 @@ dae::HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const s
 	m_Texture = std::make_shared<Texture2D>(texture);
 }
 
-dae::HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const std::string& text, const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color, const glm::vec3 position)
+HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const std::string& text, const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color, const glm::vec3 position)
 	: HudBaseComponent(parent)
 	, m_Font{ font }
 	, m_Text{ text }
@@ -117,7 +117,7 @@ dae::HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const s
 }
 
 
-dae::HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const std::string& text, const std::shared_ptr<Font>& font)
+HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const std::string& text, const std::shared_ptr<Font>& font)
 	: HudBaseComponent(parent)
 	, m_Font{ font }
 	, m_Text{ text }
@@ -143,7 +143,7 @@ dae::HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const s
 
 }
 
-dae::HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const std::string& text, const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color)
+HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const std::string& text, const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color)
 	: HudBaseComponent(parent)
 	, m_Font{ font }
 	, m_Text{ text }
@@ -168,7 +168,7 @@ dae::HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const s
 	m_Texture = std::make_shared<Texture2D>(texture);
 }
 
-dae::HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const std::string& text, const std::shared_ptr<Font>& font, const glm::vec3 position)
+HudTextComponent::HudTextComponent(std::weak_ptr<HudObject> parent, const std::string& text, const std::shared_ptr<Font>& font, const glm::vec3 position)
 	: HudBaseComponent(parent)
 	, m_Font{ font }
 	, m_Text{ text }

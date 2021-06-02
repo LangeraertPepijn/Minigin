@@ -2,7 +2,7 @@
 #include "SDLMixerSoundSystem.h"
 
 
-dae::SDLMixerSoundSystem::SDLMixerSoundSystem(bool isMuted)
+SDLMixerSoundSystem::SDLMixerSoundSystem(bool isMuted)
 	: m_IsMuted(isMuted)
 
 {
@@ -10,7 +10,7 @@ dae::SDLMixerSoundSystem::SDLMixerSoundSystem(bool isMuted)
 	ActivateThread();
 }
 
-dae::SDLMixerSoundSystem::~SDLMixerSoundSystem()
+SDLMixerSoundSystem::~SDLMixerSoundSystem()
 {
 	m_SoundIsRunning = false;
 	if(m_pThread->joinable())
@@ -29,7 +29,7 @@ dae::SDLMixerSoundSystem::~SDLMixerSoundSystem()
 	Mix_CloseAudio();
 }
 
-void dae::SDLMixerSoundSystem::AddSound(const std::string& sound)
+void SDLMixerSoundSystem::AddSound(const std::string& sound)
 {
 	std::lock_guard<std::mutex> guard{ m_SoundMutex };
 	m_Sounds[m_NextFreeId]=sound;
@@ -37,17 +37,17 @@ void dae::SDLMixerSoundSystem::AddSound(const std::string& sound)
 
 }
 
-void dae::SDLMixerSoundSystem::Play(const SoundID id, const float volume)
+void SDLMixerSoundSystem::Play(const SoundID id, const float volume)
 {
 	AddToQueue(id, volume);
 }
 
-dae::SoundID dae::SDLMixerSoundSystem::GetNextFreeId() const
+SoundID SDLMixerSoundSystem::GetNextFreeId() const
 {
 	return m_NextFreeId;
 }
 
-void dae::SDLMixerSoundSystem::ActivateThread()
+void SDLMixerSoundSystem::ActivateThread()
 {
 
 	if (m_pThread == nullptr)
@@ -76,10 +76,10 @@ void dae::SDLMixerSoundSystem::ActivateThread()
 	}
 }
 
-void dae::SDLMixerSoundSystem::AddToQueue(dae::SoundID id, const float volume)
+void SDLMixerSoundSystem::AddToQueue(SoundID id, const float volume)
 {
 	std::lock_guard<std::mutex> guard{ m_SoundMutex };
-	m_PlayQueue.push(std::pair<dae::SoundID,const float>(id,volume));
+	m_PlayQueue.push(std::pair<SoundID,const float>(id,volume));
 }
 
 

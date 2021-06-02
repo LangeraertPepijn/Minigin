@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "HudRenderComponent.h"
 #include  "HudObject.h"
-dae::HudRenderComponent::HudRenderComponent(std::weak_ptr<HudObject> parent)
+HudRenderComponent::HudRenderComponent(std::weak_ptr<HudObject> parent)
 	: HudBaseComponent(parent)
 
 {
@@ -10,11 +10,11 @@ dae::HudRenderComponent::HudRenderComponent(std::weak_ptr<HudObject> parent)
 }
 
 
-void dae::HudRenderComponent::Update(float)
+void HudRenderComponent::Update(float)
 {
 }
 
-void dae::HudRenderComponent::Render()const
+void HudRenderComponent::Render()const
 {
 	for (const std::shared_ptr<HudBaseComponent> component : m_pParent.lock()->GetComponents())
 	{

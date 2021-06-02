@@ -6,23 +6,23 @@
 #include "SubjectComponent.h"
 #include "HudTextComponent.h"
 
-void dae::ScoreComponent::Update(float )
+void ScoreComponent::Update(float )
 {
 
 }
 
-int dae::ScoreComponent::GetScore() const
+int ScoreComponent::GetScore() const
 {
 	return m_Score;
 }
 
-void dae::ScoreComponent::SetScore(int score)
+void ScoreComponent::SetScore(int score)
 {
 	m_Score = score;
 
 }
 
-void dae::ScoreComponent::IncreaseScore(int diff)
+void ScoreComponent::IncreaseScore(int diff)
 {
 	if (diff > 0)
 	{
@@ -41,7 +41,7 @@ void dae::ScoreComponent::IncreaseScore(int diff)
 	}
 }
 
-void dae::ScoreComponent::DecreaseScore(int diff)
+void ScoreComponent::DecreaseScore(int diff)
 {
 	if (diff > 0)
 	{
@@ -49,7 +49,7 @@ void dae::ScoreComponent::DecreaseScore(int diff)
 	}
 }
 
-dae::ScoreComponent::ScoreComponent(std::weak_ptr<GameObject> parent)
+ScoreComponent::ScoreComponent(std::weak_ptr<GameObject> parent)
 	: BaseComponent(parent)
 {
 

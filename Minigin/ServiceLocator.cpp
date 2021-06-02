@@ -1,9 +1,9 @@
 #include "MiniginPCH.h"
 #include "ServiceLocator.h"
 
-dae::NullSoundSystem dae::ServiceLocator::m_NullSoundSystem;
-dae::SoundSystem* dae::ServiceLocator::m_pSoundSystem = &m_NullSoundSystem;
-void dae::ServiceLocator::DeleteSoundSystem()
+NullSoundSystem ServiceLocator::m_NullSoundSystem;
+SoundSystem* ServiceLocator::m_pSoundSystem = &m_NullSoundSystem;
+void ServiceLocator::DeleteSoundSystem()
 {
 	if(m_pSoundSystem&& (m_pSoundSystem!=&m_NullSoundSystem))
 	{
@@ -11,7 +11,7 @@ void dae::ServiceLocator::DeleteSoundSystem()
 	}
 }
 
-dae::ServiceLocator::~ServiceLocator()
+ServiceLocator::~ServiceLocator()
 {
 
 }

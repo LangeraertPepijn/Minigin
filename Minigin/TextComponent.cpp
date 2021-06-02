@@ -10,7 +10,7 @@
 #include "HudTextComponent.h"
 #include "TransformComponent.h"
 
-void dae::TextComponent::Update(float deltaTime)
+void TextComponent::Update(float deltaTime)
 {
 	deltaTime;
 	if (m_NeedsUpdate)
@@ -33,7 +33,7 @@ void dae::TextComponent::Update(float deltaTime)
 	}
 }
 
-void dae::TextComponent::SetText(const std::string& text)
+void TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
@@ -41,7 +41,7 @@ void dae::TextComponent::SetText(const std::string& text)
 		m_HudText->SetText (m_Text);
 
 }
-void dae::TextComponent::SetColor(const glm::tvec3<uint8_t> color)
+void TextComponent::SetColor(const glm::tvec3<uint8_t> color)
 {
 	m_Color = color;
 	m_NeedsUpdate = true;
@@ -49,23 +49,23 @@ void dae::TextComponent::SetColor(const glm::tvec3<uint8_t> color)
 		m_HudText->SetColor (m_Color);
 }
 
-std::shared_ptr<dae::Texture2D> dae::TextComponent::GetTexture()const
+std::shared_ptr<Texture2D> TextComponent::GetTexture()const
 {
 	return m_Texture;
 }
 
-void dae::TextComponent::Render() const
+void TextComponent::Render() const
 {
 
 	if (m_TransformComponent != nullptr)
 	{
-		dae::Renderer::GetInstance().RenderTexture(*m_Texture, m_TransformComponent->GetTransform().x, m_TransformComponent->GetTransform().y);
+		Renderer::GetInstance().RenderTexture(*m_Texture, m_TransformComponent->GetTransform().x, m_TransformComponent->GetTransform().y);
 		return;
 	}
-	dae::Renderer::GetInstance().RenderTexture(*m_Texture, 0, 0);
+	Renderer::GetInstance().RenderTexture(*m_Texture, 0, 0);
 }
 
-dae::TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::string& text,const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color, const glm::vec3 position)
+TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::string& text,const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color, const glm::vec3 position)
 	: BaseComponent(parent)
 	, m_Font{ font }
 	, m_Text{ text }
@@ -90,7 +90,7 @@ dae::TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::s
 }
 
 
-dae::TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::string& text, const std::shared_ptr<Font>& font)
+TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::string& text, const std::shared_ptr<Font>& font)
 	: BaseComponent(parent)
 	, m_Font {font}
 	, m_Text{text}
@@ -115,12 +115,12 @@ dae::TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::s
 		
 }
 
-void dae::TextComponent::SetHudElement(const std::shared_ptr<HudTextComponent>& hud)
+void TextComponent::SetHudElement(const std::shared_ptr<HudTextComponent>& hud)
 {
 	m_HudText = hud;
 }
 
-dae::TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::string& text, const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color)
+TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::string& text, const std::shared_ptr<Font>& font, const glm::tvec3<uint8_t>& Color)
 	: BaseComponent(parent)
 	, m_Font{ font }
 	, m_Text{ text }
@@ -144,7 +144,7 @@ dae::TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::s
 	m_Texture = std::make_shared<Texture2D>(texture);
 }
 
-dae::TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::string& text,const std::shared_ptr<Font>& font, const glm::vec3 position)
+TextComponent::TextComponent(std::weak_ptr<GameObject> parent, const std::string& text,const std::shared_ptr<Font>& font, const glm::vec3 position)
 	: BaseComponent(parent)
 	, m_Font{ font }
 	, m_Text{ text }

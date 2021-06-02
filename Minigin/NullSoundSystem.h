@@ -1,11 +1,10 @@
 ﻿#pragma once
 #include  "SoundSystem.h"
 
-namespace dae
-{
 
-	class NullSoundSystem final :public SoundSystem
-	{
+
+class NullSoundSystem final :public SoundSystem
+{
 	public:
 		NullSoundSystem() = default;
 		virtual~NullSoundSystem() = default;
@@ -15,7 +14,6 @@ namespace dae
 		NullSoundSystem& operator=(NullSoundSystem&& other) = delete;
 		void Play(const SoundID, const float) override {};
 	private:
+	
+};
 
-	};
-
-}

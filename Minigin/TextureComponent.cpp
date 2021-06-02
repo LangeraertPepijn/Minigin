@@ -6,32 +6,37 @@
 #include"GameObject.h"
 #include"TransformComponent.h"
 
-void dae::TextureComponent::Update(float)
+void TextureComponent::Update(float)
 {
 }
 
-void dae::TextureComponent::SetTexture(const std::string& texture)
+void TextureComponent::SetTexture(const std::string& texture)
 {
     m_Texture = ResourceManager::GetInstance().LoadTexture(texture);
 }
 
-std::shared_ptr<dae::Texture2D> dae::TextureComponent::GetTexture()const
+void TextureComponent::Translate(const glm::vec3& trans)
+{
+    m_TransformComponent->SetTransform(trans);
+}
+
+std::shared_ptr<Texture2D> TextureComponent::GetTexture()const
 {
     return m_Texture;
 }
 
-void dae::TextureComponent::Render() const
+void TextureComponent::Render() const
 {
     auto temp = m_pParent.lock()->GetComponent<TransformComponent>();
     if (temp != nullptr)
     {
-        dae::Renderer::GetInstance().RenderTexture(*m_Texture, m_TransformComponent->GetTransform().x, m_TransformComponent->GetTransform().y);
+	    Renderer::GetInstance().RenderTexture(*m_Texture, m_TransformComponent->GetTransform().x, m_TransformComponent->GetTransform().y);
         return;
     }
-    dae::Renderer::GetInstance().RenderTexture(*m_Texture, 0, 0);
+    Renderer::GetInstance().RenderTexture(*m_Texture, 0, 0);
 }
 
-dae::TextureComponent::TextureComponent(std::weak_ptr<GameObject> parent, const std::string& texture,const glm::vec3 position)
+TextureComponent::TextureComponent(std::weak_ptr<GameObject> parent, const std::string& texture,const glm::vec3 position)
 	:BaseComponent(parent)
 	, m_Texture{}
 	, m_TransformComponent(std::make_shared<TransformComponent>(parent,position))
@@ -40,7 +45,7 @@ dae::TextureComponent::TextureComponent(std::weak_ptr<GameObject> parent, const 
     m_Texture = ResourceManager::GetInstance().LoadTexture(texture);
 }
 
-dae::TextureComponent::TextureComponent(std::weak_ptr<GameObject> parent, const std::string& texture)
+TextureComponent::TextureComponent(std::weak_ptr<GameObject> parent, const std::string& texture)
     : BaseComponent(parent)
     , m_Texture{}
 	,  m_TransformComponent(std::make_shared<TransformComponent>(parent,glm::vec3{}))
