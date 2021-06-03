@@ -36,6 +36,9 @@
     <ClCompile Include="JsonLevelReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="QbertObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GridComponent.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LevelInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

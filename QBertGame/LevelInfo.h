@@ -8,4 +8,6 @@ struct LevelInfo
 	glm::ivec2 gridSize{ 6,6 };
 	std::string activeTex = "Cube2.png";
 	std::string inActiveTex = "Cube1.png";
+	int levelNo = -1;
+	bool canRevert = false;
 };

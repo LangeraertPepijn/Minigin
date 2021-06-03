@@ -12,6 +12,8 @@ public:
 	void SetCanRevert(bool canRevert);
 	void SetActiveTex(const std::string& newTex);
 	void SetInActiveTex(const std::string& newTex);
+	void LinkLevelDone(bool& levelDone);
+	void Clear();
 private:
 	friend class Singleton<BlockManager>;
 	BlockManager() = default;
@@ -20,5 +22,8 @@ private:
 	bool m_CanRevert;
 	std::string m_TexActive;
 	std::string m_TexInActive;
+	bool* m_LevelDone;
 };
+
+
 

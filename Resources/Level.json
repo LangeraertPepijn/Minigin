@@ -8,7 +8,8 @@
         "PosFix": [20, -10, 0],
         "GridSize": [6, 6],
         "BlockTexActive": "Cube2.png",
-        "BlockTexInActive": "Cube1.png"
+        "BlockTexInActive": "Cube1.png",
+        "CanRevert":  false
       },
       {
         "LevelNo": 1,
@@ -17,7 +18,8 @@
         "PosFix": [20, -10, 0],
         "GridSize": [6, 6],
         "BlockTexActive": "Cube1.png",
-        "BlockTexInActive": "Cube2.png"
+        "BlockTexInActive": "Cube2.png",
+        "CanRevert":  false
       },
       {
         "LevelNo": 2,
@@ -26,7 +28,8 @@
         "PosFix": [20, -10, 0],
         "GridSize": [6, 6],
         "BlockTexActive": "Cube2.png",
-        "BlockTexInActive": "Cube1.png"
+        "BlockTexInActive": "Cube1.png",
+        "CanRevert":  true
       }
     ]
   }

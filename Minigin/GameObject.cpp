@@ -5,12 +5,6 @@
 #include "RenderComponent.h"
 #include "TransformComponent.h"
 
-
-
-
-
-
-
 const std::vector<std::shared_ptr<BaseComponent>>& GameObject::GetComponents()const
 {
 	return m_Components;

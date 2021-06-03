@@ -18,6 +18,13 @@ void BlockManager::ChangeBlock(int index)
 		{
 			m_Blocks[index]->SetTexture(m_TexActive);
 			m_BlockChanged[index] = true;
+			const auto changed = std::find_if(m_BlockChanged.begin(), m_BlockChanged.end(), [this](std::pair<int,bool> isChanged)
+				{
+					return !isChanged.second;
+				});
+			if (changed == m_BlockChanged.end())
+				*m_LevelDone = true;
+
 		}
 		else if (m_CanRevert)
 		{
@@ -41,4 +48,14 @@ void BlockManager::SetActiveTex(const std::string& newTex)
 void BlockManager::SetInActiveTex(const std::string& newTex)
 {
 	m_TexInActive = newTex;
+}
+void BlockManager::LinkLevelDone(bool& levelDone)
+{
+	m_LevelDone = &levelDone;
+}
+
+void BlockManager::Clear()
+{
+	m_BlockChanged.clear();
+	m_Blocks.clear();
 }

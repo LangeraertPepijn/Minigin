@@ -10,6 +10,7 @@ public:
 	void Cleanup();
 	void Run();
 protected:
+	void virtual UserInitialize();
  	void virtual UserLoadGame()const;
  	void virtual UserUpdate(float);
 	void virtual UserCleanUp();

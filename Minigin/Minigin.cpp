@@ -41,6 +41,7 @@ void Minigin::Initialize()
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 	m_Quit = new bool{};
+	UserInitialize();
 	Renderer::GetInstance().Init(m_Window);
 }
 
@@ -242,6 +243,10 @@ void Minigin::Run()
 
 
 	Cleanup();
+}
+
+void Minigin::UserInitialize()
+{
 }
 
 void Minigin::UserLoadGame() const
