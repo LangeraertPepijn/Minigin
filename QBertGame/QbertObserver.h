@@ -12,6 +12,6 @@ public:
 	QbertObserver& operator=(QbertObserver&& other) = delete;
 	void Notify(const std::shared_ptr<GameObject> actor, Event event, const std::weak_ptr<GameObject> parent) override;
 private:
-	};
+	
 };
 

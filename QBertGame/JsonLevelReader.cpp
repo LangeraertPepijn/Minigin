@@ -37,7 +37,9 @@ void JsonLevelReader::ReadFile(std::vector<LevelInfo>& levels) const
 			const rapidjson::Value& gridSize = layer["GridSize"];
 			const rapidjson::Value& blockTexActive = layer["BlockTexActive"];
 			const rapidjson::Value& blockTexInActive = layer["BlockTexInActive"];
+			const rapidjson::Value& blockTexInBetween = layer["BlockTexInBetween"];
 			const rapidjson::Value& canRevert = layer["CanRevert"];
+			const rapidjson::Value& needsDoubleTouch = layer["NeedsDoubleTouch"];
 
 			LevelInfo level;
 			level.levelNo = { levelNo.GetInt() };
@@ -45,13 +47,17 @@ void JsonLevelReader::ReadFile(std::vector<LevelInfo>& levels) const
 			level.offset = { offset[0].GetInt(),offset[1].GetInt() };
 			level.blockSize = { blockSize[0].GetInt(),blockSize[1].GetInt() };
 			level.activeTex = blockTexActive.GetString();
+			level.InBetweenTex = blockTexInBetween.GetString();
 			level.canRevert = canRevert.GetBool();
+			level.needsDoubleTouch = needsDoubleTouch.GetBool();
 			level.inActiveTex = blockTexInActive.GetString();
 			level.posFix = { posfix[0].GetInt(),posfix[1].GetInt(),posfix[2].GetInt() };
 			levels.push_back(level);
 
 		}
         fclose(pIFile);
+		delete buffer;
 	}
+	delete pIFile;
 
 }

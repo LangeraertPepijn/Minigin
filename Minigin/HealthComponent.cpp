@@ -27,12 +27,12 @@ void HealthComponent::Damage(const int damageAmount)
 	{
 		if (m_Subject.lock()!=nullptr)
 		{
-			m_Subject.lock()->Notify(Event::Damaged);
+			m_Subject.lock()->Notify(Event{ int(Event::Events::Damaged) });
 		}
 		else
 		{
 			m_Subject = m_pParent.lock()->GetComponent<SubjectComponent>();
-			m_Subject.lock()->Notify(Event::Damaged);
+			m_Subject.lock()->Notify(Event{ int(Event::Events::Damaged) });
 			
 		}
 	}
@@ -40,12 +40,12 @@ void HealthComponent::Damage(const int damageAmount)
 	{
 		if (m_Subject.lock() != nullptr)
 		{
-			m_Subject.lock()->Notify(Event::Died);
+			m_Subject.lock()->Notify(Event{ int(Event::Events::Died) });
 		}
 		else
 		{
 			m_Subject = m_pParent.lock()->GetComponent<SubjectComponent>();
-			m_Subject.lock()->Notify(Event::Died);
+			m_Subject.lock()->Notify(Event{ int(Event::Events::Died) });
 
 		}
 

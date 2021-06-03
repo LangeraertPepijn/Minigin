@@ -1,8 +1,12 @@
 ﻿#pragma once
 
-enum class Event : int
+struct Event
 {
-	Scored,
-	Damaged,
-	Died
+	enum class Events: int
+	{
+		Scored,
+		Damaged,
+		Died
+	};
+	int CurrentEvent;
 };

@@ -11,14 +11,14 @@ class Move : public Command
 {
 
 public:
-	Move(std::shared_ptr<GameObject> qbert, const glm::ivec3& step, glm::vec3 posFix);
+	Move(std::shared_ptr<GameObject> qbert, glm::vec3 posFix);
 	virtual ~Move();
 	virtual void Execute()override;
 
 private:
 	std::shared_ptr<TextureComponent> m_Qbert;
 	std::shared_ptr<GridComponent> m_QbertGrid;
-	glm::ivec3 m_Step;
+	glm::ivec3 m_Step={0,0,0};
 	glm::vec3 m_PosFix;
 };
 

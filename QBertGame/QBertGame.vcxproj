@@ -219,6 +219,7 @@ xcopy "$(SolutionDir)Resources" "$(OutputPath)\Resources" /R /Y /E /I </Command>
     <ClInclude Include="JsonLevelReader.h" />
     <ClInclude Include="LevelInfo.h" />
     <ClInclude Include="QbertCommands.h" />
+    <ClInclude Include="QbertEvents.h" />
     <ClInclude Include="QBertGameApplication.h" />
     <ClInclude Include="QbertMovement.h" />
     <ClInclude Include="QbertObserver.h" />

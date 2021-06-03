@@ -68,5 +68,8 @@
     <ClInclude Include="QbertObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QbertEvents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,7 +9,9 @@
         "GridSize": [6, 6],
         "BlockTexActive": "Cube2.png",
         "BlockTexInActive": "Cube1.png",
-        "CanRevert":  false
+        "BlockTexInBetween": "Cube3.png",
+        "CanRevert":  false,
+        "NeedsDoubleTouch":  false
       },
       {
         "LevelNo": 1,
@@ -19,7 +21,9 @@
         "GridSize": [6, 6],
         "BlockTexActive": "Cube1.png",
         "BlockTexInActive": "Cube2.png",
-        "CanRevert":  false
+        "BlockTexInBetween": "Cube3.png",
+        "CanRevert":  false,
+        "NeedsDoubleTouch":  true
       },
       {
         "LevelNo": 2,
@@ -29,7 +33,9 @@
         "GridSize": [6, 6],
         "BlockTexActive": "Cube2.png",
         "BlockTexInActive": "Cube1.png",
-        "CanRevert":  true
+        "BlockTexInBetween": "Cube3.png",
+        "CanRevert":  true,
+        "NeedsDoubleTouch":  false
       }
     ]
   }
