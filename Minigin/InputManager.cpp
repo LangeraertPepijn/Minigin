@@ -39,8 +39,8 @@ bool InputManager::ProcessInput()
 		{
 			if(state[keyCommand.first])
 			{
-                if (keyCommand.second->commandReleased)
-                    keyCommand.second->commandReleased->Execute();
+                if (keyCommand.second->commandHeld)
+                    keyCommand.second->commandHeld->Execute();
 			}
 		}
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
@@ -125,7 +125,6 @@ void InputManager::AddCommand(ControllerButton button, ExecuteType type, std::sh
         temp->commandPressed = command;
     else if (type == ExecuteType::Released)
         temp->commandReleased = command;
-    m_CommandsController[button]=temp;
     m_IsPresseds[button] = false;
 }
 

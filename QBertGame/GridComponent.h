@@ -12,10 +12,11 @@ public:
 
 
 
-	GridComponent(std::weak_ptr<GameObject> parent,int gridCount,const glm::vec2& gridSize, const glm::ivec2& gridLoc,const glm::vec2& offset);
+	GridComponent(std::weak_ptr<GameObject> parent, const glm::ivec2& gridCount,const glm::vec2& gridSize, const glm::ivec2& gridLoc,const glm::vec2& offset);
 
 	glm::ivec2 GetGridLocation();
 	void CalcGridLocation();
+	int GetIndex();
 	glm::vec3 CalcGridPos();
 	glm::vec3 UpdatePos(const glm::ivec2& translation);
 	virtual ~GridComponent() = default;
@@ -26,7 +27,7 @@ public:
 private:
 	
 	glm::ivec2 m_GridCord;
-	int m_GridCount;
+	glm::ivec2 m_GridCount;
 	glm::vec2 m_GridSize;
 	glm::vec2 m_Offset;
 	glm::vec3 m_Pos;

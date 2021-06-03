@@ -40,7 +40,7 @@ void Minigin::Initialize()
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
-
+	m_Quit = new bool{};
 	Renderer::GetInstance().Init(m_Window);
 }
 
@@ -197,7 +197,7 @@ void Minigin::Cleanup()
 {
 	UserCleanUp();
 	Renderer::GetInstance().Destroy();
-
+	delete m_Quit;
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();
@@ -210,7 +210,7 @@ void Minigin::Run()
 
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("Resources/");
-	bool* quit{ new bool{} };
+
 	//InputManager::GetInstance().AddCommand(SDL_SCANCODE_0, ExecuteType::Released, std::make_shared<QuitCommand>(quit));
 
 	LoadGame();
@@ -224,11 +224,11 @@ void Minigin::Run()
 
 		bool doContinue = true;
 
-		while (doContinue&&!*quit)
+		while (doContinue&&!*m_Quit)
 		{
 			const auto currentTime = high_resolution_clock::now();
 			float deltaTime = duration<float>(currentTime - lastTime).count();
-
+			UserUpdate(deltaTime);
 			lastTime = currentTime;
 			doContinue = input.ProcessInput();
 			sceneManager.Update(deltaTime);
@@ -239,7 +239,7 @@ void Minigin::Run()
 			//this_thread::sleep_for(sleepTime);
 		}
 	}
-	delete quit;
+
 
 	Cleanup();
 }
@@ -248,7 +248,16 @@ void Minigin::UserLoadGame() const
 {
 }
 
+void Minigin::UserUpdate(float)
+{
+}
+
 void Minigin::UserCleanUp()
 {
+}
+
+void Minigin::Quit()
+{
+	*m_Quit=true;
 }
 

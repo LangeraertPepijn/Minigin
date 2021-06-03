@@ -3,7 +3,7 @@
 #include "GridComponent.h"
 #include "TextureComponent.h"
 #include "TransformComponent.h"
-
+#include "BlockManager.h"
 
 
 MoveRightDown::MoveRightDown(std::shared_ptr<GameObject> qbert, glm::vec3 posFix)
@@ -21,6 +21,7 @@ void MoveRightDown::Execute()
 {
 	auto temp = m_QbertGrid->UpdatePos(m_Step);
 	m_Qbert->Translate(temp+m_PosFix);
+	BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex());
 	
 }
 
@@ -39,6 +40,7 @@ void MoveLeftDown::Execute()
 {
 	auto temp = m_QbertGrid->UpdatePos(m_Step);
 	m_Qbert->Translate(temp + m_PosFix);
+	BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex());
 
 }
 
@@ -58,6 +60,7 @@ void MoveLeftUp::Execute()
 {
 	auto temp = m_QbertGrid->UpdatePos(m_Step);
 	m_Qbert->Translate(temp + m_PosFix);
+	BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex());
 
 }
 
@@ -76,6 +79,8 @@ void MoveRightUp::Execute()
 {
 	auto temp = m_QbertGrid->UpdatePos(m_Step);
 	m_Qbert->Translate(temp + m_PosFix);
+	BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex());
+
 
 }
 

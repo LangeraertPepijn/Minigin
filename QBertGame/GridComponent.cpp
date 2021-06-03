@@ -6,7 +6,7 @@ void GridComponent::Update(float)
 }
 
 
-GridComponent::GridComponent(std::weak_ptr<GameObject> parent, int gridCount, const glm::vec2& gridSize, const glm::ivec2& gridLoc,
+GridComponent::GridComponent(std::weak_ptr<GameObject> parent, const glm::ivec2& gridCount, const glm::vec2& gridSize, const glm::ivec2& gridLoc,
 	const glm::vec2& offset)
 	: BaseComponent(parent)
 	, m_GridSize(gridSize)
@@ -25,8 +25,18 @@ glm::ivec2 GridComponent::GetGridLocation()
 glm::vec3 GridComponent::UpdatePos(const glm::ivec2& translation)
 {
 	m_GridCord += translation;
+	//cap to play field
+	if (m_GridCord.x > m_GridCord.y||m_GridCord.x<0||m_GridCord.y<0|| m_GridCord.x>m_GridCount.x || m_GridCord.y>m_GridCount.y)
+		m_GridCord = { 0,0 };
 	return CalcGridPos();
 }
+
+int GridComponent::GetIndex()
+{
+
+	return int(m_GridCord.x * m_GridCount.x + m_GridCord.y);
+}
+
 glm::vec3 GridComponent::CalcGridPos()
 {
 

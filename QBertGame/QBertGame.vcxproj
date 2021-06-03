@@ -216,6 +216,7 @@ xcopy "$(SolutionDir)Resources" "$(OutputPath)\Resources" /R /Y /E /I </Command>
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="QbertCommands.h" />
     <ClInclude Include="QBertGameApplication.h" />
+    <ClInclude Include="QbertMovement.h" />
     <ClInclude Include="QBertPCH.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,5 +1,5 @@
-#pragma once
 #include "MiniginPCH.h"
+#pragma once
 #include "Command.h"
 
 #include "HealthComponent.h"
