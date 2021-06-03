@@ -10,14 +10,16 @@ bool InputManager::ProcessInput()
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN)
+		if (e.type == SDL_KEYDOWN&&e.key.repeat==0)
         {
             for (auto keyCommand : m_CommandsKeyBoard)
             {
                 if (e.key.keysym.scancode == keyCommand.first)
                 {
                     if (keyCommand.second->commandPressed)
+                    {
                         keyCommand.second->commandPressed->Execute();
+                    }
                 }
 
             }

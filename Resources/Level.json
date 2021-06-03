@@ -1,0 +1,32 @@
+
+  {
+    "Levels": [
+      {
+        "LevelNo": 0,
+        "Offset": [288, 40],
+        "BlockSize": [64, 45],
+        "PosFix": [20, -10, 0],
+        "GridSize": [6, 6],
+        "BlockTexActive": "Cube2.png",
+        "BlockTexInActive": "Cube1.png"
+      },
+      {
+        "LevelNo": 1,
+        "Offset": [288, 40],
+        "BlockSize": [64, 45],
+        "PosFix": [20, -10, 0],
+        "GridSize": [6, 6],
+        "BlockTexActive": "Cube1.png",
+        "BlockTexInActive": "Cube2.png"
+      },
+      {
+        "LevelNo": 2,
+        "Offset": [288, 40],
+        "BlockSize": [64, 45],
+        "PosFix": [20, -10, 0],
+        "GridSize": [6, 6],
+        "BlockTexActive": "Cube2.png",
+        "BlockTexInActive": "Cube1.png"
+      }
+    ]
+  }
