@@ -41,20 +41,24 @@ void Renderer::Render()
 	SDL_RenderClear(m_Renderer);
 
 	SceneManager::GetInstance().Render();
-	HudManager::GetInstance().Render();
 
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_pWindow);
 	ImGui::NewFrame();
+	if (m_ShowDemo)
+		ImGui::ShowDemoWindow(&m_ShowDemo);
+	
+	ImGui::Begin("Controls");
 	ImGui::Text("player1: press 1 to damage press 2  to score\n");
 	ImGui::Text("player2: press 3 to damage press 4  to score\n");
 	ImGui::Button("SinglePlayer");
 	ImGui::Button("Co-Op");
 	ImGui::Button("Versus");
-	if (m_ShowDemo)
-		ImGui::ShowDemoWindow(&m_ShowDemo);
+	ImGui::End();
+
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	HudManager::GetInstance().Render();
 	SDL_RenderPresent(m_Renderer);
 }
 

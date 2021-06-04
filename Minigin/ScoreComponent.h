@@ -13,6 +13,7 @@ public:
 	//virtual void Render()  override;
 
 	int GetScore()const;
+	void SetParent(std::weak_ptr<GameObject> parent);
 	void SetScore(int score);
 	void IncreaseScore(int diff);
 	void DecreaseScore(int diff);

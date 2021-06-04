@@ -14,6 +14,7 @@ public:
 	void Damage(const int damageAmount);
 	int GetHealth()const;
 	void Heal(const int healAmount);
+	void SetParent(std::weak_ptr<GameObject> parent);
 	virtual ~HealthComponent() = default;
 	HealthComponent(const HealthComponent& other) = delete;
 	HealthComponent(HealthComponent&& other) = delete;

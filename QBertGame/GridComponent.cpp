@@ -39,7 +39,7 @@ glm::vec3 GridComponent::UpdatePos(const glm::ivec2& translation)
 {
 	if (!m_pHealth.expired())
 		if (m_pHealth.lock()->GetHealth() <= 0)
-			return {20,10,0};
+			return {20,10,-1};
 	
 	m_GridCord += translation;
 	//cap to play field
@@ -51,7 +51,7 @@ glm::vec3 GridComponent::UpdatePos(const glm::ivec2& translation)
 		if(!m_pHealth.expired())
 		{
 			m_pHealth.lock()->Damage(1);
-			if (m_pHealth.lock()->GetHealth() <= 0)
+			if (m_pHealth.lock()->GetHealth() <= 1)
 				return pos;
 		}
 		

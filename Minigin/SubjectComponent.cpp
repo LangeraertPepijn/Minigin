@@ -10,6 +10,11 @@ void SubjectComponent::Update(float)
 {
 }
 
+void SubjectComponent::SetParent(std::weak_ptr<GameObject> parent)
+{
+	m_pParent = parent;
+}
+
 void SubjectComponent::AddObserver(const std::weak_ptr<ObserverComponent> observer)
 {
 	m_Observers.push_back(observer);

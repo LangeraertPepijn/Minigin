@@ -16,6 +16,11 @@ int ScoreComponent::GetScore() const
 	return m_Score;
 }
 
+void ScoreComponent::SetParent(std::weak_ptr<GameObject> parent)
+{
+	m_pParent = parent;
+}
+
 void ScoreComponent::SetScore(int score)
 {
 	m_Score = score;

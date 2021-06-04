@@ -6,12 +6,12 @@ class Minigin
 {
 public:
 	void Initialize();
-	void LoadGame() const;
+	void LoadGame();
 	void Cleanup();
 	void Run();
 protected:
 	void virtual UserInitialize();
- 	void virtual UserLoadGame()const;
+ 	void virtual UserLoadGame();
  	void virtual UserUpdate(float);
 	void virtual UserCleanUp();
 	void Quit();

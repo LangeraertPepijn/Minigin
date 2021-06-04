@@ -8,8 +8,8 @@ class SceneManager final : public Singleton<SceneManager>
 public:
 	Scene& CreateScene(const std::string& name);
 	void SetActiveScene(std::shared_ptr<Scene>scene);
-	void SetActiveScene(int index);
-	int GetActiveSceneIndex();
+	std::shared_ptr<Scene> GetAcitveScene()const;
+	void RemoveScene(std::shared_ptr<Scene>scene);
 	void Update(float deltaTime);
 	void Render();
 private:
@@ -17,6 +17,5 @@ private:
 	SceneManager() = default;
 	std::vector<std::shared_ptr<Scene>> m_Scenes;
 	std::shared_ptr<Scene> m_ActiveScene;
-	int ActiveSceneIndex=-1;
 };
 

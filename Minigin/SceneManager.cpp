@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "SceneManager.h"
 #include "Scene.h"
-
+#include <algorithm>
 void SceneManager::Update(float deltaTime)
 {
 	if(m_ActiveScene)
@@ -35,27 +35,20 @@ void SceneManager::SetActiveScene(std::shared_ptr<Scene> scene)
 	m_ActiveScene = scene;
 }
 
-void SceneManager::SetActiveScene(int index)
+std::shared_ptr<Scene> SceneManager::GetAcitveScene() const
 {
-	if (index < 0)
-		return;
-	if (index < m_Scenes.size())
-		m_ActiveScene = m_Scenes[index];
-	else
-		m_ActiveScene = m_Scenes[index% m_Scenes.size()];
-
+	return m_ActiveScene;
 }
 
-int SceneManager::GetActiveSceneIndex()
+void SceneManager::RemoveScene(std::shared_ptr<Scene> scene)
 {
-	int i = -1;
-	const auto scene = std::find_if(m_Scenes.begin(), m_Scenes.end(),  [this,i](std::shared_ptr<Scene> scene)mutable
-		{
-			i++;
-			return (m_ActiveScene==scene);
-
-		});
-	if (scene == m_Scenes.end())
-		return -1;
-	return i;
+	std::_Erase_remove_if(m_Scenes, [scene](std::shared_ptr<Scene>OtherScene) {return scene == OtherScene; });
+	if (m_ActiveScene == scene)
+		m_ActiveScene = nullptr;
 }
+
+
+
+
+
+

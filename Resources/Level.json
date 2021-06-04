@@ -15,7 +15,7 @@
       },
       {
         "LevelNo": 1,
-        "Offset": [288, 40],
+        "Offset": [250, 40],
         "BlockSize": [64, 45],
         "PosFix": [20, -10, 0],
         "GridSize": [6, 6],

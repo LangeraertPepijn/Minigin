@@ -65,3 +65,8 @@ void HealthComponent::Heal(const int healAmount)
 	}
 	m_Health += healAmount;
 }
+
+void HealthComponent::SetParent(std::weak_ptr<GameObject> parent)
+{
+	m_pParent = parent;
+}

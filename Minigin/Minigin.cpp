@@ -48,7 +48,7 @@ void Minigin::Initialize()
 /**
  * Code constructing the scene world starts here
  */
-void Minigin::LoadGame() const
+void Minigin::LoadGame() 
 {
 
 	UserLoadGame();
@@ -249,7 +249,7 @@ void Minigin::UserInitialize()
 {
 }
 
-void Minigin::UserLoadGame() const
+void Minigin::UserLoadGame()
 {
 }
 

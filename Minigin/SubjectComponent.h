@@ -14,7 +14,7 @@ public:
 	SubjectComponent& operator=(SubjectComponent&& other) = delete;
 
 	virtual void Update(float)override;
-	
+	void SetParent(std::weak_ptr<GameObject> parent);
 	void AddObserver(const std::weak_ptr<ObserverComponent> observer);
 	void RemoveObserver(const std::weak_ptr<ObserverComponent> observer);
 	void Notify(Event event);
