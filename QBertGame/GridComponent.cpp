@@ -19,9 +19,14 @@ GridComponent::GridComponent(std::weak_ptr<GameObject> parent, const glm::ivec2&
 {
 }
 
-glm::ivec2 GridComponent::GetGridLocation()
+glm::ivec2 GridComponent::GetGridLocation()const
 {
 	return m_GridCord;
+}
+
+void GridComponent::ResetGridLocation()
+{
+	m_GridCord = m_InitialGridCord;
 }
 
 void GridComponent::AddHealthComp(std::weak_ptr<HealthComponent> health)
@@ -60,7 +65,7 @@ glm::vec3 GridComponent::UpdatePos(const glm::ivec2& translation)
 	return CalcGridPos();
 }
 
-int GridComponent::GetIndex()
+int GridComponent::GetIndex()const
 {
 
 	return int(m_GridCord.x * m_GridCount.x + m_GridCord.y);

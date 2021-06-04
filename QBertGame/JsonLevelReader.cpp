@@ -1,9 +1,8 @@
 #include "QBertPCH.h"
 #include "JsonLevelReader.h"
-#include "filereadstream.h"
-#include "document.h"
 #include "LevelInfo.h"
-
+#include "fstream"
+#include "nlohmann/json.hpp"
 JsonLevelReader::JsonLevelReader(const std::string& file)
 	: m_File(file)
 {
@@ -12,52 +11,27 @@ JsonLevelReader::JsonLevelReader(const std::string& file)
 void JsonLevelReader::ReadFile(std::vector<LevelInfo>& levels) const
 {
 	
-	FILE* pIFile = nullptr;
-	fopen_s(&pIFile, m_File.c_str(), "rb");
-	if (pIFile != nullptr)
+	std::ifstream fStream{m_File} ;
+	nlohmann::json json;
+	fStream >> json;
+	for (auto jLevel : json["Levels"])
 	{
-		fseek(pIFile, 0, SEEK_END);
-		size_t size = ftell(pIFile);
-		fseek(pIFile, 0, SEEK_SET);
+		LevelInfo level;
+		level.levelNo =  jLevel["LevelNo"] ;
+		level.gridSize = { jLevel["GridSize"][0], jLevel["GridSize"][1] };
+		level.offset = { jLevel["Offset"][0], jLevel["Offset"][1] };
+		level.blockSize = { jLevel["BlockSize"][0], jLevel["BlockSize"][1] };
+		level.activeTex =  jLevel["BlockTexActive"] ;
+		level.InBetweenTex = jLevel["BlockTexInBetween"];
+		level.inActiveTex = jLevel["BlockTexInActive"];
+		level.canRevert = jLevel["CanRevert"];
+		level.needsDoubleTouch = jLevel["NeedsDoubleTouch"];
+		level.posFix = { jLevel["PosFix"][0],jLevel["PosFix"][1],jLevel["PosFix"][2] };
+		levels.push_back(level);
 
-		char* buffer = new char[size];
-
-		rapidjson::FileReadStream stream(pIFile, buffer, size);
-		rapidjson::Document doc;
-		doc.ParseStream(stream);
-	
-		const rapidjson::Value& fileLevels = doc["Levels"];
-		for (auto layerIt = fileLevels.Begin();  layerIt != fileLevels.End(); ++layerIt)
-		{
-			const rapidjson::Value& layer = *layerIt;
-			const rapidjson::Value& offset = layer["Offset"];
-			const rapidjson::Value& levelNo = layer["LevelNo"];
-			const rapidjson::Value& blockSize = layer["BlockSize"];
-			const rapidjson::Value& posfix = layer["PosFix"];
-			const rapidjson::Value& gridSize = layer["GridSize"];
-			const rapidjson::Value& blockTexActive = layer["BlockTexActive"];
-			const rapidjson::Value& blockTexInActive = layer["BlockTexInActive"];
-			const rapidjson::Value& blockTexInBetween = layer["BlockTexInBetween"];
-			const rapidjson::Value& canRevert = layer["CanRevert"];
-			const rapidjson::Value& needsDoubleTouch = layer["NeedsDoubleTouch"];
-
-			LevelInfo level;
-			level.levelNo = { levelNo.GetInt() };
-			level.gridSize = { gridSize[0].GetInt(),gridSize[1].GetInt() };
-			level.offset = { offset[0].GetInt(),offset[1].GetInt() };
-			level.blockSize = { blockSize[0].GetInt(),blockSize[1].GetInt() };
-			level.activeTex = blockTexActive.GetString();
-			level.InBetweenTex = blockTexInBetween.GetString();
-			level.canRevert = canRevert.GetBool();
-			level.needsDoubleTouch = needsDoubleTouch.GetBool();
-			level.inActiveTex = blockTexInActive.GetString();
-			level.posFix = { posfix[0].GetInt(),posfix[1].GetInt(),posfix[2].GetInt() };
-			levels.push_back(level);
-
-		}
-        fclose(pIFile);
-		delete buffer;
 	}
-	delete pIFile;
+	
+
+
 
 }

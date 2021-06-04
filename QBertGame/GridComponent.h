@@ -16,10 +16,11 @@ public:
 
 	GridComponent(std::weak_ptr<GameObject> parent, const glm::ivec2& gridCount,const glm::vec2& gridSize, const glm::ivec2& gridLoc,const glm::vec2& offset);
 
-	glm::ivec2 GetGridLocation();
+	glm::ivec2 GetGridLocation()const;
+	void ResetGridLocation();
 	void AddHealthComp(std::weak_ptr<HealthComponent>health);
 	void AddScoreComp(std::weak_ptr<ScoreComponent>score);
-	int GetIndex();
+	int GetIndex()const;
 	void IncreaseScore();
 	glm::vec3 CalcGridPos();
 	glm::vec3 UpdatePos(const glm::ivec2& translation);

@@ -1,5 +1,4 @@
 #pragma once
-#include "rapidjson.h"
 #include"LevelInfo.h"
 
 class JsonLevelReader

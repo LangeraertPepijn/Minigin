@@ -21,6 +21,7 @@ private:
 	BlockManager() = default;
 	std::map<int,std::shared_ptr<TextureComponent>> m_Blocks;
 	std::map<int,int> m_BlockChanged;
+	size_t m_BlocksChanged=0;
 	bool m_CanRevert=false;
 	bool m_NeedsDoubleTouch=false;
 	std::string m_TexActive;

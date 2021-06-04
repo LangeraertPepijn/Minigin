@@ -17,22 +17,23 @@ bool BlockManager::ChangeBlock(int index)
 		if (!(m_CanRevert && m_BlockChanged[index] % 2 == 1))
 		{
 			
-			m_BlockChanged[index]++;
+			
 			if (!m_NeedsDoubleTouch)
 			{
 
-				m_Blocks[index]->SetTexture(m_TexActive);
-				const auto changed = std::find_if(m_BlockChanged.begin(), m_BlockChanged.end(), [this](std::pair<int, int> isChanged)
-					{
-						return isChanged.second<1;
-					});
-				if (changed == m_BlockChanged.end())
-					*m_LevelDone = true;
+				if (m_BlockChanged[index] == 0)
+				{
+					m_BlockChanged[index]++;
+					m_Blocks[index]->SetTexture(m_TexActive);
+					++m_BlocksChanged;
+					if (m_BlocksChanged == m_Blocks.size())
+						*m_LevelDone = true;
+				}
 				return m_BlockChanged[index] == 1;
 			}
-			else if(m_BlockChanged[index] == 1)
+			else if(m_BlockChanged[index] == 0)
 			{
-				
+				m_BlockChanged[index]++;
 				m_Blocks[index]->SetTexture(m_TexInBetween);
 				
 				return true;
@@ -40,13 +41,14 @@ bool BlockManager::ChangeBlock(int index)
 			}
 			else
 			{
-				m_Blocks[index]->SetTexture(m_TexActive);
-				const auto changed = std::find_if(m_BlockChanged.begin(), m_BlockChanged.end(), [this](std::pair<int, int> isChanged)
-					{
-						return 1>= isChanged.second;
-					});
-				if (changed == m_BlockChanged.end())
-					*m_LevelDone = true;
+				if (m_BlockChanged[index] == 1)
+				{
+					m_BlockChanged[index]++;
+					m_Blocks[index]->SetTexture(m_TexActive);
+					m_BlocksChanged++;
+					if (m_BlocksChanged == m_Blocks.size())
+						*m_LevelDone = true;
+				}
 				return m_BlockChanged[index] == 2;
 			}
 
@@ -54,6 +56,8 @@ bool BlockManager::ChangeBlock(int index)
 		else
 		{
 			m_Blocks[index]->SetTexture(m_TexInActive);
+			if (m_BlockChanged[index] == 1)
+				--m_BlocksChanged;
 			m_BlockChanged[index] = m_BlockChanged[index]--;
 		}
 
@@ -96,4 +100,5 @@ void BlockManager::Clear()
 {
 	m_BlockChanged.clear();
 	m_Blocks.clear();
+	m_BlocksChanged = 0;
 }

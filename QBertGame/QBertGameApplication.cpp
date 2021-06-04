@@ -23,6 +23,7 @@
 #include "ScoreComponent.h"
 void QBertGameApplication::LoadNextLevel()
 {
+
 	m_CurrentLevel++;
 	if (m_CurrentLevel >= m_Levels.size())
 	{
@@ -45,9 +46,14 @@ void QBertGameApplication::LoadNextLevel()
 	BlockManager::GetInstance().SetInActiveTex(m_Levels[m_CurrentLevel].inActiveTex);
 	BlockManager::GetInstance().SetInBetweenTex(m_Levels[m_CurrentLevel].InBetweenTex);
 	CreateBlocks(scene, m_Levels[m_CurrentLevel].inActiveTex, m_Levels[m_CurrentLevel].blockSize, m_Levels[m_CurrentLevel].gridSize, m_Levels[m_CurrentLevel].offset);
-	CreateQBert(scene, m_Levels[m_CurrentLevel].gridSize, m_Levels[m_CurrentLevel].blockSize, m_Levels[m_CurrentLevel].posFix, m_Levels[m_CurrentLevel].offset, QBertMovement{}, glm::ivec2{ 6,6 });
-	QBertMovement movement{ SDL_SCANCODE_X,SDL_SCANCODE_V,SDL_SCANCODE_W,SDL_SCANCODE_R };
-	CreateQBert(scene, m_Levels[m_CurrentLevel].gridSize, m_Levels[m_CurrentLevel].blockSize, m_Levels[m_CurrentLevel].posFix, m_Levels[m_CurrentLevel].offset, movement, glm::ivec2{ 0,6 });
+	//CreateQBert(scene, m_Levels[m_CurrentLevel].gridSize, m_Levels[m_CurrentLevel].blockSize, m_Levels[m_CurrentLevel].posFix, m_Levels[m_CurrentLevel].offset, QBertMovement{}, glm::ivec2{ 6,6 });
+	//QBertMovement movement{ SDL_SCANCODE_X,SDL_SCANCODE_V,SDL_SCANCODE_W,SDL_SCANCODE_R };
+	//CreateQBert(scene, m_Levels[m_CurrentLevel].gridSize, m_Levels[m_CurrentLevel].blockSize, m_Levels[m_CurrentLevel].posFix, m_Levels[m_CurrentLevel].offset, movement, glm::ivec2{ 0,6 });
+	auto gridComp = m_QBert1->GetComponent<GridComponent>();
+	gridComp->ResetGridLocation();
+	auto pos =gridComp->CalcGridPos();
+	m_QBert1->GetComponent<TextureComponent>()->Translate(pos+m_Levels[m_CurrentLevel].posFix);
+	scene.Add(m_QBert1);
 }
 
 void QBertGameApplication::UserInitialize()
@@ -57,8 +63,8 @@ void QBertGameApplication::UserInitialize()
 
 void QBertGameApplication::UserLoadGame()
 {
-	JsonLevelReader tet{ "Resources/Level.json" };
-	tet.ReadFile(m_Levels);
+	JsonLevelReader jsonReader{ "Resources/Level.json" };
+	jsonReader.ReadFile(m_Levels);
 	BlockManager::GetInstance().LinkLevelDone(m_LevelIsDone);
 
 	auto& scene = SceneManager::GetInstance().CreateScene("QbertScene" + std::to_string(m_Levels[m_CurrentLevel].levelNo));
@@ -75,14 +81,14 @@ void QBertGameApplication::UserLoadGame()
 	//CreateQBert(scene, m_Levels[0].gridSize, m_Levels[0].blockSize, m_Levels[0].posFix, m_Levels[0].offset, QBertMovement{}, glm::ivec2{ 6,6 });
 
 	QBertMovement movement{ SDL_SCANCODE_X,SDL_SCANCODE_V,SDL_SCANCODE_W,SDL_SCANCODE_R };
-	auto qbert=CreateQBert(scene, m_Levels[m_CurrentLevel].gridSize, m_Levels[m_CurrentLevel].blockSize, m_Levels[m_CurrentLevel].posFix, m_Levels[m_CurrentLevel].offset, movement, glm::ivec2{ 0,6 });
-	m_SubjectComponent = std::make_shared <SubjectComponent>(qbert);
-	m_HealthComponent = std::make_shared <HealthComponent>(qbert, 3);
-	m_ScoreComponent = std::make_shared <ScoreComponent>(qbert);
+	m_QBert1=CreateQBert(scene, m_Levels[m_CurrentLevel].gridSize, m_Levels[m_CurrentLevel].blockSize, m_Levels[m_CurrentLevel].posFix, m_Levels[m_CurrentLevel].offset, movement, glm::ivec2{ 0,6 });
+	
+	
 
-	qbert->AddComponent(m_ScoreComponent);
-	qbert->AddComponent(m_SubjectComponent);
-	qbert->AddComponent(m_HealthComponent);
+	auto subjComp = std::make_shared <SubjectComponent>(m_QBert1);
+	m_QBert1->AddComponent(subjComp);
+	m_QBert1->AddComponent(std::make_shared <HealthComponent>(m_QBert1, 3));
+	m_QBert1->AddComponent(std::make_shared <ScoreComponent>(m_QBert1));
 
 	auto hud = HudManager::GetInstance().CreateHud();
 
@@ -93,7 +99,7 @@ void QBertGameApplication::UserLoadGame()
 	auto healthp1 = std::make_shared <TextComponent>(go2, " health p1", font, glm::tvec3<uint8_t> { 255, 255, 0 }, glm::vec3(100.f, 25.f, 0.f));
 	go2->AddComponent(healthp1);
 	auto observer1 = std::make_shared <ObserverComponent>(go2, std::make_shared<QbertObserver>());
-	m_SubjectComponent->AddObserver(observer1);
+	subjComp->AddObserver(observer1);
 	go2->AddComponent(observer1);
 
 	hud->AddComponent(std::make_shared<HudRenderComponent>(hud));
@@ -193,4 +199,23 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateQBert(Scene& scene,const
 	InputManager::GetInstance().AddCommand(movement.LeftUpKeyGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftUp>(qbert, posFix));
 
 	return qbert;
+}
+
+std::shared_ptr<GameObject> QBertGameApplication::CreateCoily(Scene& scene, const glm::vec2& gridSize,
+	const glm::vec2& blockSize, const glm::vec3& posFix, const glm::vec2& offset, const glm::ivec2& gridLoc) const
+{
+	std::shared_ptr<GameObject> coily = std::make_shared<GameObject>();
+	coily = std::make_shared<GameObject>();
+
+	auto gridComp = std::make_shared <GridComponent>(coily, gridSize, blockSize, gridLoc, offset);
+	coily->AddComponent(gridComp);
+	auto pos = gridComp->CalcGridPos();
+	pos += posFix;
+	coily->AddComponent(std::make_shared <TextureComponent>(coily, "CoilyBall.png", pos));
+	coily->AddComponent(std::make_shared <RenderComponent>(coily));
+	const auto healthComp = std::make_shared<HealthComponent>(coily, 1);
+	coily->AddComponent(healthComp);
+	gridComp->AddHealthComp(healthComp);
+	scene.Add(coily);
+	return coily;
 }
