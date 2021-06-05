@@ -38,7 +38,7 @@ void CoilyMoveComponent::Reset()
 }
 
 CoilyMoveComponent::CoilyMoveComponent(std::weak_ptr<GameObject> parent, float moveSpeed, const glm::vec3& offset,
-                                       const glm::vec3& activeOffset,std::weak_ptr<GameObject> qbert, const std::string& inActiveTex, const std::string& activeTex, bool isControlled)
+                                       const glm::vec3& activeOffset,std::weak_ptr<GameObject> qbert1, std::weak_ptr<GameObject> qbert2, const std::string& inActiveTex, const std::string& activeTex, bool isControlled)
 	: BaseComponent(parent)
 	, m_MoveSpeed(moveSpeed)
 	, m_Offset(offset)
@@ -53,8 +53,16 @@ CoilyMoveComponent::CoilyMoveComponent(std::weak_ptr<GameObject> parent, float m
 
 	m_pTexture = parent.lock()->GetComponent<TextureComponent>();
 	m_pGrid = parent.lock()->GetComponent<GridComponent>();
-	m_pTarget = qbert.lock()->GetComponent<GridComponent>();
-	m_pTextureTarget = qbert.lock()->GetComponent<TextureComponent>();
+	if (qbert1.use_count())
+	{
+		m_pTargetQ1 = qbert1.lock()->GetComponent<GridComponent>();
+		m_pTextureTargetQ1 = qbert1.lock()->GetComponent<TextureComponent>();
+	}
+	if (qbert2.use_count())
+	{
+		m_pTargetQ2 = qbert2.lock()->GetComponent<GridComponent>();
+		m_pTextureTargetQ2 = qbert2.lock()->GetComponent<TextureComponent>();
+	}
 
 	m_Dirs.push_back({ 1,1 });
 	m_Dirs.push_back({ 0,1 });
@@ -67,12 +75,12 @@ void CoilyMoveComponent::Move(float dt)
 {
 	if(m_Moved)
 	{
-		auto target = m_pTarget.lock()->GetGridLocation();
+		auto target = m_pTargetQ1.lock()->GetGridLocation();
 		auto loc = m_pGrid.lock()->GetGridLocation();
 		if (target == loc)
 		{
-			auto temp = m_pTarget.lock()->GridTaken();
-			m_pTextureTarget.lock()->SetPosition(temp + m_Offset);
+			auto temp = m_pTargetQ1.lock()->GridTaken();
+			m_pTextureTargetQ1.lock()->SetPosition(temp + m_Offset);
 		}
 		m_Moved = false;
 	}
@@ -106,10 +114,21 @@ void CoilyMoveComponent::Move(float dt)
 		}
 		else
 		{
-			auto target =m_pTarget.lock()->GetGridLocation();
+			
+			auto target =m_pTargetQ1.lock()->GetGridLocation();
 			auto loc =m_pGrid.lock()->GetGridLocation();
 			glm::ivec2 dir;
 			auto diff = target-loc;
+			if(m_pTargetQ2.use_count())
+			{
+				auto target2 = m_pTargetQ2.lock()->GetGridLocation();
+				auto diff2 = target2 - loc;
+				if (abs(diff.x) + abs(diff.y) > abs(diff2.x) + abs(diff2.y))
+				{
+					target = target2;
+					diff = diff2;
+				}
+			}
 	
 			std::vector<int> costs;
 			int currentCost=1000;
@@ -146,8 +165,8 @@ void CoilyMoveComponent::Move(float dt)
 			dir = m_Dirs[currentCostId];
 			if (diff.x-dir.x==0&& diff.y - dir.y == 0)
 			{
-				auto temp =m_pTarget.lock()->GridTaken();
-				m_pTextureTarget.lock()->SetPosition(temp + m_Offset);
+				auto temp =m_pTargetQ1.lock()->GridTaken();
+				m_pTextureTargetQ1.lock()->SetPosition(temp + m_Offset);
 			}
 			auto pos = m_pGrid.lock()->UpdatePos(dir);
 			m_pTexture.lock()->SetPosition(pos + m_OffsetActive);

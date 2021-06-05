@@ -214,6 +214,8 @@ xcopy "$(SolutionDir)Resources" "$(OutputPath)\Resources" /R /Y /E /I </Command>
     <ClCompile Include="QbertHealthObserver.cpp" />
     <ClCompile Include="QbertObserver.cpp" />
     <ClCompile Include="QBertPCH.cpp" />
+    <ClCompile Include="SlicknSamMoveComponent.cpp" />
+    <ClCompile Include="UggMoveComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockManager.h" />
@@ -228,6 +230,8 @@ xcopy "$(SolutionDir)Resources" "$(OutputPath)\Resources" /R /Y /E /I </Command>
     <ClInclude Include="QbertHealthObserver.h" />
     <ClInclude Include="QbertObserver.h" />
     <ClInclude Include="QBertPCH.h" />
+    <ClInclude Include="SlicknSamMoveComponent.h" />
+    <ClInclude Include="UggMoveComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

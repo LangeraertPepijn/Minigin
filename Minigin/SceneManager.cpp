@@ -35,7 +35,7 @@ void SceneManager::SetActiveScene(std::shared_ptr<Scene> scene)
 	m_ActiveScene = scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetAcitveScene() const
+std::shared_ptr<Scene> SceneManager::GetActiveScene() const
 {
 	return m_ActiveScene;
 }

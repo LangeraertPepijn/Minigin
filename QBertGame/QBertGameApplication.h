@@ -25,6 +25,7 @@ private:
 	
 	std::shared_ptr<GameObject> m_pQBert1=nullptr;
 	std::shared_ptr<GameObject> m_pQBert2=nullptr;
+	std::shared_ptr<GameObject> m_pHudObj=nullptr;
 	std::shared_ptr<HudTextComponent> m_pHudScore=nullptr;
 	std::shared_ptr<HudTextComponent> m_pHudHealth=nullptr;
 
@@ -38,9 +39,10 @@ protected:
 	void UserLoadGame()  override;
 	void UserCleanUp() override;
 	void UserUpdate(float ) override;
-	void CreateBlocks(Scene& scene, const std::string& inActiveTex, const glm::vec2& blockSize, const glm::vec2& gridSize, const glm::vec2& offset)const;
-	std::shared_ptr<GameObject> CreateQBert(Scene& scene, const glm::vec2& gridSize, const glm::vec2& blockSize, const glm::vec3& posFix, const glm::vec2& offset, const CharacterMovement& movement, const glm::ivec2& gridLoc, int playerID)const;
-	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const glm::vec2& gridSize, const glm::vec2& blockSize, const glm::vec3& posFix, const glm::vec2& offset, const glm::ivec2& gridLoc)const;
-	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const glm::vec2& gridSize, const glm::vec2& blockSize, const glm::vec3& posFix, const glm::vec2& offset, const CharacterMovement& movement, const glm::ivec2& gridLoc)const;
+	void CreateBlocks(Scene& scene)const;
+	std::shared_ptr<GameObject> CreateQBert(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc, int playerID)const;
+	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const glm::ivec2& gridLoc)const;
+	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc)const;
+	std::shared_ptr<GameObject> CreateSlickOrSam(Scene& scene, const glm::ivec2& gridLoc,bool isSlick)const;
 };
 

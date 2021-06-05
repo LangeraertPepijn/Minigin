@@ -8,7 +8,7 @@ class SceneManager final : public Singleton<SceneManager>
 public:
 	Scene& CreateScene(const std::string& name);
 	void SetActiveScene(std::shared_ptr<Scene>scene);
-	std::shared_ptr<Scene> GetAcitveScene()const;
+	std::shared_ptr<Scene> GetActiveScene()const;
 	void RemoveScene(std::shared_ptr<Scene>scene);
 	void Update(float deltaTime);
 	void Render();

@@ -22,7 +22,7 @@ public:
 	void AddScoreComp(std::weak_ptr<ScoreComponent>score);
 	glm::vec3 GridTaken();
 	int GetIndex()const;
-	void IncreaseScore();
+	void IncreaseScore(int score);
 	bool CheckForDanger(const glm::ivec2 move);
 	glm::vec3 CalcGridPos();
 	glm::vec3 UpdatePos(const glm::ivec2& translation);

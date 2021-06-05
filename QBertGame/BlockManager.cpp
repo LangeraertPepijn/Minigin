@@ -57,8 +57,49 @@ bool BlockManager::ChangeBlock(int index)
 		{
 			m_Blocks[index]->SetTexture(m_TexInActive);
 			if (m_BlockChanged[index] == 1)
+			{
 				--m_BlocksChanged;
-			m_BlockChanged[index] = m_BlockChanged[index]--;
+				m_BlockChanged[index] = m_BlockChanged[index]--;
+			}
+		}
+
+
+	}
+	return false;
+}
+
+bool BlockManager::RevertBlock(int index)
+{
+	auto temp = m_Blocks.find(index);
+	if (temp != m_Blocks.end())
+	{
+		if (m_BlockChanged[index] == 0 )
+		{
+			return false;
+		}
+		else if(m_BlockChanged[index] == 1)
+		{
+			m_Blocks[index]->SetTexture(m_TexInActive);
+			if (m_BlockChanged[index] == 1)
+			{
+
+				--m_BlocksChanged;
+				m_BlockChanged[index] = m_BlockChanged[index]--;
+				return true;
+			}
+			
+		}
+		else if(m_NeedsDoubleTouch)
+		{
+			m_Blocks[index]->SetTexture(m_TexInBetween);
+			if (m_BlockChanged[index] == 2)
+			{
+				--m_BlocksChanged;
+				m_BlockChanged[index] = m_BlockChanged[index]--;
+				return true;
+				
+			}
+			
 		}
 
 

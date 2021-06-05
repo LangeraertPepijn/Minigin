@@ -45,7 +45,7 @@ void GridComponent::AddScoreComp(std::weak_ptr<ScoreComponent> score)
 
 glm::vec3 GridComponent::GridTaken()
 {
-	//m_GridCord = m_InitialGridCord;
+	m_GridCord = m_InitialGridCord;
 	auto pos = CalcGridPos();
 	if (!m_pHealth.expired())
 	{
@@ -92,10 +92,10 @@ int GridComponent::GetIndex()const
 	return int(m_GridCord.x * m_GridCount.x + m_GridCord.y);
 }
 
-void GridComponent::IncreaseScore()
+void GridComponent::IncreaseScore(int score)
 {
 	if (!m_pScore.expired())
-		m_pScore.lock()->IncreaseScore(25);
+		m_pScore.lock()->IncreaseScore(score);
 		
 }
 

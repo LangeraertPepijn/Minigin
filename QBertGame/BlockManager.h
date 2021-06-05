@@ -9,6 +9,7 @@ class BlockManager final : public Singleton<BlockManager>
 public:
 	void AddBlock(int index,std::shared_ptr<TextureComponent> block);
 	bool ChangeBlock(int index);
+	bool RevertBlock(int index);
 	void SetCanRevert(bool canRevert);
 	void SetNeedsDoubleTouch(bool needsDoubleTouch);
 	void SetActiveTex(const std::string& newTex);

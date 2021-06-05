@@ -50,7 +50,7 @@ void MoveRightDown::Execute()
 	if(temp.z>=0)
 	{
 		if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex()))
-			m_QbertGrid->IncreaseScore();
+			m_QbertGrid->IncreaseScore(25);
 		temp.z = 0;
 	}
 	m_Qbert->SetPosition(temp+m_PosFix);
@@ -74,7 +74,7 @@ void MoveLeftDown::Execute()
 	if (temp.z >= 0)
 	{
 		if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex()))
-			m_QbertGrid->IncreaseScore();
+			m_QbertGrid->IncreaseScore(25);
 		temp.z = 0;
 	}
 	m_Qbert->SetPosition(temp + m_PosFix);
@@ -99,7 +99,7 @@ void MoveLeftUp::Execute()
 	if (temp.z >= 0)
 	{
 		if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex()))
-			m_QbertGrid->IncreaseScore();
+			m_QbertGrid->IncreaseScore(25);
 		temp.z = 0;
 	}
 	m_Qbert->SetPosition(temp + m_PosFix);
@@ -122,7 +122,7 @@ void MoveRightUp::Execute()
 	if (temp.z >= 0)
 	{
 		if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex()))
-			m_QbertGrid->IncreaseScore();
+			m_QbertGrid->IncreaseScore(25);
 		
 		temp.z = 0;
 	}
