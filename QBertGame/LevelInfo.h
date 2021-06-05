@@ -12,4 +12,9 @@ struct LevelInfo
 	int levelNo = -1;
 	bool canRevert = false;
 	bool needsDoubleTouch = false;
+	bool hasCoily = false;
+	bool hasSlick = false;
+	bool hasSam = false;
+	bool hasWrongWay = false;
+	bool hasUgg = false;
 };

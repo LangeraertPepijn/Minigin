@@ -6,6 +6,11 @@
 
 void CoilyMoveComponent::Update(float dt)
 {
+	if (m_MoveTimer >= 1.f / m_MoveSpeed)
+	{
+		m_CanMove = true;
+		m_MoveTimer = 0;
+	}
 	Move(dt);
 }
 
@@ -15,16 +20,28 @@ void CoilyMoveComponent::SetParent(std::weak_ptr<GameObject> parent)
 	m_pTexture = parent.lock()->GetComponent<TextureComponent>();
 }
 
-bool* CoilyMoveComponent::GetCanMove()
+bool CoilyMoveComponent::CanPlayerControll()
 {
-	return &m_LockUpDir;
+	return m_LockUpDir;
+}
+
+bool CoilyMoveComponent::CanMove()
+{
+	return m_CanMove;
 }
 
 void CoilyMoveComponent::SetMoved(bool moved)
 {
 	m_Moved = moved;
+	m_CanMove = false;
 }
 
+void CoilyMoveComponent::Move(const glm::vec3& move)
+{
+	if (m_pTexture.use_count())
+		m_pTexture.lock()->SetPosition(move + m_OffsetActive);
+	m_Moved = true;
+}
 
 
 void CoilyMoveComponent::Reset()
@@ -73,6 +90,7 @@ CoilyMoveComponent::CoilyMoveComponent(std::weak_ptr<GameObject> parent, float m
 
 void CoilyMoveComponent::Move(float dt)
 {
+	m_MoveTimer += dt;
 	if(m_Moved)
 	{
 		auto target = m_pTargetQ1.lock()->GetGridLocation();
@@ -86,7 +104,6 @@ void CoilyMoveComponent::Move(float dt)
 	}
 	if (m_IsControlled && !m_LockUpDir)
 		return;
-	m_MoveTimer += dt;
 	if(m_MoveTimer>=1.f/m_MoveSpeed)
 	{
 		if(m_LockUpDir)

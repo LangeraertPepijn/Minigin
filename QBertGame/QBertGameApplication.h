@@ -19,7 +19,7 @@ class QBertGameApplication : public Minigin
 {
 private:
 	std::vector<LevelInfo> m_Levels;
-	int m_CurrentLevel=0;
+	int m_CurrentLevelIdx=0;
 	bool m_LevelIsDone=false;
 	GameMode m_GameMode = GameMode::SinglePlayer;
 	
@@ -44,5 +44,7 @@ protected:
 	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const glm::ivec2& gridLoc)const;
 	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc)const;
 	std::shared_ptr<GameObject> CreateSlickOrSam(Scene& scene, const glm::ivec2& gridLoc,bool isSlick)const;
+	std::shared_ptr<GameObject> CreateUggOrWrongWay(Scene& scene, const glm::ivec2& gridLoc,bool isWrongWay)const;
+
 };
 

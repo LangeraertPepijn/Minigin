@@ -27,6 +27,11 @@ void JsonLevelReader::ReadFile(std::vector<LevelInfo>& levels) const
 		level.canRevert = jLevel["CanRevert"];
 		level.needsDoubleTouch = jLevel["NeedsDoubleTouch"];
 		level.posFix = { jLevel["PosFix"][0],jLevel["PosFix"][1],jLevel["PosFix"][2] };
+		level.hasCoily = jLevel["HasCoily"];
+		level.hasSam = jLevel["HasSam"];
+		level.hasSlick = jLevel["HasSlick"];
+		level.hasUgg = jLevel["HasUgg"];
+		level.hasWrongWay = jLevel["HasWrongWay"];
 		levels.push_back(level);
 
 	}

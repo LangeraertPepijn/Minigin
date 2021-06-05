@@ -212,10 +212,11 @@ xcopy "$(SolutionDir)Resources" "$(OutputPath)\Resources" /R /Y /E /I </Command>
     </ClCompile>
     <ClCompile Include="QBertGameApplication.cpp" />
     <ClCompile Include="QbertHealthObserver.cpp" />
+    <ClCompile Include="QBertMoveComponent.cpp" />
     <ClCompile Include="QbertObserver.cpp" />
     <ClCompile Include="QBertPCH.cpp" />
     <ClCompile Include="SlicknSamMoveComponent.cpp" />
-    <ClCompile Include="UggMoveComponent.cpp" />
+    <ClCompile Include="UggnWrongWayMoveComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockManager.h" />
@@ -228,10 +229,11 @@ xcopy "$(SolutionDir)Resources" "$(OutputPath)\Resources" /R /Y /E /I </Command>
     <ClInclude Include="QBertGameApplication.h" />
     <ClInclude Include="CharacterMovement.h" />
     <ClInclude Include="QbertHealthObserver.h" />
+    <ClInclude Include="QBertMoveComponent.h" />
     <ClInclude Include="QbertObserver.h" />
     <ClInclude Include="QBertPCH.h" />
     <ClInclude Include="SlicknSamMoveComponent.h" />
-    <ClInclude Include="UggMoveComponent.h" />
+    <ClInclude Include="UggnWrongWayMoveComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

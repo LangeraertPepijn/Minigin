@@ -48,7 +48,10 @@
     <ClCompile Include="SlicknSamMoveComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UggMoveComponent.cpp">
+    <ClCompile Include="UggnWrongWayMoveComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QBertMoveComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,7 +95,10 @@
     <ClInclude Include="SlicknSamMoveComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UggMoveComponent.h">
+    <ClInclude Include="UggnWrongWayMoveComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QBertMoveComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

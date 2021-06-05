@@ -64,6 +64,9 @@ void SlicknSamMoveComponent::Move(float dt)
 		{
 			m_pGrid.lock()->GridTaken();
 			m_pGridQ1.lock()->IncreaseScore(300);
+			m_pGrid.lock()->SetGridLocation({ -1,-1 });
+
+
 			return;
 		}
 
@@ -72,6 +75,8 @@ void SlicknSamMoveComponent::Move(float dt)
 		{
 			m_pGrid.lock()->GridTaken();
 			m_pGridQ2.lock()->IncreaseScore(300);
+			m_pGrid.lock()->SetGridLocation({ -1,-1 });
+
 			return;
 		}
 

@@ -5,16 +5,14 @@
 #include "TransformComponent.h"
 #include "BlockManager.h"
 #include  "CoilyMoveComponent.h"
+#include "QBertMoveComponent.h"
 
-
-MoveCoily::MoveCoily(std::shared_ptr<GameObject> coily,const glm::ivec3& step,const glm::vec3& posFix)
-	: m_PosFix(posFix)
-	, m_Step(step)
+MoveCoily::MoveCoily(std::shared_ptr<GameObject> coily,const glm::ivec3& step)
+	: m_Step(step)
 {
-	m_Coily = coily ->GetComponent<TextureComponent>();
 	m_CoilyGrid = coily->GetComponent<GridComponent>();
 	m_CoilyMoveComp=coily->GetComponent<CoilyMoveComponent>();
-	m_CantMove=m_CoilyMoveComp->GetCanMove();
+
 }
 
 MoveCoily::~MoveCoily()
@@ -23,21 +21,21 @@ MoveCoily::~MoveCoily()
 
 void MoveCoily::Execute()
 {
-	if (!(*m_CantMove))
+	if (m_CoilyMoveComp.lock()->CanMove())
 	{
-		auto temp = m_CoilyGrid->UpdatePos(m_Step);
-		m_CoilyMoveComp->SetMoved(true);
+		auto pos = m_CoilyGrid.lock()->UpdatePos(m_Step);
+		m_CoilyMoveComp.lock()->SetMoved(true);
 
-		m_Coily->SetPosition(temp + m_PosFix);
+		m_CoilyMoveComp.lock()->Move(pos);
 	}
 	
 }
 
-MoveRightDown::MoveRightDown(std::shared_ptr<GameObject> qbert,const glm::vec3& posFix)
-	: m_PosFix(posFix)
+MoveRightDown::MoveRightDown(std::shared_ptr<GameObject> qbert)
 {
 	m_Qbert = qbert->GetComponent<TextureComponent>();
 	m_QbertGrid = qbert->GetComponent<GridComponent>();
+	m_QbertMove = qbert->GetComponent<QBertMoveComponent>();
 }
 
 MoveRightDown::~MoveRightDown()
@@ -46,22 +44,25 @@ MoveRightDown::~MoveRightDown()
 
 void MoveRightDown::Execute()
 {
-	auto temp = m_QbertGrid->UpdatePos(m_Step);
-	if(temp.z>=0)
+	if (m_QbertMove.lock()->GetCanMove())
 	{
-		if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex()))
-			m_QbertGrid->IncreaseScore(25);
-		temp.z = 0;
+		auto pos = m_QbertGrid.lock()->UpdatePos(m_Step);
+		if (pos.z >= 0)
+		{
+			if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid.lock()->GetIndex()))
+				m_QbertGrid.lock()->IncreaseScore(25);
+			pos.z = 0;
+		}
+		m_QbertMove.lock()->Move(pos);
 	}
-	m_Qbert->SetPosition(temp+m_PosFix);
 	
 }
 
-MoveLeftDown::MoveLeftDown(std::shared_ptr<GameObject> qbert,const glm::vec3& posFix)
-	: m_PosFix(posFix)
+MoveLeftDown::MoveLeftDown(std::shared_ptr<GameObject> qbert)
 {
 	m_Qbert = qbert->GetComponent<TextureComponent>();
 	m_QbertGrid = qbert->GetComponent<GridComponent>();
+	m_QbertMove = qbert->GetComponent<QBertMoveComponent>();
 }
 
 MoveLeftDown::~MoveLeftDown()
@@ -70,23 +71,29 @@ MoveLeftDown::~MoveLeftDown()
 
 void MoveLeftDown::Execute()
 {
-	auto temp = m_QbertGrid->UpdatePos(m_Step);
-	if (temp.z >= 0)
+	
+	if (m_QbertMove.lock()->GetCanMove())
 	{
-		if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex()))
-			m_QbertGrid->IncreaseScore(25);
-		temp.z = 0;
+		auto pos = m_QbertGrid.lock()->UpdatePos(m_Step);
+		if (pos.z >= 0)
+		{
+			if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid.lock()->GetIndex()))
+				m_QbertGrid.lock()->IncreaseScore(25);
+			pos.z = 0;
+		}
+		m_QbertMove.lock()->Move(pos);
 	}
-	m_Qbert->SetPosition(temp + m_PosFix);
+
 
 }
 
 
-MoveLeftUp::MoveLeftUp(std::shared_ptr<GameObject> qbert,const glm::vec3& posFix)
-	: m_PosFix(posFix)
+MoveLeftUp::MoveLeftUp(std::shared_ptr<GameObject> qbert)
+
 {
 	m_Qbert = qbert->GetComponent<TextureComponent>();
 	m_QbertGrid = qbert->GetComponent<GridComponent>();
+	m_QbertMove = qbert->GetComponent<QBertMoveComponent>();
 }
 
 MoveLeftUp::~MoveLeftUp()
@@ -95,21 +102,27 @@ MoveLeftUp::~MoveLeftUp()
 
 void MoveLeftUp::Execute()
 {
-	auto temp = m_QbertGrid->UpdatePos(m_Step);
-	if (temp.z >= 0)
+	if (m_QbertMove.lock()->GetCanMove())
 	{
-		if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex()))
-			m_QbertGrid->IncreaseScore(25);
-		temp.z = 0;
+		
+	auto pos = m_QbertGrid.lock()->UpdatePos(m_Step);
+	if (pos.z >= 0)
+	{
+		if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid.lock()->GetIndex()))
+			m_QbertGrid.lock()->IncreaseScore(25);
+		pos.z = 0;
 	}
-	m_Qbert->SetPosition(temp + m_PosFix);
+
+	m_QbertMove.lock()->Move(pos);
+	}
 }
 
-MoveRightUp::MoveRightUp(std::shared_ptr<GameObject> qbert,const glm::vec3& posFix)
-	: m_PosFix(posFix)
+MoveRightUp::MoveRightUp(std::shared_ptr<GameObject> qbert)
+
 {
 	m_Qbert = qbert->GetComponent<TextureComponent>();
 	m_QbertGrid = qbert->GetComponent<GridComponent>();
+	m_QbertMove = qbert->GetComponent<QBertMoveComponent>();
 }
 
 MoveRightUp::~MoveRightUp()
@@ -118,14 +131,18 @@ MoveRightUp::~MoveRightUp()
 
 void MoveRightUp::Execute()
 {
-	auto temp = m_QbertGrid->UpdatePos(m_Step);
-	if (temp.z >= 0)
+	if (m_QbertMove.lock()->GetCanMove())
 	{
-		if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid->GetIndex()))
-			m_QbertGrid->IncreaseScore(25);
-		
-		temp.z = 0;
+		auto pos = m_QbertGrid.lock()->UpdatePos(m_Step);
+		if (pos.z >= 0)
+		{
+			if (BlockManager::GetInstance().ChangeBlock(m_QbertGrid.lock()->GetIndex()))
+				m_QbertGrid.lock()->IncreaseScore(25);
+
+			pos.z = 0;
+		}
+
+		m_QbertMove.lock()->Move(pos);
 	}
-	m_Qbert->SetPosition(temp + m_PosFix);
 }
 

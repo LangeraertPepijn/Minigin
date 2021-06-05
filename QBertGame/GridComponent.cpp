@@ -28,6 +28,11 @@ glm::ivec2 GridComponent::GetGridLocation()const
 	return m_GridCord;
 }
 
+void GridComponent::SetGridLocation(const glm::ivec2& loc)
+{
+	m_GridCord = loc;
+}
+
 void GridComponent::ResetGridLocation()
 {
 	m_GridCord = m_InitialGridCord;

@@ -17,6 +17,7 @@ public:
 	GridComponent(std::weak_ptr<GameObject> parent, const glm::ivec2& gridCount,const glm::vec2& gridSize, const glm::ivec2& gridLoc,const glm::vec2& offset);
 
 	glm::ivec2 GetGridLocation()const;
+	void SetGridLocation(const glm::ivec2& loc);
 	void ResetGridLocation();
 	void AddHealthComp(std::weak_ptr<HealthComponent>health);
 	void AddScoreComp(std::weak_ptr<ScoreComponent>score);
