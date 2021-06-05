@@ -1,5 +1,9 @@
 #include "QBertPCH.h"
 #include "GridComponent.h"
+
+
+#include "CoilyMoveComponent.h"
+#include "GameObject.h"
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
 
@@ -39,6 +43,19 @@ void GridComponent::AddScoreComp(std::weak_ptr<ScoreComponent> score)
 	m_pScore = score;
 }
 
+glm::vec3 GridComponent::GridTaken()
+{
+	//m_GridCord = m_InitialGridCord;
+	auto pos = CalcGridPos();
+	if (!m_pHealth.expired())
+	{
+		m_pHealth.lock()->Damage(1);
+		if (m_pHealth.lock()->GetHealth() <= 0)
+			return {10,20,0};
+	}
+	return pos;
+}
+
 
 glm::vec3 GridComponent::UpdatePos(const glm::ivec2& translation)
 {
@@ -55,9 +72,13 @@ glm::vec3 GridComponent::UpdatePos(const glm::ivec2& translation)
 		pos.z = -1;
 		if(!m_pHealth.expired())
 		{
+			auto tag = m_pParent.lock()->GetTag();
+			if (tag == "Coily")
+				m_pParent.lock()->GetComponent<CoilyMoveComponent>()->Reset();
 			m_pHealth.lock()->Damage(1);
-			if (m_pHealth.lock()->GetHealth() <= 1)
+			if (m_pHealth.lock()->GetHealth() <= 0)
 				return pos;
+
 		}
 		
 		return pos;
@@ -76,6 +97,13 @@ void GridComponent::IncreaseScore()
 	if (!m_pScore.expired())
 		m_pScore.lock()->IncreaseScore(25);
 		
+}
+
+bool GridComponent::CheckForDanger(const glm::ivec2 move)
+{
+	auto temp = m_GridCord+move;
+	return (temp.x > temp.y || temp.x<0 || temp.y<0 || temp.x>m_GridCount.x || temp.y>m_GridCount.y);
+
 }
 
 glm::vec3 GridComponent::CalcGridPos()

@@ -63,3 +63,13 @@ void GameObject::Render()
 	}
 }
 
+void GameObject::SetTag(const std::string& tag)
+{
+	m_Tag = tag;
+}
+
+std::string GameObject::GetTag() const
+{
+	return  m_Tag;
+}
+

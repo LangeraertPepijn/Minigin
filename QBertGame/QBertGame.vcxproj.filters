@@ -39,6 +39,12 @@
     <ClCompile Include="QbertObserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CoilyMoveComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertHealthObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GridComponent.h">
@@ -56,7 +62,7 @@
     <ClInclude Include="BlockManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QbertMovement.h">
+    <ClInclude Include="CharacterMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JsonLevelReader.h">
@@ -69,6 +75,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QbertEvents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilyMoveComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertHealthObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

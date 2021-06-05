@@ -4,17 +4,34 @@
 class SubjectComponent;
 class ScoreComponent;
 class HealthComponent;
-struct QBertMovement;
+class HudTextComponent;
+struct CharacterMovement;
 class GameObject;
 class Scene;
+enum class GameMode: int
+{
+	SinglePlayer,
+	MultiPlayerCoop,
+	MultiPlayerVS
+	
+};
 class QBertGameApplication : public Minigin
 {
 private:
 	std::vector<LevelInfo> m_Levels;
 	int m_CurrentLevel=0;
-	bool m_LevelIsDone=false;;
-	std::shared_ptr<GameObject> m_QBert1;
+	bool m_LevelIsDone=false;
+	GameMode m_GameMode = GameMode::SinglePlayer;
+	
+	std::shared_ptr<GameObject> m_pQBert1=nullptr;
+	std::shared_ptr<GameObject> m_pQBert2=nullptr;
+	std::shared_ptr<HudTextComponent> m_pHudScore=nullptr;
+	std::shared_ptr<HudTextComponent> m_pHudHealth=nullptr;
+
+	
 	void LoadNextLevel();
+	void ReloadLevel();
+
 public:
 protected:
 	void UserInitialize() override;
@@ -22,7 +39,8 @@ protected:
 	void UserCleanUp() override;
 	void UserUpdate(float ) override;
 	void CreateBlocks(Scene& scene, const std::string& inActiveTex, const glm::vec2& blockSize, const glm::vec2& gridSize, const glm::vec2& offset)const;
-	std::shared_ptr<GameObject> CreateQBert(Scene& scene, const glm::vec2& gridSize, const glm::vec2& blockSize, const glm::vec3& posFix, const glm::vec2& offset, const QBertMovement& movement, const glm::ivec2& gridLoc)const;
+	std::shared_ptr<GameObject> CreateQBert(Scene& scene, const glm::vec2& gridSize, const glm::vec2& blockSize, const glm::vec3& posFix, const glm::vec2& offset, const CharacterMovement& movement, const glm::ivec2& gridLoc, int playerID)const;
 	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const glm::vec2& gridSize, const glm::vec2& blockSize, const glm::vec3& posFix, const glm::vec2& offset, const glm::ivec2& gridLoc)const;
+	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const glm::vec2& gridSize, const glm::vec2& blockSize, const glm::vec3& posFix, const glm::vec2& offset, const CharacterMovement& movement, const glm::ivec2& gridLoc)const;
 };
 

@@ -2,7 +2,7 @@
 #include <SDL_scancode.h>
 #include "InputManager.h"
 
-struct QBertMovement
+struct CharacterMovement
 {
 	SDL_Scancode LeftDownKeyboard = SDL_SCANCODE_KP_1;
 	SDL_Scancode RightDownKeyboard = SDL_SCANCODE_KP_3;

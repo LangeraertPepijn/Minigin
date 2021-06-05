@@ -15,10 +15,16 @@ void TextureComponent::SetTexture(const std::string& texture)
     m_Texture = ResourceManager::GetInstance().LoadTexture(texture);
 }
 
-void TextureComponent::Translate(const glm::vec3& trans)
+void TextureComponent::SetPosition(const glm::vec3& trans)
 {
     m_TransformComponent->SetTransform(trans);
 }
+
+void TextureComponent::Translate(const glm::vec3& trans)
+{
+    m_TransformComponent->AddTransform(trans);
+}
+
 
 std::shared_ptr<Texture2D> TextureComponent::GetTexture()const
 {

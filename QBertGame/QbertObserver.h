@@ -1,6 +1,6 @@
 #pragma once
 #include <Observer.h>
-class TextComponent;
+
 class QbertObserver :public Observer
 {
 public:

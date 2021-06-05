@@ -11,6 +11,7 @@ public:
 	//virtual void Render()  override;
 
 	void SetTexture(const std::string& texture);
+	void SetPosition(const glm::vec3& trans);
 	void Translate(const glm::vec3& trans);
 	std::shared_ptr<Texture2D> GetTexture()const;
 	virtual void Render()const override;

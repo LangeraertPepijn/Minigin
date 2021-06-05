@@ -20,8 +20,10 @@ public:
 	void ResetGridLocation();
 	void AddHealthComp(std::weak_ptr<HealthComponent>health);
 	void AddScoreComp(std::weak_ptr<ScoreComponent>score);
+	glm::vec3 GridTaken();
 	int GetIndex()const;
 	void IncreaseScore();
+	bool CheckForDanger(const glm::ivec2 move);
 	glm::vec3 CalcGridPos();
 	glm::vec3 UpdatePos(const glm::ivec2& translation);
 	virtual ~GridComponent()override = default;

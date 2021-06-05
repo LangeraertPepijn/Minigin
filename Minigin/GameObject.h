@@ -13,7 +13,8 @@ public:
 	
 	void Update(float deltaTime);
 	void Render()   ;
-
+	void SetTag(const std::string& tag);
+	std::string GetTag()const;
 	template <typename T>
 	std::shared_ptr <T> GetComponent()const;
 
@@ -37,6 +38,7 @@ public:
 private:
 	std::vector<std::shared_ptr<BaseComponent>> m_Components{};
 	std::shared_ptr<Subject> m_ActorChanged;
+	std::string m_Tag;
 };
 
 

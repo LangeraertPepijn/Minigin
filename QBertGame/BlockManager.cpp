@@ -28,8 +28,8 @@ bool BlockManager::ChangeBlock(int index)
 					++m_BlocksChanged;
 					if (m_BlocksChanged == m_Blocks.size())
 						*m_LevelDone = true;
+					return true;
 				}
-				return m_BlockChanged[index] == 1;
 			}
 			else if(m_BlockChanged[index] == 0)
 			{
@@ -48,8 +48,8 @@ bool BlockManager::ChangeBlock(int index)
 					m_BlocksChanged++;
 					if (m_BlocksChanged == m_Blocks.size())
 						*m_LevelDone = true;
+					return true;
 				}
-				return m_BlockChanged[index] == 2;
 			}
 
 		}
