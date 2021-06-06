@@ -8,6 +8,7 @@ class HudTextComponent;
 struct CharacterMovement;
 class GameObject;
 class Scene;
+
 enum class GameMode: int
 {
 	SinglePlayer,
@@ -32,6 +33,7 @@ private:
 	
 	void LoadNextLevel();
 	void ReloadLevel();
+	void ResetLevel();
 
 public:
 protected:
@@ -40,9 +42,9 @@ protected:
 	void UserCleanUp() override;
 	void UserUpdate(float ) override;
 	void CreateBlocks(Scene& scene)const;
-	std::shared_ptr<GameObject> CreateQBert(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc, int playerID)const;
+	std::shared_ptr<GameObject> CreateQBert(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc, unsigned long playerID)const;
 	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const glm::ivec2& gridLoc)const;
-	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc)const;
+	std::shared_ptr<GameObject> CreateCoily(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc,unsigned long controlerID)const;
 	std::shared_ptr<GameObject> CreateSlickOrSam(Scene& scene, const glm::ivec2& gridLoc,bool isSlick)const;
 	std::shared_ptr<GameObject> CreateUggOrWrongWay(Scene& scene, const glm::ivec2& gridLoc,bool isWrongWay)const;
 

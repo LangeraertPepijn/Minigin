@@ -21,12 +21,15 @@ MoveCoily::~MoveCoily()
 
 void MoveCoily::Execute()
 {
-	if (m_CoilyMoveComp.lock()->CanMove())
+	if (m_CoilyMoveComp.lock()->CanPlayerControll())
 	{
-		auto pos = m_CoilyGrid.lock()->UpdatePos(m_Step);
-		m_CoilyMoveComp.lock()->SetMoved(true);
+		if (m_CoilyMoveComp.lock()->CanMove())
+		{
+			auto pos = m_CoilyGrid.lock()->UpdatePos(m_Step);
+			m_CoilyMoveComp.lock()->SetMoved(true);
 
-		m_CoilyMoveComp.lock()->Move(pos);
+			m_CoilyMoveComp.lock()->Move(pos);
+		}
 	}
 	
 }

@@ -48,18 +48,23 @@ void Renderer::Render()
 	if (m_ShowDemo)
 		ImGui::ShowDemoWindow(&m_ShowDemo);
 	
-	ImGui::Begin("Controls");
-	ImGui::Text("player1: press 1 to damage press 2  to score\n");
-	ImGui::Text("player2: press 3 to damage press 4  to score\n");
-	ImGui::Button("SinglePlayer");
-	ImGui::Button("Co-Op");
-	ImGui::Button("Versus");
-	ImGui::End();
+	RenderUI();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	HudManager::GetInstance().Render();
 	SDL_RenderPresent(m_Renderer);
+}
+
+void Renderer::RenderUI()
+{
+	ImGui::Begin("Controls");
+	ImGui::Text("player1: press  wasd or controller 1 dpad to move\n");
+	ImGui::Text("player1: press  1379 or controller 2 dpad to move\n");
+	ImGui::Button("SinglePlayer");
+	ImGui::Button("Co-Op");
+	ImGui::Button("Versus");
+	ImGui::End();
 }
 
 void Renderer::Destroy()

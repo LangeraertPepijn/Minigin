@@ -6,10 +6,14 @@
 
 void CoilyMoveComponent::Update(float dt)
 {
-	if (m_MoveTimer >= 1.f / m_MoveSpeed)
+	if (!m_CanMove)
 	{
-		m_CanMove = true;
-		m_MoveTimer = 0;
+		m_MoveTimer += dt;
+		if (m_MoveTimer >= 1.f / m_MoveSpeed)
+		{
+			m_CanMove = true;
+			m_MoveTimer = 0;
+		}
 	}
 	Move(dt);
 }
@@ -22,7 +26,7 @@ void CoilyMoveComponent::SetParent(std::weak_ptr<GameObject> parent)
 
 bool CoilyMoveComponent::CanPlayerControll()
 {
-	return m_LockUpDir;
+	return !m_LockUpDir;
 }
 
 bool CoilyMoveComponent::CanMove()

@@ -9,7 +9,6 @@ void QBertMoveComponent::Update(float dt)
 	if (!m_CanMove)
 	{
 		m_MoveTimer += dt;
-		std::cout << m_MoveTimer << std::endl;
 		if (m_MoveTimer >= 1.f / m_MoveSpeed)
 		{
 			m_CanMove = true;

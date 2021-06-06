@@ -1,10 +1,15 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
 
+int PlayerButton::GetCmpValue()const
+{
+    return ( int(button) + player * 100);
+}
+
 bool InputManager::ProcessInput()
 {
-	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
-	auto dwResult =XInputGetState(0, &m_CurrentState);
+
+
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
@@ -51,45 +56,53 @@ bool InputManager::ProcessInput()
 
        
 	}
-    if (dwResult == ERROR_SUCCESS)
+    ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
+    for (DWORD i = 0; i < M_ControllerCount; ++i)
     {
-        // Controller is connected
+        auto dwResult = XInputGetState(i, &m_CurrentState);
 
-        for (const auto& command : m_CommandsController)
+        if (dwResult == ERROR_SUCCESS)
         {
+            // Controller is connected
 
-            if (IsPressed(command.first))
+            for (const auto& command : m_CommandsController)
             {
-                if (command.second->commandPressed)
-                    command.second->commandPressed->Execute();
-            }
-            if (IsHeld(command.first))
-            {
-                if (command.second->commandHeld)
-                    command.second->commandHeld->Execute();
+                if (command.first.player == i)
+                {
+
+                    if (IsPressed(command.first))
+                    {
+                        if (command.second->commandPressed)
+                            command.second->commandPressed->Execute();
+                    }
+                    if (IsHeld(command.first))
+                    {
+                        if (command.second->commandHeld)
+                            command.second->commandHeld->Execute();
+                    }
+
+                    if (IsReleased(command.first))
+                    {
+                        if (command.second->commandReleased)
+                            command.second->commandReleased->Execute();
+                    }
+                }
             }
 
-            if (IsReleased(command.first))
-            {
-                if (command.second->commandReleased)
-                    command.second->commandReleased->Execute();
-            }
         }
-
     }
-
 	return true;
 }
 
-bool InputManager::IsPressed(ControllerButton button)
+bool InputManager::IsPressed(const PlayerButton& button)
 {
 
-    if (m_CurrentState.Gamepad.wButtons & int(button) && !m_IsPresseds.at(button))
+    if (m_CurrentState.Gamepad.wButtons & int(button.button) && !m_IsPresseds.at(button))
     {
         m_IsPresseds[button] = true;
         return true;
     }
-    else if (!(m_CurrentState.Gamepad.wButtons & int(button)) && m_IsPresseds.at(button))
+    else if (!(m_CurrentState.Gamepad.wButtons & int(button.button)) && m_IsPresseds.at(button))
     {
         m_IsPresseds[button] = false;
 
@@ -97,15 +110,15 @@ bool InputManager::IsPressed(ControllerButton button)
     return false;
 }
 
-bool InputManager::IsReleased(ControllerButton button)
+bool InputManager::IsReleased(const PlayerButton& button)
 {
 
-    if (m_CurrentState.Gamepad.wButtons & int(button) && !m_IsPresseds.at(button))
+    if (m_CurrentState.Gamepad.wButtons & int(button.button) && !m_IsPresseds.at(button))
     {
         m_IsPresseds[button] = true;
 
     }
-    else if (!(m_CurrentState.Gamepad.wButtons & int(button)) && m_IsPresseds.at(button))
+    else if (!(m_CurrentState.Gamepad.wButtons & int(button.button)) && m_IsPresseds.at(button))
     {
         m_IsPresseds[button] = false;
         return true;
@@ -115,9 +128,10 @@ bool InputManager::IsReleased(ControllerButton button)
     return false;
 }
 
-void InputManager::AddCommand(ControllerButton button, ExecuteType type, std::shared_ptr<Command> command)
+void InputManager::AddCommand(ControllerButton button, ExecuteType type, std::shared_ptr<Command> command,DWORD GamepadIndex)
 {
-    auto temp = m_CommandsController[button];
+    PlayerButton playerButton{ GamepadIndex, button };
+    auto temp = m_CommandsController[playerButton];
     if (temp.get() == nullptr)
         temp = std::make_shared<ExecuteCommand>();
 
@@ -127,7 +141,26 @@ void InputManager::AddCommand(ControllerButton button, ExecuteType type, std::sh
         temp->commandPressed = command;
     else if (type == ExecuteType::Released)
         temp->commandReleased = command;
-    m_IsPresseds[button] = false;
+   m_CommandsController[playerButton] = temp;
+    m_IsPresseds[playerButton] = false;
+}
+
+void InputManager::SetControllerCount(unsigned userCount)
+{
+    M_ControllerCount = userCount;
+}
+
+void InputManager::RefreshControllerCount()
+{
+    M_ControllerCount = 0;
+    for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+    {
+        XINPUT_STATE state;
+        ZeroMemory(&state, sizeof(XINPUT_STATE));
+        const DWORD dwResult = XInputGetState(i, &state);
+        if (dwResult == ERROR_SUCCESS)
+            ++M_ControllerCount;
+    }
 }
 
 void InputManager::AddCommand(SDL_Scancode button, ExecuteType type, std::shared_ptr<Command> command)
@@ -146,13 +179,15 @@ void InputManager::AddCommand(SDL_Scancode button, ExecuteType type, std::shared
 }
 
 
-bool InputManager::IsHeld(ControllerButton button)
+
+
+bool InputManager::IsHeld(const PlayerButton& button)
 {
-    if (m_CurrentState.Gamepad.wButtons & int(button) && m_IsPresseds.at(button))
+    if (m_CurrentState.Gamepad.wButtons & int(button.button) && m_IsPresseds.at(button))
     {
         return true;
     }
-    if (m_CurrentState.Gamepad.wButtons & int(button) && !m_IsPresseds.at(button))
+    if (m_CurrentState.Gamepad.wButtons & int(button.button) && !m_IsPresseds.at(button))
         return true;
     return false;
 }

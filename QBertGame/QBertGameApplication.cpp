@@ -106,7 +106,7 @@ void QBertGameApplication::LoadNextLevel()
 	case GameMode::MultiPlayerVS:
 	{
 		const CharacterMovement movement{ SDL_SCANCODE_S,SDL_SCANCODE_D,SDL_SCANCODE_A,SDL_SCANCODE_W };
-		auto coily =CreateCoily(scene, movement, glm::ivec2{ rand() % 2,1 });
+		auto coily =CreateCoily(scene, movement, glm::ivec2{ rand() % 2,1 },1);
 		m_pQBert1->GetComponent<SubjectComponent>()->AddObserver(coily->GetComponent<ObserverComponent>());
 		if (m_Levels[m_CurrentLevelIdx].hasSam)
 			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
@@ -129,8 +129,8 @@ void QBertGameApplication::ReloadLevel()
 {
 	BlockManager::GetInstance().Clear();
 
-	m_pQBert1->GetComponent<HealthComponent>()->Heal(3);
-	m_pQBert1->GetComponent<ScoreComponent>()->SetScore(0);
+	//m_pQBert1->GetComponent<HealthComponent>()->Heal(3);
+	//m_pQBert1->GetComponent<ScoreComponent>()->SetScore(0);
 	
 	auto& scene = SceneManager::GetInstance().CreateScene("QbertScene" + std::to_string(m_Levels[m_CurrentLevelIdx].levelNo));
 
@@ -206,7 +206,7 @@ void QBertGameApplication::ReloadLevel()
 	case GameMode::MultiPlayerVS:
 	{
 		const CharacterMovement movement{ SDL_SCANCODE_S,SDL_SCANCODE_D,SDL_SCANCODE_A,SDL_SCANCODE_W };
-		auto coily = CreateCoily(scene, movement, glm::ivec2{ rand() % 2,1 });
+		auto coily = CreateCoily(scene, movement, glm::ivec2{ rand() % 2,1 },1);
 		m_pQBert1->GetComponent<SubjectComponent>()->AddObserver(coily->GetComponent<ObserverComponent>());
 		if (m_Levels[m_CurrentLevelIdx].hasSam)
 			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
@@ -220,6 +220,102 @@ void QBertGameApplication::ReloadLevel()
 	}
 	}
 	
+}
+
+void QBertGameApplication::ResetLevel()
+{
+	BlockManager::GetInstance().Clear();
+
+	m_pQBert1->GetComponent<HealthComponent>()->Heal(3);
+	m_pQBert1->GetComponent<ScoreComponent>()->SetScore(0);
+
+	auto& scene = SceneManager::GetInstance().CreateScene("QbertScene" + std::to_string(m_Levels[m_CurrentLevelIdx].levelNo));
+
+	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
+	go->AddComponent(std::make_shared <TextureComponent>(go, "background.jpg"));
+	go->AddComponent(std::make_shared <RenderComponent>(go));
+	scene.Add(go);
+
+
+
+	BlockManager::GetInstance().SetCanRevert(m_Levels[m_CurrentLevelIdx].canRevert);
+	BlockManager::GetInstance().SetNeedsDoubleTouch(m_Levels[m_CurrentLevelIdx].needsDoubleTouch);
+	BlockManager::GetInstance().SetActiveTex(m_Levels[m_CurrentLevelIdx].activeTex);
+	BlockManager::GetInstance().SetInActiveTex(m_Levels[m_CurrentLevelIdx].inActiveTex);
+	BlockManager::GetInstance().SetInBetweenTex(m_Levels[m_CurrentLevelIdx].InBetweenTex);
+	CreateBlocks(scene);
+	auto gridComp = m_pQBert1->GetComponent<GridComponent>();
+	gridComp->ResetGridLocation();
+	auto pos = gridComp->CalcGridPos();
+	m_pQBert1->GetComponent<TextureComponent>()->SetPosition(pos + m_Levels[m_CurrentLevelIdx].posFix);
+	scene.Add(m_pQBert1);
+	auto txts = m_pHudObj->GetComponentsType<TextComponent>();
+	for (size_t i = 0; i < txts.size(); ++i)
+	{
+		txts[i]->SetText(std::to_string(i * 3));
+	}
+	scene.Add(m_pHudObj);
+	switch (m_GameMode)
+	{
+	case GameMode::SinglePlayer:
+	{
+
+		std::shared_ptr<GameObject>coily;
+		if (m_Levels[m_CurrentLevelIdx].hasCoily)
+		{
+			coily = CreateCoily(scene, glm::ivec2{ rand() % 2,1 });
+			m_pQBert1->GetComponent<SubjectComponent>()->AddObserver(coily->GetComponent<ObserverComponent>());
+		}
+		if (m_Levels[m_CurrentLevelIdx].hasSam)
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+		if (m_Levels[m_CurrentLevelIdx].hasSlick)
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
+			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
+		if (m_Levels[m_CurrentLevelIdx].hasUgg)
+			CreateUggOrWrongWay(scene, glm::ivec2{ 0,6 }, false);
+		break;
+	}
+	case GameMode::MultiPlayerCoop:
+	{
+		auto gridComp2 = m_pQBert2->GetComponent<GridComponent>();
+		gridComp2->ResetGridLocation();
+		auto pos2 = gridComp2->CalcGridPos();
+		m_pQBert2->GetComponent<TextureComponent>()->SetPosition(pos2 + m_Levels[m_CurrentLevelIdx].posFix);
+		scene.Add(m_pQBert2);
+		std::shared_ptr<GameObject>coily;
+		if (m_Levels[m_CurrentLevelIdx].hasCoily)
+		{
+			coily = CreateCoily(scene, glm::ivec2{ rand() % 2,1 });
+			m_pQBert1->GetComponent<SubjectComponent>()->AddObserver(coily->GetComponent<ObserverComponent>());
+		}
+		if (m_Levels[m_CurrentLevelIdx].hasSam)
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+		if (m_Levels[m_CurrentLevelIdx].hasSlick)
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
+			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
+		if (m_Levels[m_CurrentLevelIdx].hasUgg)
+			CreateUggOrWrongWay(scene, glm::ivec2{ 0,6 }, false);
+
+		break;
+	}
+	case GameMode::MultiPlayerVS:
+	{
+		const CharacterMovement movement{ SDL_SCANCODE_S,SDL_SCANCODE_D,SDL_SCANCODE_A,SDL_SCANCODE_W };
+		auto coily = CreateCoily(scene, movement, glm::ivec2{ rand() % 2,1 }, 1);
+		m_pQBert1->GetComponent<SubjectComponent>()->AddObserver(coily->GetComponent<ObserverComponent>());
+		if (m_Levels[m_CurrentLevelIdx].hasSam)
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+		if (m_Levels[m_CurrentLevelIdx].hasSlick)
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
+			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
+		if (m_Levels[m_CurrentLevelIdx].hasUgg)
+			CreateUggOrWrongWay(scene, glm::ivec2{ 0,6 }, false);
+		break;
+	}
+	}
 }
 
 void QBertGameApplication::UserInitialize()
@@ -287,7 +383,7 @@ void QBertGameApplication::UserLoadGame()
 
 			m_pQBert1 = CreateQBert(scene, CharacterMovement{}, glm::ivec2{ 0,0 },0);
 			const CharacterMovement movement{ SDL_SCANCODE_S,SDL_SCANCODE_D,SDL_SCANCODE_A,SDL_SCANCODE_W };
-			coily = CreateCoily(scene,movement, glm::ivec2{ rand() % 2,1 });
+			coily = CreateCoily(scene,movement, glm::ivec2{ rand() % 2,1 },1);
 			if (m_Levels[m_CurrentLevelIdx].hasSam)
 				CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
 			if (m_Levels[m_CurrentLevelIdx].hasSlick)
@@ -344,7 +440,7 @@ void QBertGameApplication::UserLoadGame()
 	
 	scorep1->SetHudElement(std::static_pointer_cast<HudTextComponent>(scoreHud1));
 	healthp1->SetHudElement(std::static_pointer_cast<HudTextComponent>(healthHud1));
-	
+	InputManager::GetInstance().RefreshControllerCount();
 	scene.Add(m_pHudObj);
 }
 
@@ -418,7 +514,7 @@ void QBertGameApplication::CreateBlocks(Scene& scene)const
 /// <param name="movement"></param>
 /// <param name="gridLoc"></param>
 /// <returns></returns>
-std::shared_ptr<GameObject> QBertGameApplication::CreateQBert(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc, int playerID) const
+std::shared_ptr<GameObject> QBertGameApplication::CreateQBert(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc, unsigned long playerID) const
 {
 	std::shared_ptr<GameObject> qbert = std::make_shared<GameObject>();
 	qbert->SetTag("QBert");
@@ -450,10 +546,10 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateQBert(Scene& scene, cons
 	InputManager::GetInstance().AddCommand(movement.LeftUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveLeftUp>(qbert));
 	InputManager::GetInstance().AddCommand(movement.RightUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveRightUp>(qbert ));
 
-	InputManager::GetInstance().AddCommand(movement.RightUpGamepad, ExecuteType::Pressed, std::make_shared<MoveRightUp>(qbert));
-	InputManager::GetInstance().AddCommand(movement.LeftDownGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftDown>(qbert));
-	InputManager::GetInstance().AddCommand(movement.RightDownGamepad, ExecuteType::Pressed, std::make_shared<MoveRightDown>(qbert));
-	InputManager::GetInstance().AddCommand(movement.LeftUpKeyGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftUp>(qbert));
+	InputManager::GetInstance().AddCommand(movement.RightUpGamepad, ExecuteType::Pressed, std::make_shared<MoveRightUp>(qbert),playerID);
+	InputManager::GetInstance().AddCommand(movement.LeftDownGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftDown>(qbert), playerID);
+	InputManager::GetInstance().AddCommand(movement.RightDownGamepad, ExecuteType::Pressed, std::make_shared<MoveRightDown>(qbert), playerID);
+	InputManager::GetInstance().AddCommand(movement.LeftUpKeyGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftUp>(qbert), playerID);
 
 	return qbert;
 }
@@ -488,7 +584,7 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateCoily(Scene& scene, cons
 }
 
 std::shared_ptr<GameObject> QBertGameApplication::CreateCoily(Scene& scene, const CharacterMovement& movement,
-	const glm::ivec2& gridLoc) const
+	const glm::ivec2& gridLoc,unsigned long controlerID) const
 {
 
 	if (!m_pQBert1)
@@ -519,10 +615,10 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateCoily(Scene& scene, cons
 	InputManager::GetInstance().AddCommand(movement.LeftUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ -1,-1,0 }));
 	InputManager::GetInstance().AddCommand(movement.RightUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,-1,0 }));
 
-	InputManager::GetInstance().AddCommand(movement.RightUpGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,-1,0 }));
-	InputManager::GetInstance().AddCommand(movement.LeftDownGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,1,0 }));
-	InputManager::GetInstance().AddCommand(movement.RightDownGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 1,1,0 }));
-	InputManager::GetInstance().AddCommand(movement.LeftUpKeyGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ -1,-1,0 }));
+	InputManager::GetInstance().AddCommand(movement.RightUpGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,-1,0 }),controlerID);
+	InputManager::GetInstance().AddCommand(movement.LeftDownGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,1,0 }),controlerID);
+	InputManager::GetInstance().AddCommand(movement.RightDownGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 1,1,0 }),controlerID);
+	InputManager::GetInstance().AddCommand(movement.LeftUpKeyGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ -1,-1,0 }),controlerID);
 	return coily;
 }
 
