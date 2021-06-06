@@ -35,6 +35,12 @@ void SceneManager::SetActiveScene(std::shared_ptr<Scene> scene)
 	m_ActiveScene = scene;
 }
 
+void SceneManager::SetActiveScene(int index)
+{
+	if(m_Scenes.size()>=size_t(index))
+		m_ActiveScene = m_Scenes[index];
+}
+
 std::shared_ptr<Scene> SceneManager::GetActiveScene() const
 {
 	return m_ActiveScene;

@@ -27,10 +27,11 @@ private:
 	std::shared_ptr<HudTextComponent> m_pHudScore=nullptr;
 	std::shared_ptr<HudTextComponent> m_pHudHealth=nullptr;
 	QBertImguiRenderer* m_pImguiRenderer;
-	
+	bool m_MainMenuIsActive = true;
 	void LoadNextLevel();
 	void ReloadLevel();
 	void ResetLevel();
+	void AddCharacterControls(const CharacterMovement& movement,std::shared_ptr<GameObject> object,unsigned long playerId);
 
 public:
 protected:

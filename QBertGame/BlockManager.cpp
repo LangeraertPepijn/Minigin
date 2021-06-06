@@ -82,8 +82,8 @@ bool BlockManager::RevertBlock(int index)
 			m_Blocks[index]->SetTexture(m_TexInActive);
 			if (m_BlockChanged[index] == 1)
 			{
-
-				--m_BlocksChanged;
+				if(!m_NeedsDoubleTouch)
+					--m_BlocksChanged;
 				m_BlockChanged[index] = m_BlockChanged[index]--;
 				return true;
 			}

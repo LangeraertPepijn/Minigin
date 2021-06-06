@@ -25,27 +25,36 @@ void HealthComponent::Damage(const int damageAmount)
 	m_Health -= damageAmount;
 	if (m_Health > 0)
 	{
-		if (m_Subject.lock()!=nullptr)
+		if (m_Subject.get())
 		{
-			m_Subject.lock()->Notify(Event{ int(Event::Events::Damaged) });
+			if (m_Subject != nullptr)
+			{
+				m_Subject->Notify(Event{ int(Event::Events::Damaged) });
+			}
+
 		}
 		else
 		{
 			m_Subject = m_pParent.lock()->GetComponent<SubjectComponent>();
-			m_Subject.lock()->Notify(Event{ int(Event::Events::Damaged) });
-			
+			m_Subject->Notify(Event{ int(Event::Events::Damaged) });
+
 		}
 	}
 	else
 	{
-		if (m_Subject.lock() != nullptr)
+		if (m_Subject.get())
 		{
-			m_Subject.lock()->Notify(Event{ int(Event::Events::Died) });
+			if (m_Subject != nullptr)
+			{
+				m_Subject->Notify(Event{ int(Event::Events::Died) });
+			}
+	
 		}
 		else
 		{
+		
 			m_Subject = m_pParent.lock()->GetComponent<SubjectComponent>();
-			m_Subject.lock()->Notify(Event{ int(Event::Events::Died) });
+			m_Subject->Notify(Event{ int(Event::Events::Died) });
 
 		}
 
@@ -56,6 +65,12 @@ int HealthComponent::GetHealth() const
 {
 	return m_Health;
 }
+
+void HealthComponent::ResetHealth()
+{
+	m_Health = m_MaxHealt;
+}
+
 
 void HealthComponent::Heal(const int healAmount)
 {

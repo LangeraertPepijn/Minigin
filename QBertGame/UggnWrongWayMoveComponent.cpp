@@ -3,6 +3,7 @@
 #include "BlockManager.h"
 #include "GameObject.h"
 #include "GridComponent.h"
+#include "ServiceLocator.h"
 #include "TextureComponent.h"
 void UggnWrongWayMoveComponent::Update(float dt)
 {
@@ -13,9 +14,9 @@ void UggnWrongWayMoveComponent::Update(float dt)
 		{
 			m_RespawnTimer = 0;
 			m_Dead = false;
-			m_pGrid.lock()->ResetGridLocation();
-			auto pos = m_pGrid.lock()->CalcGridPos();
-			m_pTexture.lock()->SetPosition(pos + m_Offset);
+			m_pGrid->ResetGridLocation();
+			auto pos = m_pGrid->CalcGridPos();
+			m_pTexture->SetPosition(pos + m_Offset);
 		}
 
 	}
@@ -35,7 +36,7 @@ void UggnWrongWayMoveComponent::Reset()
 }
 
 UggnWrongWayMoveComponent::UggnWrongWayMoveComponent(std::weak_ptr<GameObject> parent, float moveSpeed, const glm::vec3& offset,
-	float respawnDelay, const glm::vec3& qbertOffset,std::shared_ptr<GameObject> QBertPlayer1,
+	float respawnDelay, const glm::vec3& qbertOffset, unsigned short soundId,std::shared_ptr<GameObject> QBertPlayer1,
 	std::shared_ptr<GameObject> QBertPlayer2, bool isMovingLeft)
 	: BaseComponent(parent)
 	, m_MoveSpeed(moveSpeed)
@@ -45,6 +46,7 @@ UggnWrongWayMoveComponent::UggnWrongWayMoveComponent(std::weak_ptr<GameObject> p
 	, m_RespawnTimer(0)
 	, m_Dead(false)
 	, m_RespawnDelay(respawnDelay)
+	, m_SoundId(soundId)
 {
 	m_pTexture=m_pParent.lock()->GetComponent<TextureComponent>();
 	m_pGrid=m_pParent.lock()->GetComponent<GridComponent>();
@@ -73,24 +75,30 @@ UggnWrongWayMoveComponent::UggnWrongWayMoveComponent(std::weak_ptr<GameObject> p
 	}
 	m_NeedsUpdate = true;
 	m_Dead = true;
-	m_pTexture.lock()->SetPosition({ -100,-1 ,-1 });
+	m_pTexture->SetPosition({ -100,-1 ,-1 });
 }
 
 void UggnWrongWayMoveComponent::Move(float dt)
 {
 	if (m_pGridQ1.use_count())
-		if (m_pGrid.lock()->GetGridLocation() == m_pGridQ1.lock()->GetGridLocation())
+		if (m_pGrid->GetGridLocation() == m_pGridQ1->GetGridLocation())
 		{
-			auto pos =m_pGridQ1.lock()->GridTaken();
-			m_pTexQ1.lock()->SetPosition(pos + m_QBertOffset);
+			auto pos = m_pGridQ1->GridTaken();
+			m_pTexQ1->SetPosition(pos + m_QBertOffset);
+			m_pTexture->SetPosition({ -100,-1 ,-1 });
+			m_Dead = true;
+			m_MoveTimer -= 1.f / m_MoveSpeed;
 			return;
 		}
 
 	if (m_pGridQ2.use_count())
-		if (m_pGrid.lock()->GetGridLocation() == m_pGridQ2.lock()->GetGridLocation())
+		if (m_pGrid->GetGridLocation() == m_pGridQ2->GetGridLocation())
 		{
-			auto pos = m_pGridQ2.lock()->GridTaken();
-			m_pTexQ1.lock()->SetPosition(pos + m_QBertOffset);
+			auto pos = m_pGridQ2->GridTaken();
+			m_pTexQ1->SetPosition(pos + m_QBertOffset);
+			m_pTexture->SetPosition({ -100,-1 ,-1 });
+			m_Dead = true;
+			m_MoveTimer -= 1.f / m_MoveSpeed;
 			return;
 		}
 
@@ -98,19 +106,25 @@ void UggnWrongWayMoveComponent::Move(float dt)
 	if (m_MoveTimer >= 1.f / m_MoveSpeed)
 	{
 		auto idx = rand() % m_Dirs.size();
-		
+
 		glm::ivec2 dir = m_Dirs[idx];
-		auto checkDir = dir*2;
-		if (m_pGrid.lock()->CheckForDanger(checkDir))
+		auto checkDir = dir * 2;
+		if (m_pGrid->CheckForDanger(checkDir))
 		{
-			m_pTexture.lock()->SetPosition({ -100,-1 ,-1 });
+			m_pTexture->SetPosition({ -100,-1 ,-1 });
 			m_Dead = true;
 		}
 		else
 		{
-			auto pos = m_pGrid.lock()->UpdatePos(dir);
-			m_pTexture.lock()->SetPosition(pos + m_Offset);
+			auto pos = m_pGrid->UpdatePos(dir);
+			m_pTexture->SetPosition(pos + m_Offset);
+			const auto soundSystem = ServiceLocator::GetSoundSystem();
+			if (soundSystem)
+			{
+				soundSystem->Play(m_SoundId, 15.f);
+			}
 		}
 		m_MoveTimer -= 1.f / m_MoveSpeed;
 	}
+
 }

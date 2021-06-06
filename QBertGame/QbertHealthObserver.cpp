@@ -19,6 +19,7 @@ void QbertHealthObserver::Notify(const std::shared_ptr<GameObject> actor, Event 
 {
 	if( event.CurrentEvent==int(Event::Events::Damaged))
 	{
-		parent.lock()->GetComponent<CoilyMoveComponent>()->Reset();
+		if(parent.use_count())
+			parent.lock()->GetComponent<CoilyMoveComponent>()->Reset();
 	}
 }

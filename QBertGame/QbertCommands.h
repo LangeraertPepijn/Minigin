@@ -16,8 +16,8 @@ public:
 	virtual void Execute()override;
 
 private:
-	std::weak_ptr<GridComponent> m_CoilyGrid;
-	std::weak_ptr<CoilyMoveComponent> m_CoilyMoveComp;
+	std::shared_ptr<GridComponent> m_pCoilyGrid;
+	std::shared_ptr<CoilyMoveComponent> m_pCoilyMoveComp;
 	glm::ivec3 m_Step={0,0,0};
 };
 
@@ -31,9 +31,9 @@ class MoveRightDown : public Command
 		virtual void Execute()override;
 
 	private:
-		std::weak_ptr<TextureComponent> m_Qbert;
-		std::weak_ptr<GridComponent> m_QbertGrid;
-		std::weak_ptr<QBertMoveComponent> m_QbertMove;
+		std::shared_ptr<TextureComponent> m_Qbert;
+		std::shared_ptr<GridComponent> m_QbertGrid;
+		std::shared_ptr<QBertMoveComponent> m_QbertMove;
 		glm::ivec3 m_Step{1,1,0};
 	
 };
@@ -47,9 +47,9 @@ public:
 	virtual void Execute()override;
 
 private:
-	std::weak_ptr<TextureComponent> m_Qbert;
-	std::weak_ptr<GridComponent> m_QbertGrid;
-	std::weak_ptr<QBertMoveComponent> m_QbertMove;
+	std::shared_ptr<TextureComponent> m_Qbert;
+	std::shared_ptr<GridComponent> m_QbertGrid;
+	std::shared_ptr<QBertMoveComponent> m_QbertMove;
 	glm::ivec3 m_Step{ 0,1,0 };
 };
 
@@ -62,9 +62,9 @@ public:
 	virtual void Execute()override;
 
 private:
-	std::weak_ptr<TextureComponent> m_Qbert;
-	std::weak_ptr<GridComponent> m_QbertGrid;
-	std::weak_ptr<QBertMoveComponent> m_QbertMove;
+	std::shared_ptr<TextureComponent> m_Qbert;
+	std::shared_ptr<GridComponent> m_QbertGrid;
+	std::shared_ptr<QBertMoveComponent> m_QbertMove;
 	glm::ivec3 m_Step{ 0,-1,0 };
 
 };
@@ -77,9 +77,9 @@ public:
 	virtual void Execute() override;
 
 private:
-	std::weak_ptr<TextureComponent> m_Qbert;
-	std::weak_ptr<GridComponent> m_QbertGrid;
-	std::weak_ptr<QBertMoveComponent> m_QbertMove;
+	std::shared_ptr<TextureComponent> m_Qbert;
+	std::shared_ptr<GridComponent> m_QbertGrid;
+	std::shared_ptr<QBertMoveComponent> m_QbertMove;
 	glm::ivec3 m_Step{ -1,-1,0 };
 };
 

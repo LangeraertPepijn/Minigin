@@ -17,7 +17,8 @@ public:
 	void Move(const glm::vec3& move);
 	void Reset();
 	CoilyMoveComponent(std::weak_ptr<GameObject> parent,float moveSpeed,const glm::vec3& offset,
-		const glm::vec3& activeOffset ,std::weak_ptr<GameObject> qbert1, std::weak_ptr<GameObject> qbert2 , const std::string& inActiveTex,const std::string& activeTex,bool isControlled);
+		const glm::vec3& activeOffset ,std::shared_ptr<GameObject> qbert1, std::shared_ptr<GameObject> qbert2 ,
+		const std::string& inActiveTex,const std::string& activeTex,bool isControlled, unsigned short soundId);
 	virtual ~CoilyMoveComponent() = default;
 	CoilyMoveComponent(const CoilyMoveComponent& other) = delete;
 	CoilyMoveComponent(CoilyMoveComponent&& other) = delete;
@@ -36,11 +37,12 @@ private:
 	glm::vec3 m_OffsetActive;
 	std::string m_ActiveTex;
 	std::string m_InActiveTex;
-	std::weak_ptr<TextureComponent> m_pTexture;
-	std::weak_ptr<TextureComponent> m_pTextureTargetQ1;
-	std::weak_ptr<TextureComponent> m_pTextureTargetQ2;
-	std::weak_ptr<GridComponent> m_pGrid;
-	std::weak_ptr<GridComponent> m_pTargetQ1;
-	std::weak_ptr<GridComponent> m_pTargetQ2;
+	std::shared_ptr<TextureComponent> m_pTexture;
+	std::shared_ptr<TextureComponent> m_pTextureTargetQ1;
+	std::shared_ptr<TextureComponent> m_pTextureTargetQ2;
+	std::shared_ptr<GridComponent> m_pGrid;
+	std::shared_ptr<GridComponent> m_pTargetQ1;
+	std::shared_ptr<GridComponent> m_pTargetQ2;
+	unsigned short m_SoundId;
 };
 

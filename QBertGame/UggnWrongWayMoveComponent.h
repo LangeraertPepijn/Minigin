@@ -12,7 +12,7 @@ public:
 	virtual void SetParent(std::weak_ptr<GameObject> parent);
 	void Reset();
 	UggnWrongWayMoveComponent(std::weak_ptr<GameObject> parent, float moveSpeed,
-		const glm::vec3& offset, float respawnDelay, const glm::vec3& qbertOffset, 
+		const glm::vec3& offset, float respawnDelay, const glm::vec3& qbertOffset, unsigned short soundId,
 		std::shared_ptr<GameObject> QBertPlayer1 = nullptr, std::shared_ptr<GameObject> QBertPlayer2 = nullptr,
 		bool movesRight=true);
 	virtual ~UggnWrongWayMoveComponent() = default;
@@ -30,13 +30,13 @@ private:
 	std::vector<glm::ivec2> m_Dirs;
 	glm::vec3 m_Offset;
 	glm::vec3 m_QBertOffset;
-	std::weak_ptr<TextureComponent> m_pTexture;
-	std::weak_ptr<GridComponent> m_pGrid;
-	std::weak_ptr<GridComponent> m_pGridQ1;
-	std::weak_ptr<TextureComponent> m_pTexQ1;
-	std::weak_ptr<GridComponent> m_pGridQ2;
-	std::weak_ptr<TextureComponent> m_pTexQ2;
-
+	std::shared_ptr<TextureComponent> m_pTexture;
+	std::shared_ptr<GridComponent> m_pGrid;
+	std::shared_ptr<GridComponent> m_pGridQ1;
+	std::shared_ptr<TextureComponent> m_pTexQ1;
+	std::shared_ptr<GridComponent> m_pGridQ2;
+	std::shared_ptr<TextureComponent> m_pTexQ2;
+	unsigned short m_SoundId;
 
 };
 

@@ -5,6 +5,7 @@
 #include "backends/imgui_impl_sdl.h"
 
 void QBertImguiRenderer::Init(SDL_Window* window)
+	
 {
 	m_pWindow = window;
 	IMGUI_CHECKVERSION();
@@ -20,20 +21,23 @@ void QBertImguiRenderer::RenderUI()
 		ImGui_ImplSDL2_NewFrame(m_pWindow);
 		ImGui::NewFrame();
 		ImGui::Begin("Controls");
-		ImGui::Text("player1: press  wasd or controller 1 dpad to move\n");
-		ImGui::Text("player1: press  1379 or controller 2 dpad to move\n");
+		ImGui::Text("player1: press numpad 1379 \nor controller 1 dpad to move\n");
+		ImGui::Text("player2: press  wasd \nor controller 2 dpad to move\n");
+		ImGui::End();
+		ImGui::Begin("Modes");
 		if(ImGui::Button("SinglePlayer"))
 		{
 			m_GameMode = GameMode::SinglePlayer;
+
 		}
 		if(ImGui::Button("Co-Op"))
 		{
 			
 			m_GameMode = GameMode::MultiPlayerCoop;
+
 		}
 		if(ImGui::Button("Versus"))
 		{
-			
 			m_GameMode = GameMode::MultiPlayerVS;
 		}
 		ImGui::End();
@@ -46,7 +50,6 @@ void QBertImguiRenderer::Destroy()
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-	
 }
 
 GameMode QBertImguiRenderer::GetGameMode()

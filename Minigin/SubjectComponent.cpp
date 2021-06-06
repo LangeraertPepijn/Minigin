@@ -36,6 +36,7 @@ void SubjectComponent::Notify(Event event)
 {
 	for (size_t i{}; i < m_Observers.size(); i++)
 	{
-		m_Observers[i].lock()->Notify(m_pParent.lock(), event);
+		if(m_Observers[i].use_count())
+			m_Observers[i].lock()->Notify(m_pParent.lock(), event);
 	}
 }

@@ -1,7 +1,5 @@
 #include "QBertPCH.h"
 #include "GridComponent.h"
-
-
 #include "CoilyMoveComponent.h"
 #include "GameObject.h"
 #include "HealthComponent.h"
@@ -43,12 +41,12 @@ void GridComponent::ResetGridLocation()
 	m_GridCord = m_InitialGridCord;
 }
 
-void GridComponent::AddHealthComp(std::weak_ptr<HealthComponent> health)
+void GridComponent::AddHealthComp(std::shared_ptr<HealthComponent> health)
 {
 	m_pHealth = health;
 }
 
-void GridComponent::AddScoreComp(std::weak_ptr<ScoreComponent> score)
+void GridComponent::AddScoreComp(std::shared_ptr<ScoreComponent> score)
 {
 	m_pScore = score;
 }
@@ -57,40 +55,45 @@ glm::vec3 GridComponent::GridTaken()
 {
 	m_GridCord = m_InitialGridCord;
 	auto pos = CalcGridPos();
-	if (!m_pHealth.expired())
-	{
-		m_pHealth.lock()->Damage(1);
-		if (m_pHealth.lock()->GetHealth() <= 0)
-			return {10,20,0};
-	}
+
+	
+	m_pHealth->Damage(1);
+	if (m_pHealth->GetHealth() <= 0)
+		return {10,20,0};
+	
 	return pos;
 }
 
 
 glm::vec3 GridComponent::UpdatePos(const glm::ivec2& translation)
 {
-	if (!m_pHealth.expired())
-		if (m_pHealth.lock()->GetHealth() <= 0)
-			return {20,10,-1};
+
+	if (m_pHealth->GetHealth() <= 0)
+		return {20,10,-1};
 	
 	m_GridCord += translation;
 	//cap to play field
-	if (m_GridCord.x > m_GridCord.y||m_GridCord.x<0||m_GridCord.y<0|| m_GridCord.x>m_GridCount.x || m_GridCord.y>m_GridCount.y)
+	if (m_GridCord.x > m_GridCord.y || m_GridCord.x<0 || m_GridCord.y<0 || m_GridCord.x>m_GridCount.x || m_GridCord.y>m_GridCount.y)
 	{
 		m_GridCord = m_InitialGridCord;
 		auto pos = CalcGridPos();
 		pos.z = -1;
-		if(!m_pHealth.expired())
-		{
-			auto tag = m_pParent.lock()->GetTag();
-			if (tag == "Coily")
-				m_pParent.lock()->GetComponent<CoilyMoveComponent>()->Reset();
-			m_pHealth.lock()->Damage(1);
-			if (m_pHealth.lock()->GetHealth() <= 0)
-				return pos;
 
+
+		std::string tag;
+		if (m_pParent.use_count())
+			tag = m_pParent.lock()->GetTag();
+		if (tag == "Coily"&& m_pParent.use_count())
+		{
+			m_pParent.lock()->GetComponent<CoilyMoveComponent>()->Reset();
 		}
-		
+
+		m_pHealth->Damage(1);
+		if (m_pHealth->GetHealth() <= 0)
+			return pos;
+
+
+
 		return pos;
 	}
 	return CalcGridPos();
@@ -104,8 +107,8 @@ int GridComponent::GetIndex()const
 
 void GridComponent::IncreaseScore(int score)
 {
-	if (!m_pScore.expired())
-		m_pScore.lock()->IncreaseScore(score);
+
+	m_pScore->IncreaseScore(score);
 		
 }
 

@@ -26,7 +26,7 @@ public:
 private:
 
 	int m_Score{ 0 };
-	std::weak_ptr<SubjectComponent> m_Subject;
+	std::shared_ptr<SubjectComponent> m_Subject;
 
 };
 

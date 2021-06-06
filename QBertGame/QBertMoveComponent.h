@@ -1,5 +1,6 @@
 #pragma once
 #include <BaseComponent.h>
+class SoundSystem;
 class TextureComponent;
 
 class QBertMoveComponent final:public BaseComponent
@@ -9,7 +10,7 @@ public:
 	virtual void SetParent(std::weak_ptr<GameObject> parent);
 	bool GetCanMove();
 	void Move(const glm::vec3& loc);
-	QBertMoveComponent(std::weak_ptr<GameObject> parent, float moveSpeed, const glm::vec3& offset);
+	QBertMoveComponent(std::weak_ptr<GameObject> parent, float moveSpeed, const glm::vec3& offset,unsigned short soundId);
 	virtual ~QBertMoveComponent() = default;
 	QBertMoveComponent(const QBertMoveComponent& other) = delete;
 	QBertMoveComponent(QBertMoveComponent&& other) = delete;
@@ -22,4 +23,5 @@ private:
 	std::weak_ptr<TextureComponent> m_pTexComp;
 	glm::vec3 m_Offset;
 	glm::ivec2 m_MoveDir;
+	unsigned short m_MoveSoundId;
 };

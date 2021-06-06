@@ -13,5 +13,5 @@ public:
 	GameMode GetGameMode();
 private:
 	SDL_Window* m_pWindow{};
-	GameMode m_GameMode{};
+	GameMode m_GameMode{GameMode::SinglePlayer };
 };

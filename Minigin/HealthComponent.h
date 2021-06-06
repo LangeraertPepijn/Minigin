@@ -13,6 +13,7 @@ public:
 	HealthComponent(std::weak_ptr<GameObject> parent, int maxHealth);
 	void Damage(const int damageAmount);
 	int GetHealth()const;
+	void ResetHealth();
 	void Heal(const int healAmount);
 	void SetParent(std::weak_ptr<GameObject> parent);
 	virtual ~HealthComponent() = default;
@@ -24,6 +25,6 @@ private:
 
 	int m_Health;
 	int m_MaxHealt;
-	std::weak_ptr<SubjectComponent> m_Subject;
+	std::shared_ptr<SubjectComponent> m_Subject;
 };
 

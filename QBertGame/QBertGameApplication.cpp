@@ -27,6 +27,8 @@
 #include "UggnWrongWayMoveComponent.h"
 #include "QBertMoveComponent.h"
 #include "QBertImguiRenderer.h"
+#include "SDLMixerSoundSystem.h"
+
 void QBertGameApplication::LoadNextLevel()
 {
 	InputManager::GetInstance().RefreshControllerCount();
@@ -36,6 +38,7 @@ void QBertGameApplication::LoadNextLevel()
 		Quit();
 		return;
 	}
+	m_pQBert1->GetComponent<ScoreComponent>()->IncreaseScore(50);
 	auto& blockManager = BlockManager::GetInstance();
 	blockManager.Clear();
 
@@ -73,7 +76,7 @@ void QBertGameApplication::LoadNextLevel()
 		if (m_Levels[m_CurrentLevelIdx].hasSam)
 			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
 		if (m_Levels[m_CurrentLevelIdx].hasSlick)
-			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
 			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasUgg)
@@ -96,7 +99,7 @@ void QBertGameApplication::LoadNextLevel()
 		if (m_Levels[m_CurrentLevelIdx].hasSam)
 			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
 		if (m_Levels[m_CurrentLevelIdx].hasSlick)
-			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
 			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasUgg)
@@ -111,7 +114,7 @@ void QBertGameApplication::LoadNextLevel()
 		if (m_Levels[m_CurrentLevelIdx].hasSam)
 			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
 		if (m_Levels[m_CurrentLevelIdx].hasSlick)
-			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
 			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasUgg)
@@ -130,9 +133,8 @@ void QBertGameApplication::ReloadLevel()
 	auto& blockManager = BlockManager::GetInstance();
 	blockManager.Clear();
 	InputManager::GetInstance().RefreshControllerCount();
-	//m_pQBert1->GetComponent<HealthComponent>()->Heal(3);
-	//m_pQBert1->GetComponent<ScoreComponent>()->SetScore(0);
-	
+	m_pQBert1->GetComponent<HealthComponent>()->ResetHealth();
+	m_pQBert1->GetComponent<ScoreComponent>()->SetScore(0);
 	auto& scene = SceneManager::GetInstance().CreateScene("QbertScene" + std::to_string(m_Levels[m_CurrentLevelIdx].levelNo));
 
 	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
@@ -173,7 +175,7 @@ void QBertGameApplication::ReloadLevel()
 		if (m_Levels[m_CurrentLevelIdx].hasSam)
 			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
 		if (m_Levels[m_CurrentLevelIdx].hasSlick)
-			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
 			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasUgg)
@@ -196,7 +198,7 @@ void QBertGameApplication::ReloadLevel()
 		if (m_Levels[m_CurrentLevelIdx].hasSam)
 			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
 		if (m_Levels[m_CurrentLevelIdx].hasSlick)
-			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
 			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasUgg)
@@ -212,7 +214,7 @@ void QBertGameApplication::ReloadLevel()
 		if (m_Levels[m_CurrentLevelIdx].hasSam)
 			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
 		if (m_Levels[m_CurrentLevelIdx].hasSlick)
-			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
 			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasUgg)
@@ -229,7 +231,7 @@ void QBertGameApplication::ResetLevel()
 	auto& blockManager = BlockManager::GetInstance();
 	blockManager.Clear();
 
-	m_pQBert1->GetComponent<HealthComponent>()->Heal(3);
+	m_pQBert1->GetComponent<HealthComponent>()->ResetHealth();
 	m_pQBert1->GetComponent<ScoreComponent>()->SetScore(0);
 
 	auto& scene = SceneManager::GetInstance().CreateScene("QbertScene" + std::to_string(m_Levels[m_CurrentLevelIdx].levelNo));
@@ -273,7 +275,7 @@ void QBertGameApplication::ResetLevel()
 		if (m_Levels[m_CurrentLevelIdx].hasSam)
 			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
 		if (m_Levels[m_CurrentLevelIdx].hasSlick)
-			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
 			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasUgg)
@@ -290,16 +292,30 @@ void QBertGameApplication::ResetLevel()
 		scene.Add(m_pQBert1);
 		if (m_pQBert2.get())
 		{
+
 			auto gridComp2 = m_pQBert2->GetComponent<GridComponent>();
 			gridComp2->ResetGridLocation();
 			auto pos2 = gridComp2->CalcGridPos();
 			m_pQBert2->GetComponent<TextureComponent>()->SetPosition(pos2 + m_Levels[m_CurrentLevelIdx].posFix);
 			scene.Add(m_pQBert2);
+			const CharacterMovement movement{ SDL_SCANCODE_S,SDL_SCANCODE_D,SDL_SCANCODE_A,SDL_SCANCODE_W };
+			AddCharacterControls(movement, m_pQBert2, 1);
 		}
 		else
 		{
 			const CharacterMovement movement{ SDL_SCANCODE_S,SDL_SCANCODE_D,SDL_SCANCODE_A,SDL_SCANCODE_W };
 			m_pQBert2 = CreateQBert(scene, movement, glm::ivec2{ 0,6 }, 1);
+
+			auto subjComp2 = std::make_shared <SubjectComponent>(m_pQBert2);
+			auto healthComp = m_pQBert1->GetComponent<HealthComponent>();
+			auto scoreComp = m_pQBert1->GetComponent<ScoreComponent>();
+			auto gridComp2 = m_pQBert2->GetComponent<GridComponent>();
+			gridComp2->AddHealthComp(healthComp);
+			gridComp2->AddScoreComp(scoreComp);
+			m_pQBert2->AddComponent(healthComp);
+			m_pQBert2->AddComponent(scoreComp);
+			m_pQBert2->AddComponent(subjComp2);
+
 		}
 		std::shared_ptr<GameObject>coily;
 		if (m_Levels[m_CurrentLevelIdx].hasCoily)
@@ -310,7 +326,7 @@ void QBertGameApplication::ResetLevel()
 		if (m_Levels[m_CurrentLevelIdx].hasSam)
 			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
 		if (m_Levels[m_CurrentLevelIdx].hasSlick)
-			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, false);
+			CreateSlickOrSam(scene, glm::ivec2{ rand() % 2,1 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasWrongWay)
 			CreateUggOrWrongWay(scene, glm::ivec2{ 6,6 }, true);
 		if (m_Levels[m_CurrentLevelIdx].hasUgg)
@@ -342,6 +358,21 @@ void QBertGameApplication::ResetLevel()
 	}
 }
 
+void QBertGameApplication::AddCharacterControls(const CharacterMovement& movement, std::shared_ptr<GameObject> object, unsigned long playerID)
+{
+	auto& inputManager = InputManager::GetInstance();
+	inputManager.AddCommand(movement.LeftDownKeyboard, ExecuteType::Pressed, std::make_shared<MoveLeftDown>(object));
+	inputManager.AddCommand(movement.RightDownKeyboard, ExecuteType::Pressed, std::make_shared<MoveRightDown>(object));
+	inputManager.AddCommand(movement.LeftUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveLeftUp>(object));
+	inputManager.AddCommand(movement.RightUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveRightUp>(object));
+
+	inputManager.AddCommand(movement.RightUpGamepad, ExecuteType::Pressed, std::make_shared<MoveRightUp>(object), playerID);
+	inputManager.AddCommand(movement.LeftDownGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftDown>(object), playerID);
+	inputManager.AddCommand(movement.RightDownGamepad, ExecuteType::Pressed, std::make_shared<MoveRightDown>(object), playerID);
+	inputManager.AddCommand(movement.LeftUpKeyGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftUp>(object), playerID);
+
+}
+
 void QBertGameApplication::UserInitialize()
 {
 	std::srand(unsigned int(time(NULL)));
@@ -351,8 +382,21 @@ void QBertGameApplication::UserInitialize()
 
 void QBertGameApplication::UserLoadGame()
 {
+	ServiceLocator::RegisterSoundSystem(new SDLMixerSoundSystem{ false });
+	SDLMixerSoundSystem* temp = static_cast<SDLMixerSoundSystem*>(ServiceLocator::GetSoundSystem());
+	temp->AddSound("Resources/jumpqBert.wav");
+	temp->AddSound("Resources/jumpEnemy.wav");
+	temp->AddSound("Resources/BackGroundMusic.wav");
+
+
+	const auto soundSystem = ServiceLocator::GetSoundSystem();
+	if (soundSystem)
+	{
+		soundSystem->Play(2, 25.f);
+	}
+	
+	m_GameMode = GameMode::SinglePlayer;
 	auto& blockManager = BlockManager::GetInstance();
-	m_GameMode = GameMode::MultiPlayerVS;
 	JsonLevelReader jsonReader{ "Resources/Level.json" };
 	jsonReader.ReadFile(m_Levels);
 	blockManager.LinkLevelDone(m_LevelIsDone);
@@ -469,6 +513,7 @@ void QBertGameApplication::UserLoadGame()
 	healthp1->SetHudElement(std::static_pointer_cast<HudTextComponent>(healthHud1));
 	InputManager::GetInstance().RefreshControllerCount();
 	scene.Add(m_pHudObj);
+
 }
 
 void QBertGameApplication::UserCleanUp()
@@ -491,12 +536,15 @@ void QBertGameApplication::UserUpdate(float)
 	}
 	if (m_pQBert1->GetComponent<HealthComponent>()->GetHealth()==0)
 	{
+		m_CurrentLevelIdx = 0;
 		ReloadLevel();
 	}
 	if(m_pImguiRenderer->GetGameMode()!=m_GameMode)
 	{
 		m_GameMode = m_pImguiRenderer->GetGameMode();
 		ResetLevel();
+
+		
 	}
 }
 
@@ -541,17 +589,7 @@ void QBertGameApplication::CreateBlocks(Scene& scene)const
 		}
 	}
 }
-/// <summary>
 /// creates coily but needs to have a qbert to do so
-/// </summary>
-/// <param name="scene"></param>
-/// <param name="gridSize"></param>
-/// <param name="blockSize"></param>
-/// <param name="posFix"></param>
-/// <param name="offset"></param>
-/// <param name="movement"></param>
-/// <param name="gridLoc"></param>
-/// <returns></returns>
 std::shared_ptr<GameObject> QBertGameApplication::CreateQBert(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc, unsigned long playerID) const
 {
 	auto& inputManager = InputManager::GetInstance();
@@ -565,9 +603,14 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateQBert(Scene& scene, cons
 	pos += m_Levels[m_CurrentLevelIdx].posFix;
 	qbert->AddComponent(std::make_shared <TextureComponent>(qbert, "tempQbert.png", pos));
 	qbert->AddComponent(std::make_shared <RenderComponent>(qbert));
-	qbert->AddComponent(std::make_shared <QBertMoveComponent>(qbert, 4.f, m_Levels[m_CurrentLevelIdx].posFix));
+	qbert->AddComponent(std::make_shared <QBertMoveComponent>(qbert, 2.f, m_Levels[m_CurrentLevelIdx].posFix,unsigned short(0)));
+
+
+	
 	if (playerID == 0)
 	{
+
+		
 		const auto healthComp = std::make_shared<HealthComponent>(qbert, 3);
 		qbert->AddComponent(healthComp);
 		gridComp->AddHealthComp(healthComp);
@@ -611,10 +654,10 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateCoily(Scene& scene, cons
 	auto qbertGridComp = m_pQBert1->GetComponent<GridComponent>();
 	auto posFixActive = m_Levels[m_CurrentLevelIdx].posFix;
 	posFixActive.y -= 23;
-	coily->AddComponent(std::make_shared <CoilyMoveComponent>(coily,1.f, m_Levels[m_CurrentLevelIdx].posFix,posFixActive,m_pQBert1,m_pQBert2, "CoilyBall.png","CoilySnake.png",false));
+	coily->AddComponent(std::make_shared <CoilyMoveComponent>(coily,1.f, m_Levels[m_CurrentLevelIdx].posFix,posFixActive,m_pQBert1,m_pQBert2, "CoilyBall.png","CoilySnake.png",false, unsigned short(1)));
 	coily->AddComponent(std::make_shared <ObserverComponent>(coily, std::make_shared<QbertHealthObserver>()));
 	coily->AddComponent(std::make_shared<SubjectComponent>(coily));
-	const auto healthComp = std::make_shared<HealthComponent>(coily, 1);
+	const auto healthComp = std::make_shared<HealthComponent>(coily, 100);
 	
 	coily->AddComponent(healthComp);
 	gridComp->AddHealthComp(healthComp);
@@ -643,7 +686,7 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateCoily(Scene& scene, cons
 	auto qbertGridComp = m_pQBert1->GetComponent<GridComponent>();
 	auto posFixActive = m_Levels[m_CurrentLevelIdx].posFix;
 	posFixActive.y -= 23;
-	coily->AddComponent(std::make_shared <CoilyMoveComponent>(coily, 4.f, m_Levels[m_CurrentLevelIdx].posFix, posFixActive, m_pQBert1,m_pQBert2, "CoilyBall.png", "CoilySnake.png",true));
+	coily->AddComponent(std::make_shared <CoilyMoveComponent>(coily, 2.f, m_Levels[m_CurrentLevelIdx].posFix, posFixActive, m_pQBert1,m_pQBert2, "CoilyBall.png", "CoilySnake.png",true, unsigned short(1)));
 	coily->AddComponent(std::make_shared <ObserverComponent>(coily, std::make_shared<QbertHealthObserver>()));
 	const auto healthComp = std::make_shared<HealthComponent>(coily, 3);
 	coily->AddComponent( std::make_shared<SubjectComponent>(coily));
@@ -685,7 +728,7 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateSlickOrSam(Scene& scene,
 	auto qbertGridComp = m_pQBert1->GetComponent<GridComponent>();
 	auto posFixActive = m_Levels[m_CurrentLevelIdx].posFix;
 	posFixActive.y -= 23;
-	slick->AddComponent(std::make_shared <SlicknSamMoveComponent>(slick, 1.f, m_Levels[m_CurrentLevelIdx].posFix, rand() % 10 + 4.f,texComp,gridComp,m_pQBert1,m_pQBert2));
+	slick->AddComponent(std::make_shared <SlicknSamMoveComponent>(slick, 1.f, m_Levels[m_CurrentLevelIdx].posFix, rand() % 10 + 4.f,texComp, unsigned short(1),gridComp,m_pQBert1,m_pQBert2));
 	slick->AddComponent(std::make_shared <ObserverComponent>(slick, std::make_shared<QbertHealthObserver>()));
 	slick->AddComponent(std::make_shared<SubjectComponent>(slick));
 	const auto healthComp = std::make_shared<HealthComponent>(slick, 1);
@@ -729,7 +772,7 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateUggOrWrongWay(Scene& sce
 	auto qbertGridComp = m_pQBert1->GetComponent<GridComponent>();
 	auto posFixActive = m_Levels[m_CurrentLevelIdx].posFix;
 	posFixActive.y -= 23;
-	ugg->AddComponent(std::make_shared <UggnWrongWayMoveComponent>(ugg, 1.f, offset, rand()%10+4.f,m_Levels[m_CurrentLevelIdx].posFix, m_pQBert1, m_pQBert2,!isWrongWay));
+	ugg->AddComponent(std::make_shared <UggnWrongWayMoveComponent>(ugg, 1.f, offset, rand()%10+4.f,m_Levels[m_CurrentLevelIdx].posFix, unsigned short(1), m_pQBert1, m_pQBert2,!isWrongWay));
 	ugg->AddComponent(std::make_shared <ObserverComponent>(ugg, std::make_shared<QbertHealthObserver>()));
 	ugg->AddComponent(std::make_shared<SubjectComponent>(ugg));
 	const auto healthComp = std::make_shared<HealthComponent>(ugg, 1);

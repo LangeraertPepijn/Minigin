@@ -20,8 +20,8 @@ public:
 	void SetGridLocation(const glm::ivec2& loc);
 	void SetInitialGridLocation(const glm::ivec2& loc);
 	void ResetGridLocation();
-	void AddHealthComp(std::weak_ptr<HealthComponent>health);
-	void AddScoreComp(std::weak_ptr<ScoreComponent>score);
+	void AddHealthComp(std::shared_ptr<HealthComponent>health);
+	void AddScoreComp(std::shared_ptr<ScoreComponent>score);
 	glm::vec3 GridTaken();
 	int GetIndex()const;
 	void IncreaseScore(int score);
@@ -41,7 +41,7 @@ private:
 	glm::vec2 m_GridSize;
 	glm::vec2 m_Offset;
 	glm::vec3 m_Pos;
-	std::weak_ptr<HealthComponent> m_pHealth;
-	std::weak_ptr<ScoreComponent> m_pScore;
+	std::shared_ptr<HealthComponent> m_pHealth;
+	std::shared_ptr<ScoreComponent> m_pScore;
 };
 

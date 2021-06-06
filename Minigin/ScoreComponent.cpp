@@ -32,14 +32,17 @@ void ScoreComponent::IncreaseScore(int diff)
 	if (diff > 0)
 	{
 		m_Score += diff;
-		if (m_Subject.lock() != nullptr)
+		if (m_Subject.get())
 		{
-			m_Subject.lock()->Notify(Event{int(Event::Events::Scored)});
+			if (m_Subject != nullptr)
+			{
+				m_Subject->Notify(Event{ int(Event::Events::Scored) });
+			}
 		}
 		else
 		{
 			m_Subject = m_pParent.lock()->GetComponent<SubjectComponent>();
-			m_Subject.lock()->Notify(Event{ int(Event::Events::Scored) });
+			m_Subject->Notify(Event{ int(Event::Events::Scored) });
 
 		}
 		
