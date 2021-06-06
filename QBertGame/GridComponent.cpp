@@ -33,6 +33,11 @@ void GridComponent::SetGridLocation(const glm::ivec2& loc)
 	m_GridCord = loc;
 }
 
+void GridComponent::SetInitialGridLocation(const glm::ivec2& loc)
+{
+	m_InitialGridCord = loc;
+}
+
 void GridComponent::ResetGridLocation()
 {
 	m_GridCord = m_InitialGridCord;

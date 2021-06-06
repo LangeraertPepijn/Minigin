@@ -22,9 +22,20 @@ void QBertImguiRenderer::RenderUI()
 		ImGui::Begin("Controls");
 		ImGui::Text("player1: press  wasd or controller 1 dpad to move\n");
 		ImGui::Text("player1: press  1379 or controller 2 dpad to move\n");
-		ImGui::Button("SinglePlayer");
-		ImGui::Button("Co-Op");
-		ImGui::Button("Versus");
+		if(ImGui::Button("SinglePlayer"))
+		{
+			m_GameMode = GameMode::SinglePlayer;
+		}
+		if(ImGui::Button("Co-Op"))
+		{
+			
+			m_GameMode = GameMode::MultiPlayerCoop;
+		}
+		if(ImGui::Button("Versus"))
+		{
+			
+			m_GameMode = GameMode::MultiPlayerVS;
+		}
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
@@ -35,4 +46,10 @@ void QBertImguiRenderer::Destroy()
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+	
+}
+
+GameMode QBertImguiRenderer::GetGameMode()
+{
+	return m_GameMode;
 }

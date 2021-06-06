@@ -1,6 +1,9 @@
 #pragma once
 #include <Minigin.h>
 #include "LevelInfo.h"
+#include "GameMode.h"
+class QBertImguiRenderer;
+//#include "QBertImguiRenderer.h"
 class SubjectComponent;
 class ScoreComponent;
 class HealthComponent;
@@ -9,13 +12,7 @@ struct CharacterMovement;
 class GameObject;
 class Scene;
 
-enum class GameMode: int
-{
-	SinglePlayer,
-	MultiPlayerCoop,
-	MultiPlayerVS
-	
-};
+
 class QBertGameApplication final: public Minigin
 {
 private:
@@ -29,7 +26,7 @@ private:
 	std::shared_ptr<GameObject> m_pHudObj=nullptr;
 	std::shared_ptr<HudTextComponent> m_pHudScore=nullptr;
 	std::shared_ptr<HudTextComponent> m_pHudHealth=nullptr;
-
+	QBertImguiRenderer* m_pImguiRenderer;
 	
 	void LoadNextLevel();
 	void ReloadLevel();

@@ -18,6 +18,7 @@ public:
 
 	glm::ivec2 GetGridLocation()const;
 	void SetGridLocation(const glm::ivec2& loc);
+	void SetInitialGridLocation(const glm::ivec2& loc);
 	void ResetGridLocation();
 	void AddHealthComp(std::weak_ptr<HealthComponent>health);
 	void AddScoreComp(std::weak_ptr<ScoreComponent>score);

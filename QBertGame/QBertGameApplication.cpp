@@ -247,11 +247,7 @@ void QBertGameApplication::ResetLevel()
 	blockManager.SetInActiveTex(m_Levels[m_CurrentLevelIdx].inActiveTex);
 	blockManager.SetInBetweenTex(m_Levels[m_CurrentLevelIdx].InBetweenTex);
 	CreateBlocks(scene);
-	auto gridComp = m_pQBert1->GetComponent<GridComponent>();
-	gridComp->ResetGridLocation();
-	auto pos = gridComp->CalcGridPos();
-	m_pQBert1->GetComponent<TextureComponent>()->SetPosition(pos + m_Levels[m_CurrentLevelIdx].posFix);
-	scene.Add(m_pQBert1);
+
 	auto txts = m_pHudObj->GetComponentsType<TextComponent>();
 	for (size_t i = 0; i < txts.size(); ++i)
 	{
@@ -262,7 +258,12 @@ void QBertGameApplication::ResetLevel()
 	{
 	case GameMode::SinglePlayer:
 	{
-
+		auto gridComp = m_pQBert1->GetComponent<GridComponent>();
+		gridComp->SetGridLocation({0,0});
+		gridComp->SetInitialGridLocation({ 0,0 });
+		auto pos = gridComp->CalcGridPos();
+		m_pQBert1->GetComponent<TextureComponent>()->SetPosition(pos + m_Levels[m_CurrentLevelIdx].posFix);
+		scene.Add(m_pQBert1);
 		std::shared_ptr<GameObject>coily;
 		if (m_Levels[m_CurrentLevelIdx].hasCoily)
 		{
@@ -281,11 +282,25 @@ void QBertGameApplication::ResetLevel()
 	}
 	case GameMode::MultiPlayerCoop:
 	{
-		auto gridComp2 = m_pQBert2->GetComponent<GridComponent>();
-		gridComp2->ResetGridLocation();
-		auto pos2 = gridComp2->CalcGridPos();
-		m_pQBert2->GetComponent<TextureComponent>()->SetPosition(pos2 + m_Levels[m_CurrentLevelIdx].posFix);
-		scene.Add(m_pQBert2);
+		auto gridComp = m_pQBert1->GetComponent<GridComponent>();
+		gridComp->SetGridLocation({ 6,6 });
+		gridComp->SetInitialGridLocation({ 6,6 });
+		auto pos = gridComp->CalcGridPos();
+		m_pQBert1->GetComponent<TextureComponent>()->SetPosition(pos + m_Levels[m_CurrentLevelIdx].posFix);
+		scene.Add(m_pQBert1);
+		if (m_pQBert2.get())
+		{
+			auto gridComp2 = m_pQBert2->GetComponent<GridComponent>();
+			gridComp2->ResetGridLocation();
+			auto pos2 = gridComp2->CalcGridPos();
+			m_pQBert2->GetComponent<TextureComponent>()->SetPosition(pos2 + m_Levels[m_CurrentLevelIdx].posFix);
+			scene.Add(m_pQBert2);
+		}
+		else
+		{
+			const CharacterMovement movement{ SDL_SCANCODE_S,SDL_SCANCODE_D,SDL_SCANCODE_A,SDL_SCANCODE_W };
+			m_pQBert2 = CreateQBert(scene, movement, glm::ivec2{ 0,6 }, 1);
+		}
 		std::shared_ptr<GameObject>coily;
 		if (m_Levels[m_CurrentLevelIdx].hasCoily)
 		{
@@ -305,6 +320,12 @@ void QBertGameApplication::ResetLevel()
 	}
 	case GameMode::MultiPlayerVS:
 	{
+		auto gridComp = m_pQBert1->GetComponent<GridComponent>();
+		gridComp->SetGridLocation({ 0,0 });
+		gridComp->SetInitialGridLocation({ 0,0 });
+		auto pos = gridComp->CalcGridPos();
+		m_pQBert1->GetComponent<TextureComponent>()->SetPosition(pos + m_Levels[m_CurrentLevelIdx].posFix);
+		scene.Add(m_pQBert1);
 		const CharacterMovement movement{ SDL_SCANCODE_S,SDL_SCANCODE_D,SDL_SCANCODE_A,SDL_SCANCODE_W };
 		auto coily = CreateCoily(scene, movement, glm::ivec2{ rand() % 2,1 }, 1);
 		m_pQBert1->GetComponent<SubjectComponent>()->AddObserver(coily->GetComponent<ObserverComponent>());
@@ -324,7 +345,8 @@ void QBertGameApplication::ResetLevel()
 void QBertGameApplication::UserInitialize()
 {
 	std::srand(unsigned int(time(NULL)));
-	QBertImguiRenderer::GetInstance().Init(m_Window);
+	m_pImguiRenderer = &QBertImguiRenderer::GetInstance();
+	m_pImguiRenderer->Init(m_Window);
 }
 
 void QBertGameApplication::UserLoadGame()
@@ -470,6 +492,11 @@ void QBertGameApplication::UserUpdate(float)
 	if (m_pQBert1->GetComponent<HealthComponent>()->GetHealth()==0)
 	{
 		ReloadLevel();
+	}
+	if(m_pImguiRenderer->GetGameMode()!=m_GameMode)
+	{
+		m_GameMode = m_pImguiRenderer->GetGameMode();
+		ResetLevel();
 	}
 }
 
