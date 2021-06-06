@@ -2,7 +2,7 @@
 #include <BaseComponent.h>
 class TextureComponent;
 
-class QBertMoveComponent :public BaseComponent
+class QBertMoveComponent final:public BaseComponent
 {
 public:
 	void Update(float dt)override;

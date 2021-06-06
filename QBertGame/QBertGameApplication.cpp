@@ -26,18 +26,18 @@
 #include "SlicknSamMoveComponent.h"
 #include "UggnWrongWayMoveComponent.h"
 #include "QBertMoveComponent.h"
-
+#include "QBertImguiRenderer.h"
 void QBertGameApplication::LoadNextLevel()
 {
-
+	InputManager::GetInstance().RefreshControllerCount();
 	m_CurrentLevelIdx++;
 	if (size_t(m_CurrentLevelIdx) >= m_Levels.size())
 	{
 		Quit();
 		return;
 	}
-	
-	BlockManager::GetInstance().Clear();
+	auto& blockManager = BlockManager::GetInstance();
+	blockManager.Clear();
 
 	auto& scene = SceneManager::GetInstance().CreateScene("QbertScene" + std::to_string(m_Levels[m_CurrentLevelIdx].levelNo));
 	
@@ -46,11 +46,11 @@ void QBertGameApplication::LoadNextLevel()
 	go->AddComponent(std::make_shared <RenderComponent>(go));
 	scene.Add(go);
 
-	BlockManager::GetInstance().SetCanRevert(m_Levels[m_CurrentLevelIdx].canRevert);
-	BlockManager::GetInstance().SetNeedsDoubleTouch(m_Levels[m_CurrentLevelIdx].needsDoubleTouch);
-	BlockManager::GetInstance().SetActiveTex(m_Levels[m_CurrentLevelIdx].activeTex);
-	BlockManager::GetInstance().SetInActiveTex(m_Levels[m_CurrentLevelIdx].inActiveTex);
-	BlockManager::GetInstance().SetInBetweenTex(m_Levels[m_CurrentLevelIdx].InBetweenTex);
+	blockManager.SetCanRevert(m_Levels[m_CurrentLevelIdx].canRevert);
+	blockManager.SetNeedsDoubleTouch(m_Levels[m_CurrentLevelIdx].needsDoubleTouch);
+	blockManager.SetActiveTex(m_Levels[m_CurrentLevelIdx].activeTex);
+	blockManager.SetInActiveTex(m_Levels[m_CurrentLevelIdx].inActiveTex);
+	blockManager.SetInBetweenTex(m_Levels[m_CurrentLevelIdx].InBetweenTex);
 	CreateBlocks(scene);
 
 	auto gridComp = m_pQBert1->GetComponent<GridComponent>();
@@ -127,8 +127,9 @@ void QBertGameApplication::LoadNextLevel()
 
 void QBertGameApplication::ReloadLevel()
 {
-	BlockManager::GetInstance().Clear();
-
+	auto& blockManager = BlockManager::GetInstance();
+	blockManager.Clear();
+	InputManager::GetInstance().RefreshControllerCount();
 	//m_pQBert1->GetComponent<HealthComponent>()->Heal(3);
 	//m_pQBert1->GetComponent<ScoreComponent>()->SetScore(0);
 	
@@ -141,11 +142,11 @@ void QBertGameApplication::ReloadLevel()
 
 
 	
-	BlockManager::GetInstance().SetCanRevert(m_Levels[m_CurrentLevelIdx].canRevert);
-	BlockManager::GetInstance().SetNeedsDoubleTouch(m_Levels[m_CurrentLevelIdx].needsDoubleTouch);
-	BlockManager::GetInstance().SetActiveTex(m_Levels[m_CurrentLevelIdx].activeTex);
-	BlockManager::GetInstance().SetInActiveTex(m_Levels[m_CurrentLevelIdx].inActiveTex);
-	BlockManager::GetInstance().SetInBetweenTex(m_Levels[m_CurrentLevelIdx].InBetweenTex);
+	blockManager.SetCanRevert(m_Levels[m_CurrentLevelIdx].canRevert);
+	blockManager.SetNeedsDoubleTouch(m_Levels[m_CurrentLevelIdx].needsDoubleTouch);
+	blockManager.SetActiveTex(m_Levels[m_CurrentLevelIdx].activeTex);
+	blockManager.SetInActiveTex(m_Levels[m_CurrentLevelIdx].inActiveTex);
+	blockManager.SetInBetweenTex(m_Levels[m_CurrentLevelIdx].InBetweenTex);
 	CreateBlocks(scene);
 	auto gridComp = m_pQBert1->GetComponent<GridComponent>();
 	gridComp->ResetGridLocation();
@@ -224,7 +225,9 @@ void QBertGameApplication::ReloadLevel()
 
 void QBertGameApplication::ResetLevel()
 {
-	BlockManager::GetInstance().Clear();
+	InputManager::GetInstance().RefreshControllerCount();
+	auto& blockManager = BlockManager::GetInstance();
+	blockManager.Clear();
 
 	m_pQBert1->GetComponent<HealthComponent>()->Heal(3);
 	m_pQBert1->GetComponent<ScoreComponent>()->SetScore(0);
@@ -238,11 +241,11 @@ void QBertGameApplication::ResetLevel()
 
 
 
-	BlockManager::GetInstance().SetCanRevert(m_Levels[m_CurrentLevelIdx].canRevert);
-	BlockManager::GetInstance().SetNeedsDoubleTouch(m_Levels[m_CurrentLevelIdx].needsDoubleTouch);
-	BlockManager::GetInstance().SetActiveTex(m_Levels[m_CurrentLevelIdx].activeTex);
-	BlockManager::GetInstance().SetInActiveTex(m_Levels[m_CurrentLevelIdx].inActiveTex);
-	BlockManager::GetInstance().SetInBetweenTex(m_Levels[m_CurrentLevelIdx].InBetweenTex);
+	blockManager.SetCanRevert(m_Levels[m_CurrentLevelIdx].canRevert);
+	blockManager.SetNeedsDoubleTouch(m_Levels[m_CurrentLevelIdx].needsDoubleTouch);
+	blockManager.SetActiveTex(m_Levels[m_CurrentLevelIdx].activeTex);
+	blockManager.SetInActiveTex(m_Levels[m_CurrentLevelIdx].inActiveTex);
+	blockManager.SetInBetweenTex(m_Levels[m_CurrentLevelIdx].InBetweenTex);
 	CreateBlocks(scene);
 	auto gridComp = m_pQBert1->GetComponent<GridComponent>();
 	gridComp->ResetGridLocation();
@@ -321,25 +324,27 @@ void QBertGameApplication::ResetLevel()
 void QBertGameApplication::UserInitialize()
 {
 	std::srand(unsigned int(time(NULL)));
+	QBertImguiRenderer::GetInstance().Init(m_Window);
 }
 
 void QBertGameApplication::UserLoadGame()
 {
+	auto& blockManager = BlockManager::GetInstance();
 	m_GameMode = GameMode::MultiPlayerVS;
 	JsonLevelReader jsonReader{ "Resources/Level.json" };
 	jsonReader.ReadFile(m_Levels);
-	BlockManager::GetInstance().LinkLevelDone(m_LevelIsDone);
+	blockManager.LinkLevelDone(m_LevelIsDone);
 
 	auto& scene = SceneManager::GetInstance().CreateScene("QbertScene" + std::to_string(m_Levels[m_CurrentLevelIdx].levelNo));
 	std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
 	go->AddComponent(std::make_shared <TextureComponent>(go, "background.jpg"));
 	go->AddComponent(std::make_shared <RenderComponent>(go));
 	scene.Add(go);
-	BlockManager::GetInstance().SetCanRevert(m_Levels[m_CurrentLevelIdx].canRevert);
-	BlockManager::GetInstance().SetNeedsDoubleTouch(m_Levels[m_CurrentLevelIdx].needsDoubleTouch);
-	BlockManager::GetInstance().SetActiveTex(m_Levels[m_CurrentLevelIdx].activeTex);
-	BlockManager::GetInstance().SetInActiveTex(m_Levels[m_CurrentLevelIdx].inActiveTex);
-	BlockManager::GetInstance().SetInBetweenTex(m_Levels[m_CurrentLevelIdx].InBetweenTex);
+	blockManager.SetCanRevert(m_Levels[m_CurrentLevelIdx].canRevert);
+	blockManager.SetNeedsDoubleTouch(m_Levels[m_CurrentLevelIdx].needsDoubleTouch);
+	blockManager.SetActiveTex(m_Levels[m_CurrentLevelIdx].activeTex);
+	blockManager.SetInActiveTex(m_Levels[m_CurrentLevelIdx].inActiveTex);
+	blockManager.SetInBetweenTex(m_Levels[m_CurrentLevelIdx].InBetweenTex);
 	CreateBlocks(scene);
 	std::shared_ptr<GameObject> coily = nullptr;
 	switch (m_GameMode)
@@ -446,7 +451,13 @@ void QBertGameApplication::UserLoadGame()
 
 void QBertGameApplication::UserCleanUp()
 {
-	 BlockManager::GetInstance().Clear();
+	BlockManager::GetInstance().Clear();
+	QBertImguiRenderer::GetInstance().Destroy();
+}
+
+void QBertGameApplication::UserRender()
+{
+	QBertImguiRenderer::GetInstance().RenderUI();
 }
 
 void QBertGameApplication::UserUpdate(float)
@@ -470,7 +481,7 @@ void QBertGameApplication::CreateBlocks(Scene& scene)const
 
 	int locationCounter = 0;
 
-
+	auto& blockManager = BlockManager::GetInstance();
 	for (int i = 0; i < 7; ++i)
 	{
 		for (int j = 0; j <= i; j++)
@@ -485,7 +496,7 @@ void QBertGameApplication::CreateBlocks(Scene& scene)const
 				go->AddComponent(texComp);
 				go->AddComponent(std::make_shared <RenderComponent>(go));
 				go->AddComponent(std::make_shared <GridComponent>(go, m_Levels[m_CurrentLevelIdx].gridSize, m_Levels[m_CurrentLevelIdx].blockSize,glm::ivec2{j,i}, m_Levels[m_CurrentLevelIdx].offset));
-				BlockManager::GetInstance().AddBlock(int(j* m_Levels[m_CurrentLevelIdx].gridSize.x +i),texComp);
+				blockManager.AddBlock(int(j* m_Levels[m_CurrentLevelIdx].gridSize.x +i),texComp);
 				scene.Add(go);
 			}
 			else
@@ -496,7 +507,7 @@ void QBertGameApplication::CreateBlocks(Scene& scene)const
 				go->AddComponent(texComp);
 				go->AddComponent(std::make_shared <RenderComponent>(go));
 				go->AddComponent(std::make_shared <GridComponent>(go, glm::ivec2{ 7,7 }, m_Levels[m_CurrentLevelIdx].blockSize, glm::ivec2{ j,i }, m_Levels[m_CurrentLevelIdx].offset));
-				BlockManager::GetInstance().AddBlock(int(j* m_Levels[m_CurrentLevelIdx].gridSize.x+i),texComp);
+				blockManager.AddBlock(int(j* m_Levels[m_CurrentLevelIdx].gridSize.x+i),texComp);
 				scene.Add(go);
 			}
 			locationCounter++;
@@ -516,6 +527,7 @@ void QBertGameApplication::CreateBlocks(Scene& scene)const
 /// <returns></returns>
 std::shared_ptr<GameObject> QBertGameApplication::CreateQBert(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc, unsigned long playerID) const
 {
+	auto& inputManager = InputManager::GetInstance();
 	std::shared_ptr<GameObject> qbert = std::make_shared<GameObject>();
 	qbert->SetTag("QBert");
 	qbert = std::make_shared<GameObject>();
@@ -526,7 +538,7 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateQBert(Scene& scene, cons
 	pos += m_Levels[m_CurrentLevelIdx].posFix;
 	qbert->AddComponent(std::make_shared <TextureComponent>(qbert, "tempQbert.png", pos));
 	qbert->AddComponent(std::make_shared <RenderComponent>(qbert));
-	qbert->AddComponent(std::make_shared <QBertMoveComponent>(qbert,4.f,m_Levels[m_CurrentLevelIdx].posFix));
+	qbert->AddComponent(std::make_shared <QBertMoveComponent>(qbert, 4.f, m_Levels[m_CurrentLevelIdx].posFix));
 	if (playerID == 0)
 	{
 		const auto healthComp = std::make_shared<HealthComponent>(qbert, 3);
@@ -539,17 +551,17 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateQBert(Scene& scene, cons
 	scene.Add(qbert);
 
 
-	
 
-	InputManager::GetInstance().AddCommand(movement.LeftDownKeyboard, ExecuteType::Pressed, std::make_shared<MoveLeftDown>(qbert));
-	InputManager::GetInstance().AddCommand(movement.RightDownKeyboard, ExecuteType::Pressed, std::make_shared<MoveRightDown>(qbert));
-	InputManager::GetInstance().AddCommand(movement.LeftUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveLeftUp>(qbert));
-	InputManager::GetInstance().AddCommand(movement.RightUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveRightUp>(qbert ));
 
-	InputManager::GetInstance().AddCommand(movement.RightUpGamepad, ExecuteType::Pressed, std::make_shared<MoveRightUp>(qbert),playerID);
-	InputManager::GetInstance().AddCommand(movement.LeftDownGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftDown>(qbert), playerID);
-	InputManager::GetInstance().AddCommand(movement.RightDownGamepad, ExecuteType::Pressed, std::make_shared<MoveRightDown>(qbert), playerID);
-	InputManager::GetInstance().AddCommand(movement.LeftUpKeyGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftUp>(qbert), playerID);
+	inputManager.AddCommand(movement.LeftDownKeyboard, ExecuteType::Pressed, std::make_shared<MoveLeftDown>(qbert));
+	inputManager.AddCommand(movement.RightDownKeyboard, ExecuteType::Pressed, std::make_shared<MoveRightDown>(qbert));
+	inputManager.AddCommand(movement.LeftUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveLeftUp>(qbert));
+	inputManager.AddCommand(movement.RightUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveRightUp>(qbert));
+
+	inputManager.AddCommand(movement.RightUpGamepad, ExecuteType::Pressed, std::make_shared<MoveRightUp>(qbert), playerID);
+	inputManager.AddCommand(movement.LeftDownGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftDown>(qbert), playerID);
+	inputManager.AddCommand(movement.RightDownGamepad, ExecuteType::Pressed, std::make_shared<MoveRightDown>(qbert), playerID);
+	inputManager.AddCommand(movement.LeftUpKeyGamepad, ExecuteType::Pressed, std::make_shared<MoveLeftUp>(qbert), playerID);
 
 	return qbert;
 }
@@ -589,6 +601,7 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateCoily(Scene& scene, cons
 
 	if (!m_pQBert1)
 		return nullptr;
+	auto& inputManager = InputManager::GetInstance();
 	std::shared_ptr<GameObject> coily = std::make_shared<GameObject>();
 	coily->SetTag("Coily");
 
@@ -610,15 +623,15 @@ std::shared_ptr<GameObject> QBertGameApplication::CreateCoily(Scene& scene, cons
 	coily->AddComponent(healthComp);
 	gridComp->AddHealthComp(healthComp);
 	scene.Add(coily);
-	InputManager::GetInstance().AddCommand(movement.LeftDownKeyboard, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily,glm::ivec3{ 0,1,0 }));
-	InputManager::GetInstance().AddCommand(movement.RightDownKeyboard, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 1,1,0 }));
-	InputManager::GetInstance().AddCommand(movement.LeftUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ -1,-1,0 }));
-	InputManager::GetInstance().AddCommand(movement.RightUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,-1,0 }));
+	inputManager.AddCommand(movement.LeftDownKeyboard, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily,glm::ivec3{ 0,1,0 }));
+	inputManager.AddCommand(movement.RightDownKeyboard, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 1,1,0 }));
+	inputManager.AddCommand(movement.LeftUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ -1,-1,0 }));
+	inputManager.AddCommand(movement.RightUpKeyboard, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,-1,0 }));
 
-	InputManager::GetInstance().AddCommand(movement.RightUpGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,-1,0 }),controlerID);
-	InputManager::GetInstance().AddCommand(movement.LeftDownGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,1,0 }),controlerID);
-	InputManager::GetInstance().AddCommand(movement.RightDownGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 1,1,0 }),controlerID);
-	InputManager::GetInstance().AddCommand(movement.LeftUpKeyGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ -1,-1,0 }),controlerID);
+	inputManager.AddCommand(movement.RightUpGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,-1,0 }),controlerID);
+	inputManager.AddCommand(movement.LeftDownGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 0,1,0 }),controlerID);
+	inputManager.AddCommand(movement.RightDownGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ 1,1,0 }),controlerID);
+	inputManager.AddCommand(movement.LeftUpKeyGamepad, ExecuteType::Pressed, std::make_shared<MoveCoily>(coily, glm::ivec3{ -1,-1,0 }),controlerID);
 	return coily;
 }
 

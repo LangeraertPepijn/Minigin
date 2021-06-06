@@ -1,7 +1,7 @@
 #pragma once
 #include <Observer.h>
 
-class QbertObserver :public Observer
+class QbertObserver final :public Observer
 {
 public:
 	QbertObserver();

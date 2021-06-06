@@ -1,6 +1,6 @@
 #pragma once
 #include "Event.h"
-struct QBertEvent: public Event
+struct QBertEvent final: public Event
 {
 	enum QBertEvents:int
 	{

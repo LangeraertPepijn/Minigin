@@ -16,7 +16,7 @@ enum class GameMode: int
 	MultiPlayerVS
 	
 };
-class QBertGameApplication : public Minigin
+class QBertGameApplication final: public Minigin
 {
 private:
 	std::vector<LevelInfo> m_Levels;
@@ -40,6 +40,7 @@ protected:
 	void UserInitialize() override;
 	void UserLoadGame()  override;
 	void UserCleanUp() override;
+	void UserRender() override;
 	void UserUpdate(float ) override;
 	void CreateBlocks(Scene& scene)const;
 	std::shared_ptr<GameObject> CreateQBert(Scene& scene, const CharacterMovement& movement, const glm::ivec2& gridLoc, unsigned long playerID)const;

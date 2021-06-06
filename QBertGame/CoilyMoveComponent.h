@@ -3,7 +3,7 @@
 class GridComponent;
 class TextureComponent;
 
-class CoilyMoveComponent :
+class CoilyMoveComponent final:
     public BaseComponent
 {
 

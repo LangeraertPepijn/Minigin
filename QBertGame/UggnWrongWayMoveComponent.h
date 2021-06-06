@@ -3,7 +3,7 @@
 class GridComponent;
 class TextureComponent;
 
-class UggnWrongWayMoveComponent :
+class UggnWrongWayMoveComponent final :
     public BaseComponent
 {
 public:

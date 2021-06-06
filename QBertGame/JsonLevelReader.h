@@ -1,7 +1,7 @@
 #pragma once
 #include"LevelInfo.h"
 
-class JsonLevelReader
+class JsonLevelReader final
 {
 public:
 	JsonLevelReader(const std::string& file);

@@ -3,8 +3,7 @@
 class GridComponent;
 class TextureComponent;
 
-class SlicknSamMoveComponent :
-    public BaseComponent
+class SlicknSamMoveComponent final : public BaseComponent
 {
 public:
 

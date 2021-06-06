@@ -6,7 +6,7 @@ class ScoreComponent;
 class HealthComponent;
 
 
-class GridComponent : public BaseComponent
+class GridComponent final : public BaseComponent
 {
 public:
 

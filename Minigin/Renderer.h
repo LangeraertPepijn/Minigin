@@ -9,13 +9,12 @@ class Texture2D;
 /**
  * Simple RAII wrapper for the SDL renderer
  */
-class Renderer  : public Singleton<Renderer>
+class Renderer final : public Singleton<Renderer>
 {
 public:
 	void Init(SDL_Window* window);
-	void Render() ;
-	void RenderUI
-	() ;
+	void Render();
+	void Present();
 	void Destroy();
 
 	void RenderTexture(const Texture2D& texture, float x, float y) const;
@@ -25,7 +24,6 @@ public:
 private:
 	SDL_Window* m_pWindow{};
 	SDL_Renderer* m_Renderer{};
-	bool m_ShowDemo{false  };
 };
 
 

@@ -215,6 +215,7 @@ xcopy "$(SolutionDir)Resources" "$(OutputPath)\Resources" /R /Y /E /I </Command>
     <ClCompile Include="QBertMoveComponent.cpp" />
     <ClCompile Include="QbertObserver.cpp" />
     <ClCompile Include="QBertPCH.cpp" />
+    <ClCompile Include="QBertImguiRenderer.cpp" />
     <ClCompile Include="SlicknSamMoveComponent.cpp" />
     <ClCompile Include="UggnWrongWayMoveComponent.cpp" />
   </ItemGroup>
@@ -232,6 +233,7 @@ xcopy "$(SolutionDir)Resources" "$(OutputPath)\Resources" /R /Y /E /I </Command>
     <ClInclude Include="QBertMoveComponent.h" />
     <ClInclude Include="QbertObserver.h" />
     <ClInclude Include="QBertPCH.h" />
+    <ClInclude Include="QBertImguiRenderer.h" />
     <ClInclude Include="SlicknSamMoveComponent.h" />
     <ClInclude Include="UggnWrongWayMoveComponent.h" />
   </ItemGroup>

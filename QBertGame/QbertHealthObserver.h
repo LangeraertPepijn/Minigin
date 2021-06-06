@@ -1,6 +1,6 @@
 #pragma once
 #include <Observer.h>
-class QbertHealthObserver :
+class QbertHealthObserver final:
     public Observer
 {
 	public:

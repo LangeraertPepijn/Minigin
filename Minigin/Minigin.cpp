@@ -235,9 +235,8 @@ void Minigin::Run()
 			sceneManager.Update(deltaTime);
 			hudManager.Update(deltaTime);
 			renderer.Render();
-			
-			//auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
-			//this_thread::sleep_for(sleepTime);
+			UserRender();
+			renderer.Present();
 		}
 	}
 
@@ -245,21 +244,7 @@ void Minigin::Run()
 	Cleanup();
 }
 
-void Minigin::UserInitialize()
-{
-}
 
-void Minigin::UserLoadGame()
-{
-}
-
-void Minigin::UserUpdate(float)
-{
-}
-
-void Minigin::UserCleanUp()
-{
-}
 
 void Minigin::Quit()
 {
