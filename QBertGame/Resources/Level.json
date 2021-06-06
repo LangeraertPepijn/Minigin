@@ -1,0 +1,56 @@
+
+  {
+    "Levels": [
+      {
+        "LevelNo": 0,
+        "Offset": [288, 40],
+        "BlockSize": [64, 45],
+        "PosFix": [20, -10, 0],
+        "GridSize": [6, 6],
+        "BlockTexActive": "Cube2.png",
+        "BlockTexInActive": "Cube1.png",
+        "BlockTexInBetween": "Cube3.png",
+        "CanRevert":  false,
+        "NeedsDoubleTouch": false,
+        "HasCoily": true, 
+        "HasSlick": false, 
+        "HasSam": true, 
+        "HasUgg": false, 
+        "HasWrongWay": true
+      },
+      {
+        "LevelNo": 1,
+        "Offset": [ 288, 40 ],
+        "BlockSize": [ 64, 45 ],
+        "PosFix": [ 20, -10, 0 ],
+        "GridSize": [ 6, 6 ],
+        "BlockTexActive": "Cube1.png",
+        "BlockTexInActive": "Cube2.png",
+        "BlockTexInBetween": "Cube3.png",
+        "CanRevert": false,
+        "NeedsDoubleTouch": true,
+        "HasCoily": false,
+        "HasSlick": true,
+        "HasSam": false,
+        "HasUgg": true,
+        "HasWrongWay": true
+      },
+      {
+        "LevelNo": 2,
+        "Offset": [ 288, 40 ],
+        "BlockSize": [ 64, 45 ],
+        "PosFix": [ 20, -10, 0 ],
+        "GridSize": [ 6, 6 ],
+        "BlockTexActive": "Cube2.png",
+        "BlockTexInActive": "Cube1.png",
+        "BlockTexInBetween": "Cube3.png",
+        "CanRevert": true,
+        "NeedsDoubleTouch": false,
+        "HasCoily": true,
+        "HasSlick": true,
+        "HasSam": true,
+        "HasUgg": false,
+        "HasWrongWay": true
+      }
+    ]
+  }
